@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+.firebase/
+*.log
+
+# Firebase web config and App Check debug tokens stay on your machine.
+.env
+.env.*
+!.env.example
+.firebaserc
+
+# Local Chrome profile used to test Gemini Nano, and generated media.
+.chrome-nano/
+samples/*.mp4
+samples/*.webm
+!samples/README.md
