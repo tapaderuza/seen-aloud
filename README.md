@@ -6,6 +6,12 @@ Roughly 2.2 billion people live with a vision impairment, and almost no everyday
 
 Built for the #BuildHybridAI 2026 hackathon on **Firebase AI Logic hybrid inference** (platform: Web / Chrome).
 
+**Live demo:** https://seen-aloud.web.app (desktop Chrome 139+; Gemini Nano is optional, the app asks before using the cloud for frames).
+
+![The ledger after describing a video: 4 requests on the device, 1 in the cloud, 0 frames left the computer](docs/screenshot.jpg)
+
+*After describing a 45-second explainer: Gemini Nano described every frame on the computer, Gemini in the cloud wrote the final script from text only, and no frame left the machine.*
+
 ## What it does
 
 1. **Finds scenes** locally (no AI): samples the video, compares frames, cuts at changes, splits long static shots.
