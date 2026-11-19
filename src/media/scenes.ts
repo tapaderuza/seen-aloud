@@ -7,6 +7,8 @@ export interface FrameSignature {
   luma: Uint8Array;
   /** 16-bin luma histogram, normalised to sum to 1. */
   histogram: Float32Array;
+  /** Mean R, G, B of a 4x4 grid of blocks (48 values), so hue changes with equal brightness still count. */
+  chroma: Uint8Array;
 }
 
 export interface SceneOptions {
@@ -25,6 +27,7 @@ export const DEFAULT_SCENE_OPTIONS: SceneOptions = {
 };
 
 const BINS = 16;
+const GRID = 4;
 
 /** Builds a signature from RGBA pixels (as returned by `getImageData`). */
 export function signatureFromRGBA(
@@ -39,8 +42,16 @@ export function signatureFromRGBA(
   }
   const luma = new Uint8Array(pixels);
   const histogram = new Float32Array(BINS);
+  const sums = new Float64Array(GRID * GRID * 3);
+  const counts = new Float64Array(GRID * GRID);
   for (let i = 0; i < pixels; i++) {
     const o = i * 4;
+    const cell = Math.min(GRID - 1, Math.floor(((i % width) / width) * GRID)) +
+      GRID * Math.min(GRID - 1, Math.floor((Math.floor(i / width) / height) * GRID));
+    sums[cell * 3] += rgba[o];
+    sums[cell * 3 + 1] += rgba[o + 1];
+    sums[cell * 3 + 2] += rgba[o + 2];
+    counts[cell] += 1;
     // ITU-R BT.601 luma, integer maths.
     const y = (rgba[o] * 299 + rgba[o + 1] * 587 + rgba[o + 2] * 114) / 1000;
     const v = y > 255 ? 255 : y;
@@ -48,7 +59,11 @@ export function signatureFromRGBA(
     histogram[Math.min(BINS - 1, Math.floor(v / (256 / BINS)))] += 1;
   }
   for (let b = 0; b < BINS; b++) histogram[b] /= pixels;
-  return { time, luma, histogram };
+  const chroma = new Uint8Array(GRID * GRID * 3);
+  for (let c = 0; c < GRID * GRID; c++) {
+    for (let k = 0; k < 3; k++) chroma[c * 3 + k] = counts[c] ? sums[c * 3 + k] / counts[c] : 0;
+  }
+  return { time, luma, histogram, chroma };
 }
 
 /**
@@ -68,7 +83,12 @@ export function frameDistance(a: FrameSignature, b: FrameSignature): number {
   for (let i = 0; i < a.luma.length; i++) pix += Math.abs(a.luma[i] - b.luma[i]);
   pix /= a.luma.length * 255;
 
-  return 0.5 * hist + 0.5 * pix;
+  let col = 0;
+  for (let i = 0; i < a.chroma.length; i++) col += Math.abs(a.chroma[i] - b.chroma[i]);
+  col /= a.chroma.length * 255;
+
+  // Whichever view sees a bigger change wins; colour is amplified because a grid average dilutes it.
+  return Math.max(0.5 * hist + 0.5 * pix, Math.min(1, col * 2.4));
 }
 
 /** Turns a time series of frame signatures into scenes covering [0, duration]. */

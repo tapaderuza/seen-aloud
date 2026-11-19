@@ -28,6 +28,11 @@ describe('frame signatures', () => {
     expect(frameDistance(solid(0, 0, 0, 0), solid(0, 255, 255, 255))).toBeCloseTo(1, 5);
   });
 
+  it('notices a change of colour even when the brightness is the same', () => {
+    // Green (46,125,50) and blue (21,101,192) have almost the same luma.
+    expect(frameDistance(solid(0, 46, 125, 50), solid(1, 21, 101, 192))).toBeGreaterThan(0.3);
+  });
+
   it('builds a histogram that sums to one', () => {
     const sum = Array.from(solid(0, 120, 40, 200).histogram).reduce((a, b) => a + b, 0);
     expect(sum).toBeCloseTo(1, 5);
