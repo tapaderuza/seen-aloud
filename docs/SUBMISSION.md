@@ -53,7 +53,7 @@ Everything. The repository was created for #BuildHybridAI 2026 and contains no e
 
 ## Testing instructions
 
-Open the demo URL in desktop Chrome 139+. Press "Choose video" and pick any short MP4 (`npm run sample` makes one). Press "Describe this video". If Gemini Nano is not installed, the app asks before using the cloud for frames; choose "Use the cloud for this video". No login needed (anonymous sign-in is automatic).
+Open https://seen-aloud.web.app in desktop Chrome 139+ (source: https://github.com/tapaderuza/seen-aloud). Press "Choose video" and pick any short MP4 (`npm run sample` makes one). Press "Describe this video". If Gemini Nano is not installed, the app asks before using the cloud for frames; choose "Use the cloud for this video". No login needed (anonymous sign-in is automatic).
 
 ---
 
