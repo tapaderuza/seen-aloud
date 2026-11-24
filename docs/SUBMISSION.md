@@ -29,7 +29,7 @@ Other Firebase products: App Check (reCAPTCHA Enterprise; debug provider locally
 
 ## How we built it
 
-TypeScript + Vite, the Firebase JS SDK, and the Chrome Prompt API through Firebase AI Logic. Scene and pause detection are plain algorithms over the video's pixels and audio, so the AI is only used where it adds value. 70 unit tests cover scene and pause detection, word budgets, WebVTT/SRT, the model-output parsers and the hybrid routing, including the privacy guard, consent and fallback paths. Built with Claude Code as the coding assistant.
+TypeScript + Vite, the Firebase JS SDK, and the Chrome Prompt API through Firebase AI Logic. Scene and pause detection are plain algorithms over the video's pixels and audio, so the AI is only used where it adds value. 80 unit tests cover scene and pause detection, word budgets, WebVTT/SRT, the model-output parsers and the hybrid routing, including the privacy guard, consent and fallback paths. Built with Claude Code as the coding assistant.
 
 ## Challenges
 

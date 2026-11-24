@@ -190,6 +190,24 @@ function bindEvents(): void {
     ui.file.value = '';
   });
 
+  // One click for judges and visitors without a video at hand: a 45-second explainer bundled with the site.
+  const sampleButton = document.getElementById('sample') as HTMLButtonElement | null;
+  sampleButton?.addEventListener('click', async () => {
+    sampleButton.disabled = true;
+    try {
+      const res = await fetch(`${import.meta.env.BASE_URL}samples/sample-explainer-45s.mp4`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      openVideo(new File([blob], 'sample-explainer-45s.mp4', { type: 'video/mp4' }));
+    } catch (error) {
+      ui.progress.hidden = false;
+      ui.progressText.classList.add('error');
+      ui.progressText.textContent = `Could not load the sample video: ${messageOf(error)}`;
+    } finally {
+      sampleButton.disabled = false;
+    }
+  });
+
   ui.dropzone.addEventListener('dragover', (e) => {
     e.preventDefault();
     ui.dropzone.classList.add('dragging');
