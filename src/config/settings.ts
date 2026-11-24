@@ -21,7 +21,7 @@ export interface AppSettings {
 
 export const DEFAULT_SETTINGS: AppSettings = {
   cloudModel: 'gemini-3.5-flash-lite',
-  cloudFallbackModel: 'gemini-2.5-flash',
+  cloudFallbackModel: 'gemini-3.8-flash',
   sceneThreshold: 0.3,
   sampleIntervalSec: 0.5,
   minSceneSec: 1.5,

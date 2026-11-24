@@ -63,9 +63,9 @@ describe('withCloudRetry', () => {
 
 describe('cloudFallbackModel setting', () => {
   it('has a default and accepts a valid Remote Config value', () => {
-    expect(DEFAULT_SETTINGS.cloudFallbackModel).toBe('gemini-2.5-flash');
-    const s = settingsFromRemote((k) => (k === 'cloud_fallback_model' ? 'gemini-2.5-flash-lite' : undefined));
-    expect(s.cloudFallbackModel).toBe('gemini-2.5-flash-lite');
+    expect(DEFAULT_SETTINGS.cloudFallbackModel).toBe('gemini-3.8-flash');
+    const s = settingsFromRemote((k) => (k === 'cloud_fallback_model' ? 'gemini-3.5-flash' : undefined));
+    expect(s.cloudFallbackModel).toBe('gemini-3.5-flash');
   });
   it('lets Remote Config switch it off with an empty value and ignores bad names', () => {
     expect(settingsFromRemote((k) => (k === 'cloud_fallback_model' ? '' : undefined)).cloudFallbackModel).toBe('');
