@@ -8,6 +8,7 @@ import {
 import type { AppSettings } from '../config/settings';
 import type { DescriptionLanguage } from '../core/types';
 import type { DeviceAvailability, InferenceModeValue, ModelProvider, PromptPart, Task, TaskModel } from './engine';
+import { withCloudRetry } from './retry';
 import { FIT_SCHEMA, FRAME_NOTE_SCHEMA, SCRIPT_SCHEMA } from './schemas';
 
 const SCHEMAS: Record<Task, Record<string, unknown>> = {
@@ -62,8 +63,13 @@ export class FirebaseModelProvider implements ModelProvider {
     private readonly settings: () => AppSettings,
   ) {}
 
-  generativeModel(task: Task, mode: InferenceModeValue, language: DescriptionLanguage): GenerativeModel {
-    const cloudModel = this.settings().cloudModel;
+  generativeModel(
+    task: Task,
+    mode: InferenceModeValue,
+    language: DescriptionLanguage,
+    cloudModelOverride?: string,
+  ): GenerativeModel {
+    const cloudModel = cloudModelOverride ?? this.settings().cloudModel;
     const key = [task, mode, language, cloudModel].join('|');
     const cached = this.models.get(key);
     if (cached) return cached;
@@ -92,14 +98,25 @@ export class FirebaseModelProvider implements ModelProvider {
   }
 
   model(task: Task, mode: InferenceModeValue, language: DescriptionLanguage): TaskModel {
-    const generative = this.generativeModel(task, mode, language);
+    const run = async (generative: GenerativeModel, parts: PromptPart[]) => {
+      const result = await generative.generateContent(parts as Part[]);
+      return {
+        text: result.response.text(),
+        source: (result.response.inferenceSource === 'on_device' ? 'on_device' : 'in_cloud') as
+          | 'on_device'
+          | 'in_cloud',
+      };
+    };
     return {
-      async generate(parts: PromptPart[]) {
-        const result = await generative.generateContent(parts as Part[]);
-        return {
-          text: result.response.text(),
-          source: result.response.inferenceSource === 'on_device' ? 'on_device' : 'in_cloud',
-        };
+      generate: (parts: PromptPart[]) => {
+        const { cloudModel, cloudFallbackModel } = this.settings();
+        const fallback =
+          cloudFallbackModel && cloudFallbackModel !== cloudModel
+            ? () => run(this.generativeModel(task, mode, language, cloudFallbackModel), parts)
+            : null;
+        return withCloudRetry(() => run(this.generativeModel(task, mode, language), parts), fallback, {
+          delayMs: 1500,
+        });
       },
     };
   }

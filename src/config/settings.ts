@@ -6,6 +6,8 @@
 export interface AppSettings {
   /** Gemini model used whenever a request runs in the cloud. */
   cloudModel: string;
+  /** Tried when the main cloud model keeps failing with a transient error (busy, rate limited). */
+  cloudFallbackModel: string;
   sceneThreshold: number;
   sampleIntervalSec: number;
   minSceneSec: number;
@@ -19,6 +21,7 @@ export interface AppSettings {
 
 export const DEFAULT_SETTINGS: AppSettings = {
   cloudModel: 'gemini-3.5-flash-lite',
+  cloudFallbackModel: 'gemini-2.5-flash',
   sceneThreshold: 0.3,
   sampleIntervalSec: 0.5,
   minSceneSec: 1.5,
@@ -30,6 +33,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 export const REMOTE_CONFIG_KEYS: Record<keyof AppSettings, string> = {
   cloudModel: 'cloud_model',
+  cloudFallbackModel: 'cloud_fallback_model',
   sceneThreshold: 'scene_threshold',
   sampleIntervalSec: 'sample_interval_sec',
   minSceneSec: 'min_scene_sec',
@@ -62,6 +66,11 @@ export function settingsFromRemote(get: (remoteKey: string) => string | undefine
   const settings: AppSettings = { ...DEFAULT_SETTINGS };
   const cloudModel = get(REMOTE_CONFIG_KEYS.cloudModel)?.trim();
   if (cloudModel && /^[a-z0-9.\-]+$/iu.test(cloudModel)) settings.cloudModel = cloudModel;
+  const fallbackModel = get(REMOTE_CONFIG_KEYS.cloudFallbackModel)?.trim();
+  if (fallbackModel !== undefined && /^[a-z0-9.\-]*$/iu.test(fallbackModel)) {
+    // An empty value switches the fallback off.
+    settings.cloudFallbackModel = fallbackModel;
+  }
   settings.styleNotes = (get(REMOTE_CONFIG_KEYS.styleNotes) ?? '').trim().slice(0, 300);
 
   for (const [key, [min, max]] of Object.entries(BOUNDS) as Array<[keyof AppSettings, [number, number]]>) {
