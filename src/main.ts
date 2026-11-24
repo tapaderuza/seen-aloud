@@ -421,6 +421,9 @@ function renderRow(row: Row, index: number): HTMLLIElement {
   const count = countWords(row.text);
   words.className = `words${row.budget && count > row.budget ? ' over' : ''}`;
   words.textContent = row.draft ? (row.text ? 'draft' : 'waiting…') : `${count}/${row.budget} words`;
+  words.id = `words-${row.sceneId}`;
+  // Announced politely while editing, so a screen-reader user hears when a line runs over its pause.
+  words.setAttribute('aria-live', 'polite');
   meta.append(words);
   body.append(meta);
 
@@ -429,14 +432,18 @@ function renderRow(row: Row, index: number): HTMLLIElement {
   textarea.value = row.text;
   textarea.readOnly = row.draft;
   textarea.setAttribute('aria-label', `Description for scene ${index + 1}, at ${formatTimestamp(row.start)}`);
+  textarea.setAttribute('aria-describedby', words.id);
   textarea.addEventListener('input', () => {
     const cue = state.cues.find((c) => c.sceneId === row.sceneId);
     if (!cue) return;
     cue.text = textarea.value;
     cue.source = 'manual';
     const n = countWords(cue.text);
-    words.textContent = `${n}/${cue.budgetWords} words`;
-    words.classList.toggle('over', n > cue.budgetWords);
+    const over = n > cue.budgetWords;
+    words.textContent = over
+      ? `${n}/${cue.budgetWords} words, too long for the pause`
+      : `${n}/${cue.budgetWords} words`;
+    words.classList.toggle('over', over);
   });
   body.append(textarea);
 
@@ -444,8 +451,8 @@ function renderRow(row: Row, index: number): HTMLLIElement {
     const actions = document.createElement('div');
     actions.className = 'cue-actions';
     actions.append(
-      actionButton('Fit to pause', () => fitCue(row.sceneId)),
-      actionButton('Describe again', () => redescribe(row.sceneId)),
+      actionButton('Fit to pause', () => fitCue(row.sceneId), `Fit scene ${index + 1} to its pause`),
+      actionButton('Describe again', () => redescribe(row.sceneId), `Describe scene ${index + 1} again`),
     );
     body.append(actions);
   }
@@ -460,11 +467,12 @@ function badge(text: string, kind: string): HTMLSpanElement {
   return span;
 }
 
-function actionButton(label: string, run: () => Promise<void>): HTMLButtonElement {
+function actionButton(label: string, run: () => Promise<void>, accessibleName?: string): HTMLButtonElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'link';
   button.textContent = label;
+  if (accessibleName) button.setAttribute('aria-label', accessibleName);
   button.addEventListener('click', async () => {
     button.disabled = true;
     try {
@@ -610,6 +618,7 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
   load.type = 'button';
   load.className = 'link';
   load.textContent = 'Load';
+  load.setAttribute('aria-label', `Load saved track "${track.title}"`);
   load.addEventListener('click', () => {
     state.cues = track.cues.map((c) => ({ ...c }));
     state.trackId = track.id;
@@ -625,6 +634,7 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
   remove.type = 'button';
   remove.className = 'link';
   remove.textContent = 'Delete';
+  remove.setAttribute('aria-label', `Delete saved track "${track.title}"`);
   remove.addEventListener('click', async () => {
     if (!library || !confirm(`Delete the saved track "${track.title}"? This cannot be undone.`)) return;
     await library.remove(track.id);

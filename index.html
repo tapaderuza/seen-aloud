@@ -33,7 +33,7 @@
           <p id="device-status" class="status" role="status" aria-live="polite">Checking Gemini Nano…</p>
           <button id="get-nano" class="button small" type="button" hidden>Download Gemini Nano</button>
         </div>
-        <fieldset class="segmented" id="mode">
+        <fieldset class="segmented" id="mode" aria-describedby="mode-help">
           <legend>Where the AI runs</legend>
           <label><input type="radio" name="mode" value="hybrid" checked /><span>Hybrid</span></label>
           <label><input type="radio" name="mode" value="private" /><span>Private</span></label>
@@ -49,8 +49,10 @@
       </div>
     </header>
 
-    <p id="mode-help" class="mode-help"></p>
-    <div id="setup-banner" class="banner" role="alert" hidden></div>
+    <div role="region" aria-label="Current mode">
+      <p id="mode-help" class="mode-help" aria-live="polite"></p>
+      <div id="setup-banner" class="banner" role="alert" hidden></div>
+    </div>
 
     <main id="main" class="layout">
       <section class="card stage" aria-labelledby="stage-title">
