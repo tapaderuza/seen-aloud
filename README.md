@@ -77,11 +77,18 @@ Open `chrome://flags`, set **Prompt API** and **Prompt API Multimodal Input** to
 ## Tests
 
 ```bash
-npm test         # 70 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy
+npm test         # 80 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry
 npm run typecheck
 ```
 
 The hybrid policy tests run the real engine against a fake provider that behaves like the SDK's routing, covering the privacy guard, consent, fallback and ledger.
+
+## Accessibility
+
+The people this is for use screen readers, so the app itself has to work with one.
+
+- **Checked:** axe-core 4.10 reports no violations on the start screen; the whole flow runs from the keyboard (skip link, mode radios, language, file pickers, Describe, player, every line); progress, errors and the device status are live regions; each scene's line, its word counter ("too long for the pause" is announced) and its Fit / Describe again buttons name the scene they belong to; saved tracks name the track in Load / Delete.
+- **Not yet:** a session with blind or low-vision users, and a full screen-reader run with NVDA or VoiceOver. Those come before any claim that it is easy to use.
 
 ## Layout
 
