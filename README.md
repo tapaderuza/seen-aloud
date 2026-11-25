@@ -4,6 +4,8 @@
 
 Roughly 2.2 billion people live with a vision impairment, and almost no everyday video (course lectures, family clips, product demos, local news) has an audio description track. Human description costs real money per minute, and cloud tools ask you to upload the whole video. Seen Aloud takes a different route: the frames are described by **Gemini Nano inside Chrome**, so the pictures stay on your computer, and only *text* is sent to Gemini in the cloud when it helps to write the final track.
 
+**Who needs it.** People who publish video but cannot pay for human description or upload private footage: a lecturer recording a course, a city council posting a public meeting, a small team shipping a product demo. For many of them it is a legal duty, not a nice-to-have: audio description for prerecorded video is WCAG success criterion 1.2.5 (Level AA), which EU public-sector sites must meet through EN 301 549, and which US state and local governments must meet under the 2024 ADA Title II rule (WCAG 2.1 AA, from April 2026 for larger entities). Seen Aloud gives them a first draft track in minutes that a person reviews and edits, instead of no track at all.
+
 Built for the #BuildHybridAI 2026 hackathon on **Firebase AI Logic hybrid inference** (platform: Web / Chrome).
 
 **Live demo:** https://seen-aloud.web.app (desktop Chrome 139+; Gemini Nano is optional, the app asks before using the cloud for frames).
