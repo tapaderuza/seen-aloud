@@ -78,7 +78,7 @@ const DEVICE_HINT: Partial<Record<DeviceAvailability, string>> = {
   unsupported:
     'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use desktop Chrome 139+: in chrome://flags enable "Gemma 4 for Built-in AI" (Gemini Nano 4) and #prompt-api-for-gemini-nano-multimodal-input, then restart Chrome.',
   unavailable:
-    'Gemini Nano cannot run on this device, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way.',
+    'Gemini Nano cannot describe images here, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way. If this computer should support it, check chrome://flags: "Gemma 4 for Built-in AI" and #prompt-api-for-gemini-nano-multimodal-input.',
   downloadable:
     'Press Download Gemini Nano (several GB, once) to describe frames on this computer. Until then, Hybrid asks before any frame goes to the cloud.',
 };
