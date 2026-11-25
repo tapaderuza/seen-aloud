@@ -24,6 +24,7 @@ const ui = {
   deviceStatus: $('device-status'),
   getNano: $<HTMLButtonElement>('get-nano'),
   modeHelp: $('mode-help'),
+  deviceHint: $('device-hint'),
   language: $<HTMLSelectElement>('language'),
   banner: $('setup-banner'),
   dropzone: $('dropzone'),
@@ -70,6 +71,16 @@ const DEVICE_TEXT: Record<DeviceAvailability, string> = {
   downloadable: 'Gemini Nano: ready to download',
   downloading: 'Gemini Nano: downloading…',
   available: 'Gemini Nano: ready on this device',
+};
+
+/** What happens next on this machine, for anyone (judges included) whose Chrome has no Gemini Nano yet. */
+const DEVICE_HINT: Partial<Record<DeviceAvailability, string>> = {
+  unsupported:
+    'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use desktop Chrome 139+ with Prompt API and Prompt API Multimodal Input enabled in chrome://flags.',
+  unavailable:
+    'Gemini Nano cannot run on this device, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way.',
+  downloadable:
+    'Press Download Gemini Nano (several GB, once) to describe frames on this computer. Until then, Hybrid asks before any frame goes to the cloud.',
 };
 
 const SOURCE_LABEL: Record<TextSource, string> = {
@@ -156,6 +167,7 @@ function bindEvents(): void {
       writePref('mode', state.mode);
       ui.modeHelp.textContent = MODE_HELP[state.mode];
       engine?.update({ mode: state.mode });
+      void refreshDevice();
     }),
   );
 
@@ -270,6 +282,9 @@ async function refreshDevice(): Promise<void> {
     : await readDeviceAvailability(state.language);
   ui.deviceStatus.dataset.state = state.availability;
   ui.deviceStatus.textContent = DEVICE_TEXT[state.availability];
+  const hint = state.mode === 'cloud' ? undefined : DEVICE_HINT[state.availability];
+  ui.deviceHint.textContent = hint ?? '';
+  ui.deviceHint.hidden = !hint;
   ui.getNano.hidden = !engine || !(state.availability === 'downloadable' || state.availability === 'downloading');
 }
 
