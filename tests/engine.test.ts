@@ -229,6 +229,19 @@ describe('describing frames', () => {
     expect(e.ledger.framesInCloud).toBe(1);
   });
 
+  it('starts a fresh ledger for each video', async () => {
+    const provider = new FakeProvider();
+    const onLedgerChange = vi.fn();
+    const e = new DescriptionEngine(provider, { mode: 'hybrid', language: 'en', frameMaxWords: 30, onLedgerChange, now: () => 0 });
+    await e.startVideo();
+    await e.describeFrame(SCENES[0], 2, IMAGE);
+    expect(e.ledger).toMatchObject({ onDevice: 1, framesOnDevice: 1 });
+    await e.startVideo();
+    expect(e.ledger).toMatchObject({ onDevice: 0, inCloud: 0, framesOnDevice: 0, framesInCloud: 0, framesMaybeInCloud: 0 });
+    expect(e.ledger.events).toHaveLength(0);
+    expect(onLedgerChange).toHaveBeenLastCalledWith(e.ledger);
+  });
+
   it('asks again for consent when a new video starts', async () => {
     const provider = new FakeProvider();
     provider.availability = 'unavailable';

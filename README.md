@@ -16,7 +16,7 @@ Built for the #BuildHybridAI 2026 hackathon on **Firebase AI Logic hybrid infere
 
 ## What it does
 
-1. **Finds scenes** locally (no AI): samples the video, compares frames, cuts at changes, splits long static shots.
+1. **Finds scenes** locally (no AI): samples the video, compares frames, cuts at changes, splits long static shots. A change also counts when it stands out from the video's own motion, so the slide changes of a recorded lecture or screencast are found too.
 2. **Finds pauses**: from your captions (WebVTT/SRT) if you have them, otherwise by listening for quiet stretches in the soundtrack. A description is only placed where nobody is talking.
 3. **Describes each scene** by sending one key frame to Gemini Nano through Firebase AI Logic (`PREFER_ON_DEVICE`). The prompt carries the previous scene so the narration stays coherent.
 4. **Writes the track**: one text-only request (`PREFER_IN_CLOUD`) sees every scene's notes, the on-screen text, the dialogue and each pause's word budget, and writes a consistent narration. Lines that still do not fit are shortened on the device.
@@ -79,7 +79,7 @@ Open `chrome://flags`, set **Prompt API** and **Prompt API Multimodal Input** to
 ## Tests
 
 ```bash
-npm test         # 95 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry, the description player
+npm test         # 98 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry, the description player
 npm run typecheck
 ```
 

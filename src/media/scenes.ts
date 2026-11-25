@@ -29,6 +29,17 @@ export const DEFAULT_SCENE_OPTIONS: SceneOptions = {
 const BINS = 16;
 const GRID = 4;
 
+/**
+ * Slide decks, screencasts and recorded lectures barely move between slides,
+ * so a slide change can score far below the fixed threshold. A change this
+ * many times bigger than the video's own typical motion (its 90th percentile)
+ * also counts as a cut. In footage that moves all the time the bar rises with
+ * the motion, so only the fixed threshold applies there.
+ */
+const RELATIVE_FACTOR = 5;
+/** The relative rule never accepts a change smaller than this, so a still video's noise is not a cut. */
+const RELATIVE_FLOOR = 0.08;
+
 /** Builds a signature from RGBA pixels (as returned by `getImageData`). */
 export function signatureFromRGBA(
   time: number,
@@ -100,11 +111,16 @@ export function detectScenes(
   if (!(duration > 0)) return [];
   const cuts: number[] = [0];
 
+  const distances: number[] = [];
+  for (let i = 1; i < signatures.length; i++) distances.push(frameDistance(signatures[i - 1], signatures[i]));
+  const relativeBar = Math.max(RELATIVE_FLOOR, RELATIVE_FACTOR * percentile(distances, 0.9));
+
   for (let i = 1; i < signatures.length; i++) {
     const t = signatures[i].time;
     if (t <= 0 || t >= duration) continue;
-    const d = frameDistance(signatures[i - 1], signatures[i]);
-    if (d >= options.threshold && t - cuts[cuts.length - 1] >= options.minSceneSec) {
+    const d = distances[i - 1];
+    const isCut = d >= options.threshold || d >= relativeBar;
+    if (isCut && t - cuts[cuts.length - 1] >= options.minSceneSec) {
       cuts.push(t);
     }
   }
@@ -138,6 +154,12 @@ export function detectScenes(
 export function keyframeFor(start: number, end: number): number {
   const len = end - start;
   return start + Math.min(1, len / 2);
+}
+
+function percentile(values: readonly number[], p: number): number {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  return sorted[Math.floor(p * (sorted.length - 1))];
 }
 
 function round3(n: number): number {

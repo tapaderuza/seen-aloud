@@ -87,7 +87,7 @@ export function scriptPrompt(
     'Write one description per scene so the track reads as one coherent narration:',
     '- Introduce each person once with a short visual identifier ("a woman in a red apron"), then refer back consistently ("the woman").',
     '- Do not repeat what the previous description or the dialogue already says.',
-    '- Read important on-screen text, introduced with "On screen:".',
+    '- Read important on-screen text after the description, introduced with "On screen:". Use "On screen:" only before words that are literally written in the video (onScreenText), never before a description of what is visible.',
     '- If a scene adds nothing new, return an empty string for it.',
     ...CORE_RULES.map((r) => `- ${r}`),
   ];

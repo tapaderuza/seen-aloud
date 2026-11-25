@@ -92,6 +92,30 @@ describe('detectScenes', () => {
     expect(detectScenes([], 0, options)).toEqual([]);
   });
 
+  /** A dark slide with white pixels at the given indexes, like a label appearing. */
+  function slide(time: number, whitePixels: number[]): FrameSignature {
+    const px = new Uint8ClampedArray(W * H * 4);
+    for (let i = 0; i < W * H; i++) px.set(whitePixels.includes(i) ? [255, 255, 255, 255] : [20, 20, 20, 255], i * 4);
+    return signatureFromRGBA(time, px, W, H);
+  }
+  const noSplit = { ...options, maxSceneSec: 60 };
+
+  it('finds a slide change far below the fixed threshold when the rest of the video barely moves', () => {
+    const sigs: FrameSignature[] = [];
+    for (let t = 0; t < 20; t += 0.5) sigs.push(slide(t, t < 10 ? [] : [0, 1]));
+    expect(frameDistance(sigs[19], sigs[20])).toBeLessThan(options.threshold);
+    expect(detectScenes(sigs, 20, noSplit).map((s) => s.start)).toEqual([0, 10]);
+  });
+
+  it('does not cut steady motion, even when every step is as big as a slide change', () => {
+    const sigs: FrameSignature[] = [];
+    for (let k = 0; k < 40; k++) {
+      const x = (k % 4) * 2; // a white block that moves one cell every sample
+      sigs.push(slide(k * 0.5, [x, x + 1]));
+    }
+    expect(detectScenes(sigs, 20, noSplit).map((s) => s.start)).toEqual([0]);
+  });
+
   it('takes the key frame one second in, or mid-scene when the scene is short', () => {
     expect(keyframeFor(4, 10)).toBe(5);
     expect(keyframeFor(4, 5)).toBe(4.5);

@@ -111,6 +111,8 @@ describe('prompts', () => {
     expect(prompt).toContain('"maxWords":5');
     expect(prompt).toContain('"dialogueNearby":"Hi!"');
     expect(prompt.match(/dialogueNearby/gu)).toHaveLength(1);
+    // "On screen:" introduces real on-screen words, never a description.
+    expect(prompt).toContain('never before a description');
   });
 
   it('asks for a rewrite under the budget without repeating the previous line', () => {

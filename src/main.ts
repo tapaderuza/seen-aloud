@@ -137,6 +137,9 @@ async function init(): Promise<void> {
     );
     ui.analyze.disabled = true;
   } else {
+    // Until Firebase is ready the button would do nothing, so say so instead.
+    ui.analyze.disabled = true;
+    ui.analyze.textContent = 'Connecting…';
     try {
       const services = await connectFirebase(env);
       state.settings = services.settings;
@@ -151,9 +154,12 @@ async function init(): Promise<void> {
       });
       library = new TrackLibrary(services.db, () => ensureSignedIn(services.auth));
       void refreshLibrary();
+      ui.analyze.disabled = false;
     } catch (error) {
       showBanner(`Could not start Firebase: ${escapeHtml(messageOf(error))}`);
       ui.analyze.disabled = true;
+    } finally {
+      ui.analyze.textContent = 'Describe this video';
     }
   }
   await refreshDevice();
@@ -363,13 +369,27 @@ async function runAnalysis(): Promise<void> {
         ? 'Stopped.'
         : error instanceof PrivacyGuardError || error instanceof CloudConsentDeclinedError
           ? error.message
-          : `Something went wrong: ${messageOf(error)}`;
+          : friendlyError(error);
   } finally {
     state.running = null;
     ui.analyze.disabled = false;
     ui.cancel.hidden = true;
     updateExportButtons();
+    // Stop and the consent dialog may have held the focus; never leave it on the page body.
+    if (!document.activeElement || document.activeElement === document.body) ui.analyze.focus();
   }
+}
+
+/** Plain words for the failures a visitor can act on; anything else keeps its own message. */
+function friendlyError(error: unknown): string {
+  const message = messageOf(error);
+  if (/app ?check|recaptcha/iu.test(message)) {
+    return 'The cloud model refused the request because this browser did not pass Firebase App Check (reCAPTCHA). Allow www.google.com and www.gstatic.com, or try a normal Chrome window without blockers. With Gemini Nano, Private mode still works.';
+  }
+  if (/\[(429|500|502|503|504)\b/u.test(message)) {
+    return 'The cloud model is busy right now. Wait a minute and press Describe this video again.';
+  }
+  return `Something went wrong: ${message}`;
 }
 
 function setSteps(active: Stage | null): void {
@@ -418,10 +438,18 @@ function rows(): Row[] {
 }
 
 function renderCues(): void {
+  // Re-rendering replaces every row; keep the keyboard focus on the same control.
+  const focused = document.activeElement;
+  const focusName = focused instanceof HTMLElement && ui.cues.contains(focused) ? focused.getAttribute('aria-label') : null;
   const list = rows();
   ui.trackEmpty.hidden = list.length > 0;
   ui.cues.replaceChildren(...list.map(renderRow));
+  if (focusName) focusInCues(focusName);
   updateExportButtons();
+}
+
+function focusInCues(accessibleName: string): void {
+  ui.cues.querySelector<HTMLElement>(`[aria-label="${CSS.escape(accessibleName)}"]`)?.focus();
 }
 
 function renderRow(row: Row, index: number): HTMLLIElement {
@@ -518,9 +546,14 @@ function actionButton(label: string, run: () => Promise<void>, accessibleName?: 
     } catch (error) {
       ui.progress.hidden = false;
       ui.progressText.classList.add('error');
-      ui.progressText.textContent = messageOf(error);
+      ui.progressText.textContent =
+        error instanceof PrivacyGuardError || error instanceof CloudConsentDeclinedError ? error.message : friendlyError(error);
     } finally {
       button.disabled = false;
+      // The row was re-rendered while this ran: if the focus fell to the page body, put it
+      // back on the same action in the new row.
+      const lost = !document.activeElement || document.activeElement === document.body;
+      if (lost && !button.isConnected && accessibleName) focusInCues(accessibleName);
     }
   });
   return button;
@@ -690,7 +723,16 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
 function askCloudConsent(): Promise<boolean> {
   return new Promise((resolve) => {
     ui.consent.returnValue = '';
-    ui.consent.addEventListener('close', () => resolve(ui.consent.returnValue === 'yes'), { once: true });
+    ui.consent.addEventListener(
+      'close',
+      () => {
+        const allowed = ui.consent.returnValue === 'yes';
+        // The dialog hands focus back to Describe, which is disabled while the job runs.
+        if (allowed && !ui.cancel.hidden) ui.cancel.focus();
+        resolve(allowed);
+      },
+      { once: true },
+    );
     ui.consent.showModal();
   });
 }

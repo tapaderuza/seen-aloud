@@ -142,9 +142,15 @@ export class DescriptionEngine {
     if (changes.language) this.availability = null;
   }
 
-  /** Call when a new video is opened: re-checks the device and asks for consent again. */
+  /**
+   * Call when a new video is opened: re-checks the device, asks for consent
+   * again, and starts a fresh ledger, so "Where the AI ran" and a saved track
+   * count this video only.
+   */
   async startVideo(): Promise<DeviceAvailability> {
     this.cloudFramesAllowed = null;
+    Object.assign(this.ledger, emptyLedger());
+    this.options.onLedgerChange?.(this.ledger);
     return this.refreshAvailability();
   }
 
