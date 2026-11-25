@@ -70,7 +70,7 @@ npm run dev                  # http://localhost:5173
 
 ### Enable Gemini Nano in Chrome
 
-Open `chrome://flags`, set **Prompt API** and **Prompt API Multimodal Input** to *Enabled* (and **Gemma 4 for Built-in AI** if listed), restart Chrome, then press **Download Gemini Nano** in the app header. The model is several GB. Without it, Hybrid mode asks before using the cloud.
+Use desktop Chrome 139 or later. In `chrome://flags`, search for **Gemma 4 for Built-in AI** (Gemini Nano 4, as the contest FAQ says) and enable it, enable `#prompt-api-for-gemini-nano-multimodal-input` (image input, from the Firebase hybrid guide), restart Chrome, then press **Download Gemini Nano** in the app header. The model is several GB. Without it, Hybrid mode asks before using the cloud.
 
 ### Try it
 
