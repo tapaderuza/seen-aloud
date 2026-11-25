@@ -79,7 +79,7 @@ Open `chrome://flags`, set **Prompt API** and **Prompt API Multimodal Input** to
 ## Tests
 
 ```bash
-npm test         # 80 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry
+npm test         # 95 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry, the description player
 npm run typecheck
 ```
 

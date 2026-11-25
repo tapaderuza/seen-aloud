@@ -351,7 +351,11 @@ async function runAnalysis(): Promise<void> {
     state.cues = result.cues;
     renderCues();
     const pauses = { captions: 'your captions', audio: 'the soundtrack', none: 'no soundtrack (silent video)' }[result.pausesFrom];
-    ui.progressText.textContent = `Done: ${result.scenes.length} scenes, ${result.cues.filter((c) => c.text).length} descriptions. Pauses came from ${pauses}. Press play to hear them.`;
+    const failed = result.failedScenes;
+    const failedNote = failed
+      ? ` ${failed} scene${failed === 1 ? '' : 's'} could not be described: write ${failed === 1 ? 'it' : 'them'} by hand or press Describe again.`
+      : '';
+    ui.progressText.textContent = `Done: ${result.scenes.length} scenes, ${result.cues.filter((c) => c.text).length} descriptions. Pauses came from ${pauses}. Press play to hear them.${failedNote}`;
   } catch (error) {
     ui.progressText.classList.add('error');
     ui.progressText.textContent =
@@ -448,7 +452,8 @@ function renderRow(row: Row, index: number): HTMLLIElement {
   });
   meta.append(time);
 
-  if (row.source) meta.append(badge(SOURCE_LABEL[row.source], row.source));
+  // An empty line (a scene that could not be described) has no source to show.
+  if (row.source && row.text.trim()) meta.append(badge(SOURCE_LABEL[row.source], row.source));
   if (row.extended) meta.append(badge('Pauses video', 'extended'));
   const words = document.createElement('span');
   const count = countWords(row.text);
@@ -564,12 +569,16 @@ function updateExportButtons(): void {
 function renderLedger(ledger: Ledger): void {
   ui.mDevice.textContent = String(ledger.onDevice);
   ui.mCloud.textContent = String(ledger.inCloud);
-  ui.mFrames.textContent = String(ledger.framesInCloud);
-  (ui.mFrames.parentElement as HTMLElement).dataset.nonzero = String(ledger.framesInCloud > 0);
+  // A frame whose cloud request failed may still have been uploaded, so it counts as having left.
+  const left = ledger.framesInCloud + ledger.framesMaybeInCloud;
+  ui.mFrames.textContent = String(left);
+  (ui.mFrames.parentElement as HTMLElement).dataset.nonzero = String(left > 0);
   ui.ledgerNote.textContent =
-    ledger.framesInCloud === 0
+    left === 0
       ? `${ledger.framesOnDevice} frame${ledger.framesOnDevice === 1 ? '' : 's'} described on this computer. No pixels have left it.`
-      : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? '' : 's'} were described in the cloud because Gemini Nano was not available.`;
+      : ledger.framesMaybeInCloud > 0
+        ? `${left} frame${left === 1 ? '' : 's'} may have left this computer: ${ledger.framesInCloud} described in the cloud, ${ledger.framesMaybeInCloud} in cloud requests that failed.`
+        : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? '' : 's'} were described in the cloud because Gemini Nano was not available.`;
   const taskLabel = { frameNote: 'Frame', script: 'Script', fit: 'Fit' } as const;
   ui.log.replaceChildren(
     ...ledger.events

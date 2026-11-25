@@ -140,17 +140,72 @@ describe('describing frames', () => {
   it('retries in the cloud when Gemini Nano fails mid-request', async () => {
     const provider = new FakeProvider();
     provider.handlers.frameNote = (mode) => {
-      if (mode === 'prefer_on_device') throw Object.assign(new Error('GPU lost'), { name: 'UnknownError' });
+      if (mode === 'only_on_device') throw Object.assign(new Error('GPU lost'), { name: 'UnknownError' });
       return { text: '{"visual":"A beach.","onScreenText":""}', source: 'in_cloud' };
     };
     const confirm = vi.fn(async () => true);
     const e = engine(provider, 'hybrid', confirm);
     const note = await e.describeFrame(SCENES[0], 2, IMAGE);
     expect(note).toMatchObject({ visual: 'A beach.', source: 'in_cloud' });
-    expect(provider.calls.map((c) => c.mode)).toEqual(['prefer_on_device', 'only_in_cloud']);
+    expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device', 'only_in_cloud']);
     expect(confirm).toHaveBeenCalledTimes(1);
     expect(e.ledger.fallbacks).toBe(1);
     expect(e.ledger.events.at(-1)?.note).toContain('retried in the cloud');
+  });
+
+  it('pins frames to the device until the person agrees, so a stale "available" cannot reach the cloud', async () => {
+    const provider = new FakeProvider();
+    // Nano was ready when the video started and is gone now. Inside the SDK,
+    // PREFER_ON_DEVICE would quietly use the cloud; ONLY_ON_DEVICE fails.
+    provider.handlers.frameNote = (mode) => {
+      if (mode === 'only_on_device') throw new Error('Local LanguageModel API not available in this environment.');
+      return { text: '{"visual":"A beach.","onScreenText":""}', source: 'in_cloud' };
+    };
+    const confirm = vi.fn(async () => false);
+    const e = engine(provider, 'hybrid', confirm);
+    await e.startVideo();
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toBeInstanceOf(CloudConsentDeclinedError);
+    expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device']);
+    expect(confirm).toHaveBeenCalledTimes(1);
+    expect(e.ledger).toMatchObject({ framesInCloud: 0, framesMaybeInCloud: 0 });
+  });
+
+  it('stops pinning frames to the device once the person has agreed to the cloud', async () => {
+    const provider = new FakeProvider();
+    let nanoFails = true;
+    provider.handlers.frameNote = (mode) => {
+      if (mode === 'only_on_device' && nanoFails) {
+        nanoFails = false;
+        throw new Error('GPU lost');
+      }
+      return { text: '{"visual":"A beach.","onScreenText":""}', source: provider.route(mode) };
+    };
+    const e = engine(provider, 'hybrid', async () => true);
+    await e.describeFrame(SCENES[0], 2, IMAGE);
+    await e.describeFrame(SCENES[1], 2, IMAGE);
+    expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device', 'only_in_cloud', 'prefer_on_device']);
+  });
+
+  it('counts a frame whose cloud request failed as one that may have left the computer', async () => {
+    const provider = new FakeProvider();
+    provider.availability = 'unsupported';
+    provider.handlers.frameNote = () => {
+      throw Object.assign(new Error('[503 ] model busy'), { customErrorData: { status: 503 } });
+    };
+    const e = engine(provider, 'hybrid', async () => true);
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toThrow('model busy');
+    expect(e.ledger).toMatchObject({ framesInCloud: 0, framesMaybeInCloud: 1 });
+    expect(e.ledger.events.at(-1)?.note).toContain('may have reached the cloud');
+  });
+
+  it('counts the frame once when the cloud retry after a device failure fails too', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.frameNote = (mode) => {
+      throw new Error(mode === 'only_in_cloud' ? 'quota' : 'GPU lost');
+    };
+    const e = engine(provider, 'hybrid', async () => true);
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toThrow('quota');
+    expect(e.ledger).toMatchObject({ framesInCloud: 0, framesMaybeInCloud: 1 });
   });
 
   it('lets a device failure surface in private mode instead of using the cloud', async () => {
@@ -161,6 +216,7 @@ describe('describing frames', () => {
     const e = engine(provider, 'private');
     await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toThrow('GPU lost');
     expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device']);
+    expect(e.ledger.framesMaybeInCloud).toBe(0);
   });
 
   it('sends frames straight to the cloud in cloud mode without asking', async () => {
@@ -237,6 +293,23 @@ describe('writing the track', () => {
     // "The woman smiles. On screen: Chef Ana" is 7 words, over the 5-word budget.
     expect(cues[1].text.split(' ').length).toBeLessThanOrEqual(5);
     expect(e.ledger.events.some((ev) => ev.note?.includes('fetch-error'))).toBe(true);
+  });
+
+  it('keeps a scene without a description out of the script and leaves its line empty', async () => {
+    const provider = new FakeProvider();
+    const e = engine(provider, 'hybrid');
+    await e.startVideo();
+    const withGap = notes();
+    withGap.set('s2', { sceneId: 's2', visual: '', onScreenText: '', source: 'manual' });
+    const cues = await e.writeTrack(PLANS, withGap);
+    const script = provider.calls.find((c) => c.task === 'script')!;
+    const prompt = script.parts[0].type === 'text' ? script.parts[0].text : '';
+    expect(prompt).toContain('"id":"s1"');
+    expect(prompt).not.toContain('"id":"s2"');
+    expect(cues.map((c) => [c.sceneId, c.text])).toEqual([
+      ['s1', 'A woman in a red apron chops onions.'],
+      ['s2', ''],
+    ]);
   });
 
   it('never makes a script request in private mode', async () => {

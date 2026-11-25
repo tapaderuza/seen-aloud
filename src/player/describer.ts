@@ -1,6 +1,15 @@
 import type { Cue } from '../core/types';
 import { speechSeconds } from '../track/budget';
 
+/**
+ * How far behind the playhead a line may start and still be spoken when the
+ * person presses play or seeks: the line at 0:00, and the one a "Play from"
+ * button jumps to, start exactly where playback starts.
+ */
+const START_SLACK_SEC = 0.05;
+/** Chrome sometimes never fires `onend`; past this margin the player stops waiting. */
+const WATCHDOG_MARGIN_MS = 4000;
+
 /** The cue whose start was crossed between two playback positions, if any. */
 export function cueCrossed(cues: readonly Cue[], from: number, to: number): Cue | null {
   if (to <= from || to - from > 1.5) return null; // a seek, not playback
@@ -34,6 +43,14 @@ export class DescriptionPlayer {
   private pausedByUs = false;
   private speaking = false;
   private savedVolume = 1;
+  /**
+   * Only the newest line may change the player's state. Chrome reports the
+   * 'interrupted' end of a cancelled line after the next one is queued.
+   */
+  private utteranceId = 0;
+  private watchdog: ReturnType<typeof setTimeout> | undefined;
+  /** Chrome can garbage-collect an utterance nothing points to, and then never fire `onend`. */
+  private readonly inFlight = new Set<SpeechSynthesisUtterance>();
 
   constructor(
     private readonly video: HTMLVideoElement,
@@ -53,8 +70,9 @@ export class DescriptionPlayer {
 
   /** Speaks one cue now (used by the "play from here" buttons). */
   preview(cue: Cue): void {
+    this.stopSpeech();
     this.video.currentTime = cue.start;
-    this.last = cue.start - 0.01;
+    this.last = cue.start - START_SLACK_SEC;
     void this.video.play();
   }
 
@@ -67,9 +85,12 @@ export class DescriptionPlayer {
   }
 
   private readonly onPlay = () => {
-    if (!this.pausedByUs) this.stopSpeech();
+    const resumedByUs = this.pausedByUs;
+    if (!resumedByUs) this.stopSpeech();
     this.pausedByUs = false;
-    this.last = this.video.currentTime;
+    // After our own pause, carry on past the line just spoken. After the person
+    // presses play, a line that starts right here must still be spoken.
+    this.last = resumedByUs ? this.video.currentTime : this.video.currentTime - START_SLACK_SEC;
     cancelAnimationFrame(this.frame);
     this.frame = requestAnimationFrame(this.tick);
   };
@@ -80,7 +101,7 @@ export class DescriptionPlayer {
   };
 
   private readonly onSeek = () => {
-    this.last = this.video.currentTime;
+    this.last = this.video.currentTime - START_SLACK_SEC;
     if (!this.pausedByUs) this.stopSpeech();
   };
 
@@ -99,6 +120,9 @@ export class DescriptionPlayer {
       window.setTimeout(() => this.hideIf(cue.text), Math.max(1500, (cue.end - cue.start) * 1000));
       return;
     }
+    const id = ++this.utteranceId;
+    clearTimeout(this.watchdog);
+    this.inFlight.clear();
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(cue.text);
     utterance.lang = this.options.lang;
@@ -110,15 +134,32 @@ export class DescriptionPlayer {
       this.pausedByUs = true;
       this.video.pause();
     }
+    // While an earlier line still ducks the soundtrack, the level to restore is
+    // the one the person chose, not the ducked one.
+    if (!this.speaking) this.savedVolume = this.video.volume;
     this.speaking = true;
-    this.savedVolume = this.video.volume;
     this.video.volume = Math.min(this.savedVolume, 0.35);
-    utterance.onend = utterance.onerror = () => {
+    const finish = () => {
+      if (id !== this.utteranceId) return; // a line that was already replaced or stopped
+      this.utteranceId++;
+      clearTimeout(this.watchdog);
+      this.inFlight.clear();
       this.speaking = false;
       this.video.volume = this.savedVolume;
       this.hideIf(cue.text);
       if (this.pausedByUs) void this.video.play();
     };
+    utterance.onend = utterance.onerror = finish;
+    // Never leave the video paused for good if Chrome loses `onend` (long lines, network voices).
+    this.watchdog = setTimeout(
+      () => {
+        if (id !== this.utteranceId) return;
+        finish();
+        speechSynthesis.cancel(); // a stalled line must not start talking over the video later
+      },
+      speechSeconds(cue.text, 2 * this.options.rate) * 1000 + WATCHDOG_MARGIN_MS,
+    );
+    this.inFlight.add(utterance);
     speechSynthesis.speak(utterance);
   }
 
@@ -127,6 +168,9 @@ export class DescriptionPlayer {
   }
 
   private stopSpeech(): void {
+    this.utteranceId++; // whatever the cancelled line reports later must not change state
+    clearTimeout(this.watchdog);
+    this.inFlight.clear();
     if (typeof speechSynthesis !== 'undefined' && this.speaking) speechSynthesis.cancel();
     if (this.speaking) this.video.volume = this.savedVolume;
     this.speaking = false;

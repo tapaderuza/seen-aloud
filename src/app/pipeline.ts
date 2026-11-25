@@ -1,4 +1,4 @@
-import type { DescriptionEngine } from '../ai/engine';
+import { CloudConsentDeclinedError, PrivacyGuardError, type DescriptionEngine } from '../ai/engine';
 import type { AppSettings } from '../config/settings';
 import type { CaptionCue, Cue, CuePlan, Scene, SceneNote, TimeRange } from '../core/types';
 import { findSilences, rmsWindows } from '../media/audio';
@@ -23,6 +23,55 @@ export interface AnalysisResult {
   notes: Map<string, SceneNote>;
   cues: Cue[];
   pausesFrom: 'captions' | 'audio' | 'none';
+  /** Scenes whose key frame could not be described; their lines are left empty. */
+  failedScenes: number;
+}
+
+/** When this many scenes in a row fail from the start, the problem is not one bad frame. */
+const FAIL_FAST_AFTER = 3;
+
+/** Errors that end the whole job, rather than leaving one scene's line empty. */
+function endsTheJob(error: unknown): boolean {
+  return (
+    error instanceof PrivacyGuardError ||
+    error instanceof CloudConsentDeclinedError ||
+    (error instanceof DOMException && error.name === 'AbortError')
+  );
+}
+
+/**
+ * Step 3: one key frame per scene. A frame the model cannot describe (an empty
+ * answer, a blocked response, a one-off error) leaves that scene's line empty
+ * for the person to write or describe again, instead of losing the whole video.
+ */
+export async function describeScenes(
+  scenes: readonly Scene[],
+  engine: Pick<DescriptionEngine, 'describeFrame'>,
+  grab: (scene: Scene) => Promise<{ base64: string; thumbnailUrl: string }>,
+  callbacks: Pick<AnalysisCallbacks, 'onNote' | 'onProgress'>,
+  signal?: AbortSignal,
+): Promise<{ notes: Map<string, SceneNote>; failed: number }> {
+  const notes = new Map<string, SceneNote>();
+  let previous: string | undefined;
+  let failed = 0;
+  for (const scene of scenes) {
+    signal?.throwIfAborted();
+    const frame = await grab(scene);
+    let note: SceneNote;
+    try {
+      note = await engine.describeFrame(scene, scenes.length, { mimeType: 'image/jpeg', data: frame.base64 }, previous);
+    } catch (error) {
+      failed++;
+      const everyOneFailed = failed === notes.size + 1;
+      if (endsTheJob(error) || failed === scenes.length || (everyOneFailed && failed >= FAIL_FAST_AFTER)) throw error;
+      note = { sceneId: scene.id, visual: '', onScreenText: '', source: 'manual' };
+    }
+    notes.set(scene.id, note);
+    if (note.visual) previous = note.visual;
+    callbacks.onNote(note, frame.thumbnailUrl);
+    callbacks.onProgress(notes.size / scenes.length);
+  }
+  return { notes, failed };
 }
 
 /**
@@ -76,17 +125,13 @@ export async function analyzeVideo(
 
     callbacks.onStage('describe', `Describing ${scenes.length} scenes`);
     await engine.startVideo();
-    const notes = new Map<string, SceneNote>();
-    let previous: string | undefined;
-    for (const scene of scenes) {
-      signal?.throwIfAborted();
-      const frame = await captureFrame(video, scene.keyframeTime);
-      const note = await engine.describeFrame(scene, scenes.length, { mimeType: 'image/jpeg', data: frame.base64 }, previous);
-      notes.set(scene.id, note);
-      previous = note.visual;
-      callbacks.onNote(note, frame.thumbnailUrl);
-      callbacks.onProgress(notes.size / scenes.length);
-    }
+    const { notes, failed } = await describeScenes(
+      scenes,
+      engine,
+      (scene) => captureFrame(video, scene.keyframeTime),
+      callbacks,
+      signal,
+    );
 
     callbacks.onStage('script', 'Writing the description track');
     callbacks.onProgress(0);
@@ -95,7 +140,7 @@ export async function analyzeVideo(
     callbacks.onStage('done', 'Track ready');
     video.removeAttribute('src');
     video.load();
-    return { duration, scenes, plans, notes, cues, pausesFrom };
+    return { duration, scenes, plans, notes, cues, pausesFrom, failedScenes: failed };
   } finally {
     URL.revokeObjectURL(url);
   }

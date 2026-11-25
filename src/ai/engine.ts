@@ -80,13 +80,26 @@ export interface Ledger {
   framesOnDevice: number;
   /** Frames sent to the cloud model. The UI shows this number prominently. */
   framesInCloud: number;
+  /**
+   * Frame requests that failed after they may have reached the cloud (a busy
+   * model, App Check, a timeout). The pixels may have left, so the UI counts them.
+   */
+  framesMaybeInCloud: number;
   /** Times a request failed on one side and was retried on the other. */
   fallbacks: number;
   events: LedgerEvent[];
 }
 
 export function emptyLedger(): Ledger {
-  return { onDevice: 0, inCloud: 0, framesOnDevice: 0, framesInCloud: 0, fallbacks: 0, events: [] };
+  return {
+    onDevice: 0,
+    inCloud: 0,
+    framesOnDevice: 0,
+    framesInCloud: 0,
+    framesMaybeInCloud: 0,
+    fallbacks: 0,
+    events: [],
+  };
 }
 
 export interface EngineOptions {
@@ -169,6 +182,11 @@ export class DescriptionEngine {
       previousVisual,
       styleNotes: this.options.styleNotes,
     });
+    // Until the person has said yes, a frame may only go to Gemini Nano.
+    // PREFER_ON_DEVICE re-checks availability inside the SDK and would quietly
+    // use the cloud if Nano went away after `availability` was read; with
+    // ONLY_ON_DEVICE that fails instead, and `run` asks before retrying in the cloud.
+    const pinToDevice = this.options.mode === 'hybrid' && deviceReady && this.cloudFramesAllowed !== true;
     const result = await this.run(
       'frameNote',
       [
@@ -176,6 +194,7 @@ export class DescriptionEngine {
         { type: 'inlineData', inlineData: image },
       ],
       { carriesImage: true, deviceReady },
+      pinToDevice ? 'only_on_device' : undefined,
     );
     const parsed = parseFrameNote(result.text);
     return { sceneId: scene.id, visual: parsed.visual, onScreenText: parsed.onScreenText, source: result.source };
@@ -192,11 +211,14 @@ export class DescriptionEngine {
     dialogue: ReadonlyMap<string, string> = new Map(),
   ): Promise<Cue[]> {
     const usable = plans.filter((p) => notes.has(p.sceneId));
+    // A scene whose frame could not be described has no notes: the script
+    // writer must not invent a description for it. Its line stays empty.
+    const scriptable = usable.filter((p) => notes.get(p.sceneId)!.visual.trim());
     let scripted: Map<string, string> | null = null;
     let scriptSource: InferenceSourceValue = 'in_cloud';
 
-    if (this.options.mode !== 'private' && usable.length > 0) {
-      const inputs: ScriptSceneInput[] = usable.map((p) => {
+    if (this.options.mode !== 'private' && scriptable.length > 0) {
+      const inputs: ScriptSceneInput[] = scriptable.map((p) => {
         const note = notes.get(p.sceneId)!;
         return {
           id: p.sceneId,
@@ -217,7 +239,7 @@ export class DescriptionEngine {
         );
         scripted = parseScript(
           result.text,
-          usable.map((p) => p.sceneId),
+          scriptable.map((p) => p.sceneId),
         );
         scriptSource = result.source;
       } catch (error) {
@@ -281,8 +303,9 @@ export class DescriptionEngine {
     task: Task,
     parts: PromptPart[],
     context: { carriesImage: boolean; deviceReady: boolean },
+    modeOverride?: InferenceModeValue,
   ): Promise<GenerateResult> {
-    const mode = inferenceModeFor(task, this.options.mode);
+    const mode = modeOverride ?? inferenceModeFor(task, this.options.mode);
     const now = this.options.now ?? (() => performance.now());
     const started = now();
     try {
@@ -291,17 +314,32 @@ export class DescriptionEngine {
       return result;
     } catch (error) {
       // The SDK only falls back when Nano is unavailable before the call. If
-      // Nano accepted the request and then failed, retry in the cloud here,
-      // with the same consent rules for images.
-      if (mode === 'prefer_on_device' && context.deviceReady) {
+      // Nano accepted the request and then failed (or, pinned to the device in
+      // hybrid mode, was gone), retry in the cloud here, with the same consent
+      // rules for images.
+      const deviceFirst = mode === 'prefer_on_device' || (mode === 'only_on_device' && this.options.mode === 'hybrid');
+      if (deviceFirst && context.deviceReady) {
         if (context.carriesImage) await this.ensureCloudFramesAllowed();
-        const result = await this.provider.model(task, 'only_in_cloud', this.options.language).generate(parts);
+        let result: GenerateResult;
+        try {
+          result = await this.provider.model(task, 'only_in_cloud', this.options.language).generate(parts);
+        } catch (cloudError) {
+          if (context.carriesImage) this.frameMayHaveLeft(task, cloudError);
+          throw cloudError;
+        }
         this.ledger.fallbacks++;
         this.record(task, result.source, now() - started, context.carriesImage, `on-device failed (${errorName(error)}), retried in the cloud`);
         return result;
       }
+      // Anything but a device-only request may have reached the cloud before it failed.
+      if (context.carriesImage && mode !== 'only_on_device') this.frameMayHaveLeft(task, error);
       throw error;
     }
+  }
+
+  private frameMayHaveLeft(task: Task, error: unknown): void {
+    this.ledger.framesMaybeInCloud++;
+    this.pushEvent({ task, source: null, ms: 0, note: `failed after it may have reached the cloud (${errorName(error)})` });
   }
 
   private async ensureCloudFramesAllowed(): Promise<void> {
