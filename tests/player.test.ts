@@ -69,8 +69,10 @@ class FakeSynth {
     }
   }
 
+  voices: Array<{ lang: string; localService: boolean; name: string }> = [];
+
   getVoices(): unknown[] {
-    return [];
+    return this.voices;
   }
 
   /** The line being spoken ends normally. */
@@ -189,6 +191,30 @@ describe('description player', () => {
     await settle();
     expect(video.paused).toBe(false);
     expect(video.volume).toBe(0.8);
+  });
+
+  it('in Private mode shows the line as text instead of using a network voice', async () => {
+    synth.voices = [{ lang: 'en-US', localService: false, name: 'Network English' }];
+    const video = new FakeVideo();
+    const overlay = document.createElement('p');
+    const warned: string[] = [];
+    new DescriptionPlayer(video as unknown as HTMLVideoElement, overlay, () => [cue(0, 4, 'A woman opens a door.')], {
+      voice: true,
+      extendedPauses: true,
+      rate: 1,
+      lang: 'en',
+      wordsPerSecond: 2.5,
+      voicePolicy: 'local-only',
+      onNoAllowedVoice: (lang) => warned.push(lang),
+    });
+    void video.play();
+    await settle();
+    video.advance(0.02);
+    tick();
+    expect(synth.spoken).toEqual([]);
+    expect(overlay.textContent).toBe('A woman opens a door.');
+    expect(overlay.getAttribute('aria-live')).toBe('polite');
+    expect(warned).toEqual(['en']);
   });
 
   it('never leaves the video paused when Chrome loses the end of a line', async () => {

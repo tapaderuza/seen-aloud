@@ -8,13 +8,14 @@ import {
   type Ledger,
 } from './ai/engine';
 import { FirebaseModelProvider, readDeviceAvailability } from './ai/firebaseProvider';
-import { analyzeVideo, type Stage } from './app/pipeline';
+import { analyzeVideo, type PausesFrom, type Stage } from './app/pipeline';
 import { DEFAULT_SETTINGS, type AppSettings } from './config/settings';
 import type { CaptionCue, Cue, CuePlan, DescriptionLanguage, Scene, SceneNote, TextSource } from './core/types';
 import { connectFirebase, ensureSignedIn, readFirebaseEnv } from './firebase/client';
 import { TrackLibrary, type SavedTrack } from './firebase/library';
 import { captureFrame, loadVideo } from './media/video';
-import { DescriptionPlayer } from './player/describer';
+import { DescriptionPlayer, type VoicePolicy } from './player/describer';
+import { LocalTrackLibrary } from './storage/localLibrary';
 import { countWords } from './track/budget';
 import { formatTimestamp, parseCaptions, serializeDescriptionsVtt, serializeScript } from './track/vtt';
 
@@ -54,15 +55,24 @@ const ui = {
   ledgerNote: $('ledger-note'),
   log: $<HTMLOListElement>('log'),
   library: $<HTMLUListElement>('library'),
+  libraryHint: $('library-hint'),
   consent: $<HTMLDialogElement>('consent'),
 };
 
+/** What each mode sends where, stated plainly: text is user content too. */
 const MODE_HELP: Record<AppMode, string> = {
   hybrid:
-    'Hybrid: Gemini Nano describes every frame on this computer, then Gemini in the cloud writes the finished track from text only. If Nano is missing you are asked before any frame leaves this computer.',
+    'Hybrid: Gemini Nano describes each frame on this computer. Then the scene notes, any on-screen text and any caption text near each scene go to Gemini in the cloud as text, to write the finished track. If Nano is missing, you are asked before any frame leaves this computer.',
   private:
-    'Private: every step runs on Gemini Nano and nothing is sent to the cloud. Needs Chrome on a desktop with Gemini Nano downloaded.',
-  cloud: 'Cloud: every step runs on Gemini in the cloud through Firebase AI Logic. For devices without Gemini Nano.',
+    'Private: every AI step runs on Gemini Nano. No frames, descriptions, captions or file names are sent anywhere, saved tracks stay in this browser, and only voices installed on this computer read the track. Needs desktop Chrome with Gemini Nano downloaded.',
+  cloud:
+    'Cloud: one still frame per scene (JPEG), the scene notes, any on-screen text and any caption text are sent to Gemini in the cloud through Firebase AI Logic. The video file itself is never uploaded. For devices without Gemini Nano.',
+};
+
+const LIBRARY_HINT: Record<'private' | 'shared', string> = {
+  private: 'Private mode saves tracks only in this browser (IndexedDB). Nothing is sent to Firestore.',
+  shared:
+    'Hybrid and Cloud mode save tracks in Firestore under an anonymous account: text, timings and the file name, never video or frames. Tracks saved in Private mode stay in this browser.',
 };
 
 const DEVICE_TEXT: Record<DeviceAvailability, string> = {
@@ -99,7 +109,12 @@ const state = {
   thumbs: new Map<string, string>(),
   cues: [] as Cue[],
   running: null as AbortController | null,
+  /** Bumped when another video is opened: answers for the old one are dropped. */
+  generation: 0,
+  /** Jobs in flight; while any runs, the privacy mode and language are locked. */
+  busy: 0,
   trackId: '',
+  trackStore: 'device' as 'device' | 'cloud',
   settings: DEFAULT_SETTINGS as AppSettings,
   availability: 'unsupported' as DeviceAvailability,
   mode: readPref('mode', 'hybrid') as AppMode,
@@ -107,8 +122,14 @@ const state = {
 };
 
 let engine: DescriptionEngine | null = null;
-let library: TrackLibrary | null = null;
+/** Firestore library, for Hybrid and Cloud mode. Private mode never touches it. */
+let cloudLibrary: TrackLibrary | null = null;
+const localLibrary = new LocalTrackLibrary();
 let analysisVideo: HTMLVideoElement | null = null;
+let warnedNoVoice = false;
+
+/** Private mode only speaks with voices installed on this computer: a network voice would send the text away. */
+const voicePolicyFor = (mode: AppMode): VoicePolicy => (mode === 'private' ? 'local-only' : 'prefer-local');
 
 const player = new DescriptionPlayer(ui.video, ui.overlay, () => state.cues, {
   voice: readPref('voice', 'true') === 'true',
@@ -116,6 +137,14 @@ const player = new DescriptionPlayer(ui.video, ui.overlay, () => state.cues, {
   rate: Number(readPref('rate', '1.1')),
   lang: state.language,
   wordsPerSecond: state.settings.wordsPerSecond,
+  voicePolicy: voicePolicyFor(state.mode),
+  onNoAllowedVoice: (lang) => {
+    if (warnedNoVoice) return;
+    warnedNoVoice = true;
+    ui.progress.hidden = false;
+    ui.progressText.classList.remove('error');
+    ui.progressText.textContent = `No ${lang === 'es' ? 'Spanish' : 'English'} voice is installed on this computer, so Private mode shows each description as text (screen readers announce it) instead of sending it to a network voice. Install a system voice for this language, or use Hybrid mode.`;
+  },
 });
 
 void init();
@@ -152,8 +181,8 @@ async function init(): Promise<void> {
         confirmCloudFrames: askCloudConsent,
         onLedgerChange: renderLedger,
       });
-      library = new TrackLibrary(services.db, () => ensureSignedIn(services.auth));
-      void refreshLibrary();
+      // Created now, used only outside Private mode: Auth and Firestore start on first use.
+      cloudLibrary = new TrackLibrary(services.db, () => ensureSignedIn(services.auth()));
       ui.analyze.disabled = false;
     } catch (error) {
       showBanner(`Could not start Firebase: ${escapeHtml(messageOf(error))}`);
@@ -162,7 +191,16 @@ async function init(): Promise<void> {
       ui.analyze.textContent = 'Describe this video';
     }
   }
+  void refreshLibrary();
   await refreshDevice();
+}
+
+/** While a job runs, the privacy mode and language are locked: a run never switches policy halfway. */
+function setBusy(delta: 1 | -1): void {
+  state.busy = Math.max(0, state.busy + delta);
+  const locked = state.busy > 0;
+  document.querySelectorAll<HTMLInputElement>('input[name="mode"]').forEach((input) => (input.disabled = locked));
+  ui.language.disabled = locked;
 }
 
 function bindEvents(): void {
@@ -173,7 +211,10 @@ function bindEvents(): void {
       writePref('mode', state.mode);
       ui.modeHelp.textContent = MODE_HELP[state.mode];
       engine?.update({ mode: state.mode });
+      player.setOptions({ voicePolicy: voicePolicyFor(state.mode) });
+      warnedNoVoice = false;
       void refreshDevice();
+      void refreshLibrary();
     }),
   );
 
@@ -269,7 +310,12 @@ function bindEvents(): void {
   });
 
   ui.analyze.addEventListener('click', () => void runAnalysis());
-  ui.cancel.addEventListener('click', () => state.running?.abort());
+  ui.cancel.addEventListener('click', () => {
+    if (!state.running) return;
+    state.running.abort();
+    // A request already sent cannot be recalled; the run stops as soon as it returns, and its answer is dropped.
+    ui.progressText.textContent = 'Stopping… a request already on its way is left to finish, and its answer is dropped.';
+  });
 
   ui.downloadVtt.addEventListener('click', () =>
     download(`${baseName()}.descriptions.vtt`, serializeDescriptionsVtt(state.cues, baseName()), 'text/vtt'),
@@ -295,6 +341,9 @@ async function refreshDevice(): Promise<void> {
 }
 
 function openVideo(file: File): void {
+  // A new video ends whatever was running for the old one, and drops its answers.
+  state.generation++;
+  state.running?.abort();
   if (state.videoUrl) URL.revokeObjectURL(state.videoUrl);
   state.file = file;
   state.videoUrl = URL.createObjectURL(file);
@@ -320,6 +369,10 @@ async function runAnalysis(): Promise<void> {
   if (!engine || !state.file || state.running) return;
   const controller = new AbortController();
   state.running = controller;
+  // Answers that arrive after another video was opened belong to the old one: drop them.
+  const generation = state.generation;
+  const stale = () => generation !== state.generation;
+  setBusy(1);
   resetTrack();
   ui.analyze.disabled = true;
   ui.cancel.hidden = false;
@@ -334,18 +387,22 @@ async function runAnalysis(): Promise<void> {
       state.settings,
       {
         onStage: (stage, detail) => {
+          if (stale()) return;
           setSteps(stage);
           ui.progressText.textContent = `${detail}…`;
         },
         onProgress: (fraction) => {
+          if (stale()) return;
           ui.barFill.style.width = `${Math.round(fraction * 100)}%`;
         },
         onScenes: (scenes, plans) => {
+          if (stale()) return;
           state.scenes = scenes;
           state.plans = new Map(plans.map((p) => [p.sceneId, p]));
           renderCues();
         },
         onNote: (note, thumbnailUrl) => {
+          if (stale()) return;
           state.notes.set(note.sceneId, note);
           state.thumbs.set(note.sceneId, thumbnailUrl);
           renderCues();
@@ -354,30 +411,40 @@ async function runAnalysis(): Promise<void> {
       state.captions,
       controller.signal,
     );
+    if (stale()) return;
     state.cues = result.cues;
     renderCues();
-    const pauses = { captions: 'your captions', audio: 'the soundtrack', none: 'no soundtrack (silent video)' }[result.pausesFrom];
     const failed = result.failedScenes;
     const failedNote = failed
       ? ` ${failed} scene${failed === 1 ? '' : 's'} could not be described: write ${failed === 1 ? 'it' : 'them'} by hand or press Describe again.`
       : '';
-    ui.progressText.textContent = `Done: ${result.scenes.length} scenes, ${result.cues.filter((c) => c.text).length} descriptions. Pauses came from ${pauses}. Press play to hear them.${failedNote}`;
+    ui.progressText.textContent = `Done: ${result.scenes.length} scenes, ${result.cues.filter((c) => c.text).length} descriptions.${pausesSentence(result.pausesFrom, result.pauseNote)} Press play to hear them.${failedNote}`;
   } catch (error) {
+    if (stale()) return;
     ui.progressText.classList.add('error');
     ui.progressText.textContent =
       error instanceof DOMException && error.name === 'AbortError'
-        ? 'Stopped.'
+        ? 'Stopped. Nothing from this run was kept.'
         : error instanceof PrivacyGuardError || error instanceof CloudConsentDeclinedError
           ? error.message
           : friendlyError(error);
   } finally {
     state.running = null;
+    setBusy(-1);
     ui.analyze.disabled = false;
     ui.cancel.hidden = true;
     updateExportButtons();
     // Stop and the consent dialog may have held the focus; never leave it on the page body.
-    if (!document.activeElement || document.activeElement === document.body) ui.analyze.focus();
+    if (!stale() && (!document.activeElement || document.activeElement === document.body)) ui.analyze.focus();
   }
+}
+
+function pausesSentence(from: PausesFrom, note?: string): string {
+  if (from === 'unknown') {
+    return ` Pauses could not be measured: ${note ?? 'the soundtrack could not be read'}. Every description pauses the video so it never covers dialogue; add captions (WebVTT or SRT) for exact timing.`;
+  }
+  const source = { captions: 'your captions', audio: 'the soundtrack', silent: 'the soundtrack, which is silent' }[from];
+  return ` Pauses came from ${source}.`;
 }
 
 /** Plain words for the failures a visitor can act on; anything else keeps its own message. */
@@ -388,6 +455,9 @@ function friendlyError(error: unknown): string {
   }
   if (/\[(429|500|502|503|504)\b/u.test(message)) {
     return 'The cloud model is busy right now. Wait a minute and press Describe this video again.';
+  }
+  if (!navigator.onLine || /failed to fetch|networkerror|network request failed|internet_disconnected/iu.test(message)) {
+    return 'The cloud could not be reached (this computer may be offline). The cloud steps need a connection; with Gemini Nano installed, Private mode runs on this computer.';
   }
   return `Something went wrong: ${message}`;
 }
@@ -541,6 +611,7 @@ function actionButton(label: string, run: () => Promise<void>, accessibleName?: 
   if (accessibleName) button.setAttribute('aria-label', accessibleName);
   button.addEventListener('click', async () => {
     button.disabled = true;
+    setBusy(1);
     try {
       await run();
     } catch (error) {
@@ -549,6 +620,7 @@ function actionButton(label: string, run: () => Promise<void>, accessibleName?: 
       ui.progressText.textContent =
         error instanceof PrivacyGuardError || error instanceof CloudConsentDeclinedError ? error.message : friendlyError(error);
     } finally {
+      setBusy(-1);
       button.disabled = false;
       // The row was re-rendered while this ran: if the focus fell to the page body, put it
       // back on the same action in the new row.
@@ -563,7 +635,9 @@ async function fitCue(sceneId: string): Promise<void> {
   const index = state.cues.findIndex((c) => c.sceneId === sceneId);
   if (!engine || index < 0) return;
   const cue = state.cues[index];
+  const generation = state.generation;
   const result = await engine.fit(cue.text, cue.budgetWords, state.cues[index - 1]?.text);
+  if (generation !== state.generation) return; // another video was opened meanwhile
   cue.text = result.text;
   cue.source = result.source ?? cue.source;
   renderCues();
@@ -573,11 +647,13 @@ async function redescribe(sceneId: string): Promise<void> {
   const scene = state.scenes.find((s) => s.id === sceneId);
   const cue = state.cues.find((c) => c.sceneId === sceneId);
   if (!engine || !scene || !cue || !state.videoUrl) return;
+  const generation = state.generation;
   analysisVideo ??= await loadVideo(state.videoUrl);
   const frame = await captureFrame(analysisVideo, scene.keyframeTime);
   const previous = state.cues[state.cues.indexOf(cue) - 1]?.text;
   const note = await engine.describeFrame(scene, state.scenes.length, { mimeType: 'image/jpeg', data: frame.base64 }, previous);
   const fitted = await engine.fit(note.visual, cue.budgetWords, previous);
+  if (generation !== state.generation) return; // another video was opened meanwhile
   cue.text = fitted.text;
   cue.source = fitted.source ?? note.source;
   state.thumbs.set(sceneId, frame.thumbnailUrl);
@@ -596,7 +672,7 @@ function updateExportButtons(): void {
   const ready = state.cues.some((c) => c.text.trim()) && !state.running;
   ui.downloadVtt.disabled = !ready;
   ui.downloadScript.disabled = !ready;
-  ui.save.disabled = !ready || !library;
+  ui.save.disabled = !ready;
 }
 
 function renderLedger(ledger: Ledger): void {
@@ -611,7 +687,11 @@ function renderLedger(ledger: Ledger): void {
       ? `${ledger.framesOnDevice} frame${ledger.framesOnDevice === 1 ? '' : 's'} described on this computer. No pixels have left it.`
       : ledger.framesMaybeInCloud > 0
         ? `${left} frame${left === 1 ? '' : 's'} may have left this computer: ${ledger.framesInCloud} described in the cloud, ${ledger.framesMaybeInCloud} in cloud requests that failed.`
-        : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? '' : 's'} were described in the cloud because Gemini Nano was not available.`;
+        : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? '' : 's'} were described in the cloud.`;
+  if (ledger.retries > 0) {
+    // One inference can be several network requests; say so rather than hide it.
+    ui.ledgerNote.textContent += ` ${ledger.retries} cloud request${ledger.retries === 1 ? ' was' : 's were'} sent again after a busy answer.`;
+  }
   const taskLabel = { frameNote: 'Frame', script: 'Script', fit: 'Fit' } as const;
   ui.log.replaceChildren(
     ...ledger.events
@@ -627,11 +707,15 @@ function renderLedger(ledger: Ledger): void {
 }
 
 async function saveTrack(): Promise<void> {
-  if (!library || !engine || !state.cues.length) return;
+  if (!engine || !state.cues.length) return;
+  // Private mode keeps saved tracks in this browser; Hybrid and Cloud use Firestore when it is set up.
+  const where: 'device' | 'cloud' = state.mode === 'private' || !cloudLibrary ? 'device' : 'cloud';
+  // A track id belongs to one store; saving it somewhere else makes a new track.
+  const id = state.trackStore === where ? state.trackId : '';
   ui.save.disabled = true;
   try {
     const track: SavedTrack = {
-      id: state.trackId,
+      id,
       title: baseName(),
       fileName: state.file?.name ?? '',
       durationSec: Number.isFinite(ui.video.duration) ? ui.video.duration : 0,
@@ -646,8 +730,9 @@ async function saveTrack(): Promise<void> {
       },
       updatedAt: 0,
     };
-    state.trackId = await library.save(track);
-    ui.save.textContent = 'Saved';
+    state.trackId = where === 'device' ? await localLibrary.save(track) : await cloudLibrary!.save(track);
+    state.trackStore = where;
+    ui.save.textContent = where === 'device' ? 'Saved in this browser' : 'Saved';
     setTimeout(() => (ui.save.textContent = 'Save'), 2000);
     await refreshLibrary();
   } catch (error) {
@@ -660,24 +745,38 @@ async function saveTrack(): Promise<void> {
 }
 
 async function refreshLibrary(): Promise<void> {
-  if (!library) return;
+  ui.libraryHint.textContent = LIBRARY_HINT[state.mode === 'private' ? 'private' : 'shared'];
+  const rows: Array<{ track: SavedTrack; where: 'device' | 'cloud' }> = [];
+  const problems: string[] = [];
   try {
-    const tracks = await library.list();
-    if (!tracks.length) {
-      const li = document.createElement('li');
-      li.textContent = 'Nothing saved yet.';
-      ui.library.replaceChildren(li);
-      return;
-    }
-    ui.library.replaceChildren(...tracks.map(renderSaved));
+    rows.push(...(await localLibrary.list()).map((track) => ({ track, where: 'device' as const })));
   } catch (error) {
-    const li = document.createElement('li');
-    li.textContent = `Library unavailable: ${messageOf(error)}`;
-    ui.library.replaceChildren(li);
+    problems.push(`This browser's library is unavailable: ${messageOf(error)}`);
   }
+  // Private mode never signs in or talks to Firestore, so it lists only this browser's tracks.
+  if (state.mode !== 'private' && cloudLibrary) {
+    try {
+      rows.push(...(await cloudLibrary.list()).map((track) => ({ track, where: 'cloud' as const })));
+    } catch (error) {
+      problems.push(`Cloud library unavailable: ${messageOf(error)}`);
+    }
+  }
+  rows.sort((a, b) => b.track.updatedAt - a.track.updatedAt);
+  const items = rows.map(({ track, where }) => renderSaved(track, where));
+  for (const problem of problems) {
+    const li = document.createElement('li');
+    li.textContent = problem;
+    items.push(li);
+  }
+  if (!items.length) {
+    const li = document.createElement('li');
+    li.textContent = 'Nothing saved yet.';
+    items.push(li);
+  }
+  ui.library.replaceChildren(...items);
 }
 
-function renderSaved(track: SavedTrack): HTMLLIElement {
+function renderSaved(track: SavedTrack, where: 'device' | 'cloud'): HTMLLIElement {
   const li = document.createElement('li');
   const info = document.createElement('div');
   const title = document.createElement('strong');
@@ -685,7 +784,7 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
   const meta = document.createElement('div');
   meta.className = 'meta';
   const when = track.updatedAt ? new Date(track.updatedAt).toLocaleString() : 'saving…';
-  meta.textContent = `${track.cues.length} lines · ${track.ledger.onDevice} on device, ${track.ledger.inCloud} cloud · ${when}`;
+  meta.textContent = `${where === 'device' ? 'This browser' : 'Cloud'} · ${track.cues.length} lines · ${track.ledger.onDevice} on device, ${track.ledger.inCloud} cloud · ${when}`;
   info.append(title, meta);
 
   const actions = document.createElement('div');
@@ -697,6 +796,7 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
   load.addEventListener('click', () => {
     state.cues = track.cues.map((c) => ({ ...c }));
     state.trackId = track.id;
+    state.trackStore = where;
     state.scenes = track.cues.map((c, i) => ({ id: c.sceneId, index: i, start: c.start, end: c.end, keyframeTime: c.start }));
     renderCues();
     ui.progress.hidden = false;
@@ -711,8 +811,15 @@ function renderSaved(track: SavedTrack): HTMLLIElement {
   remove.textContent = 'Delete';
   remove.setAttribute('aria-label', `Delete saved track "${track.title}"`);
   remove.addEventListener('click', async () => {
-    if (!library || !confirm(`Delete the saved track "${track.title}"? This cannot be undone.`)) return;
-    await library.remove(track.id);
+    if (!confirm(`Delete the saved track "${track.title}"? This cannot be undone.`)) return;
+    try {
+      if (where === 'device') await localLibrary.remove(track.id);
+      else await cloudLibrary?.remove(track.id);
+    } catch (error) {
+      ui.progress.hidden = false;
+      ui.progressText.classList.add('error');
+      ui.progressText.textContent = `Could not delete: ${messageOf(error)}`;
+    }
     await refreshLibrary();
   });
   actions.append(load, document.createTextNode(' · '), remove);

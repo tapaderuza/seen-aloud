@@ -21,8 +21,13 @@ export interface GenerateResult {
   source: InferenceSourceValue;
 }
 
+export interface GenerateHooks {
+  /** A transient cloud error is about to be retried: one inference, one more network request. */
+  onRetry?: (step: 'same-model' | 'fallback-model', error: unknown) => void;
+}
+
 export interface TaskModel {
-  generate(parts: PromptPart[]): Promise<GenerateResult>;
+  generate(parts: PromptPart[], hooks?: GenerateHooks): Promise<GenerateResult>;
 }
 
 /** The seam between this engine and Firebase AI Logic (see firebaseProvider.ts). */
@@ -87,6 +92,10 @@ export interface Ledger {
   framesMaybeInCloud: number;
   /** Times a request failed on one side and was retried on the other. */
   fallbacks: number;
+  /** Extra cloud requests after a busy or rate-limited answer (same model, then the fallback model). */
+  retries: number;
+  /** Inferences that ended in an error after every retry and fallback. */
+  failures: number;
   events: LedgerEvent[];
 }
 
@@ -98,6 +107,8 @@ export function emptyLedger(): Ledger {
     framesInCloud: 0,
     framesMaybeInCloud: 0,
     fallbacks: 0,
+    retries: 0,
+    failures: 0,
     events: [],
   };
 }
@@ -314,8 +325,15 @@ export class DescriptionEngine {
     const mode = modeOverride ?? inferenceModeFor(task, this.options.mode);
     const now = this.options.now ?? (() => performance.now());
     const started = now();
+    const hooks: GenerateHooks = {
+      onRetry: (step, error) => {
+        this.ledger.retries++;
+        const where = step === 'same-model' ? 'the same model' : 'the fallback model';
+        this.pushEvent({ task, source: null, ms: 0, note: `cloud busy (${errorName(error)}), sent again to ${where}` });
+      },
+    };
     try {
-      const result = await this.provider.model(task, mode, this.options.language).generate(parts);
+      const result = await this.provider.model(task, mode, this.options.language).generate(parts, hooks);
       this.record(task, result.source, now() - started, context.carriesImage);
       return result;
     } catch (error) {
@@ -328,9 +346,9 @@ export class DescriptionEngine {
         if (context.carriesImage) await this.ensureCloudFramesAllowed();
         let result: GenerateResult;
         try {
-          result = await this.provider.model(task, 'only_in_cloud', this.options.language).generate(parts);
+          result = await this.provider.model(task, 'only_in_cloud', this.options.language).generate(parts, hooks);
         } catch (cloudError) {
-          if (context.carriesImage) this.frameMayHaveLeft(task, cloudError);
+          this.fail(task, cloudError, context.carriesImage);
           throw cloudError;
         }
         this.ledger.fallbacks++;
@@ -338,21 +356,27 @@ export class DescriptionEngine {
         return result;
       }
       // Anything but a device-only request may have reached the cloud before it failed.
-      if (context.carriesImage && mode !== 'only_on_device') this.frameMayHaveLeft(task, error);
+      this.fail(task, error, context.carriesImage && mode !== 'only_on_device');
       throw error;
     }
   }
 
-  private frameMayHaveLeft(task: Task, error: unknown): void {
-    this.ledger.framesMaybeInCloud++;
-    this.pushEvent({ task, source: null, ms: 0, note: `failed after it may have reached the cloud (${errorName(error)})` });
+  /** An inference that failed for good. A frame request that could have reached the cloud counts as having left. */
+  private fail(task: Task, error: unknown, frameMayHaveLeft: boolean): void {
+    this.ledger.failures++;
+    if (frameMayHaveLeft) this.ledger.framesMaybeInCloud++;
+    const note = frameMayHaveLeft
+      ? `failed after it may have reached the cloud (${errorName(error)})`
+      : `failed (${errorName(error)})`;
+    this.pushEvent({ task, source: null, ms: 0, note });
   }
 
   private async ensureCloudFramesAllowed(): Promise<void> {
     if (this.options.mode === 'cloud') return;
     if (this.options.mode === 'private') throw new PrivacyGuardError(this.availability ?? 'unsupported');
     if (this.cloudFramesAllowed === null) {
-      this.cloudFramesAllowed = this.options.confirmCloudFrames ? await this.options.confirmCloudFrames() : true;
+      // No way to ask means no consent: frames stay on the device.
+      this.cloudFramesAllowed = this.options.confirmCloudFrames ? await this.options.confirmCloudFrames() : false;
     }
     if (!this.cloudFramesAllowed) throw new CloudConsentDeclinedError();
   }

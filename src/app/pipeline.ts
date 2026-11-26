@@ -4,7 +4,7 @@ import type { CaptionCue, Cue, CuePlan, Scene, SceneNote, TimeRange } from '../c
 import { findSilences, rmsWindows } from '../media/audio';
 import { dialogueByScene, gapsFromCaptions } from '../media/gaps';
 import { detectScenes } from '../media/scenes';
-import { captureFrame, decodeSoundtrack, loadVideo, sampleSignatures } from '../media/video';
+import { captureFrame, decodeSoundtrack, loadVideo, sampleSignatures, type Soundtrack } from '../media/video';
 import { planCues } from '../track/budget';
 
 export type Stage = 'scenes' | 'pauses' | 'describe' | 'script' | 'done';
@@ -22,9 +22,38 @@ export interface AnalysisResult {
   plans: CuePlan[];
   notes: Map<string, SceneNote>;
   cues: Cue[];
-  pausesFrom: 'captions' | 'audio' | 'none';
+  pausesFrom: PausesFrom;
+  /** Why pauses could not be measured, when `pausesFrom` is `unknown`. */
+  pauseNote?: string;
   /** Scenes whose key frame could not be described; their lines are left empty. */
   failedScenes: number;
+}
+
+export type PausesFrom = 'captions' | 'audio' | 'silent' | 'unknown';
+
+/** Below this level (about -60 dBFS) for the whole file, the soundtrack is silent. */
+const SILENT_RMS = 0.001;
+
+/**
+ * Where descriptions may be spoken, from the soundtrack. When the soundtrack
+ * cannot be read, nobody knows where people talk, so there are no gaps at all:
+ * every description becomes an extended one that pauses the video, and none
+ * can run over dialogue.
+ */
+export function pausesFromSoundtrack(
+  track: Soundtrack,
+  duration: number,
+): { gaps: TimeRange[]; from: PausesFrom; note?: string } {
+  if (track.status === 'decoded') {
+    const rms = rmsWindows(track.samples, track.sampleRate, 0.05);
+    if (rms.every((level) => level < SILENT_RMS)) return { gaps: [{ start: 0, end: duration }], from: 'silent' };
+    return { gaps: findSilences(rms, 0.05), from: 'audio' };
+  }
+  const note =
+    track.status === 'too-large'
+      ? 'the file is too large to analyse its soundtrack in the browser'
+      : 'the soundtrack could not be read (no audio track, or a format this browser cannot decode)';
+  return { gaps: [], from: 'unknown', note };
 }
 
 /** When this many scenes in a row fail from the start, the problem is not one bad frame. */
@@ -61,11 +90,14 @@ export async function describeScenes(
     try {
       note = await engine.describeFrame(scene, scenes.length, { mimeType: 'image/jpeg', data: frame.base64 }, previous);
     } catch (error) {
+      signal?.throwIfAborted();
       failed++;
       const everyOneFailed = failed === notes.size + 1;
       if (endsTheJob(error) || failed === scenes.length || (everyOneFailed && failed >= FAIL_FAST_AFTER)) throw error;
       note = { sceneId: scene.id, visual: '', onScreenText: '', source: 'manual' };
     }
+    // Stop pressed while this frame was being described: the answer is not used.
+    signal?.throwIfAborted();
     notes.set(scene.id, note);
     if (note.visual) previous = note.visual;
     callbacks.onNote(note, frame.thumbnailUrl);
@@ -105,20 +137,15 @@ export async function analyzeVideo(
     callbacks.onStage('pauses', captions.length ? 'Reading pauses from your captions' : 'Listening for pauses in the dialogue');
     callbacks.onProgress(0);
     let gaps: TimeRange[];
-    let pausesFrom: AnalysisResult['pausesFrom'];
+    let pausesFrom: PausesFrom;
+    let pauseNote: string | undefined;
     if (captions.length) {
       gaps = gapsFromCaptions(captions, duration);
       pausesFrom = 'captions';
     } else {
-      const audio = await decodeSoundtrack(file);
-      if (audio) {
-        gaps = findSilences(rmsWindows(audio.samples, audio.sampleRate, 0.05), 0.05);
-        pausesFrom = 'audio';
-      } else {
-        gaps = [{ start: 0, end: duration }];
-        pausesFrom = 'none';
-      }
+      ({ gaps, from: pausesFrom, note: pauseNote } = pausesFromSoundtrack(await decodeSoundtrack(file), duration));
     }
+    signal?.throwIfAborted();
     callbacks.onProgress(1);
     const plans = planCues(scenes, gaps, settings.wordsPerSecond);
     callbacks.onScenes(scenes, plans);
@@ -136,11 +163,13 @@ export async function analyzeVideo(
     callbacks.onStage('script', 'Writing the description track');
     callbacks.onProgress(0);
     const cues = await engine.writeTrack(plans, notes, dialogueByScene(scenes, captions));
+    // A request already on its way cannot be recalled; if Stop was pressed meanwhile, drop its answer.
+    signal?.throwIfAborted();
     callbacks.onProgress(1);
     callbacks.onStage('done', 'Track ready');
     video.removeAttribute('src');
     video.load();
-    return { duration, scenes, plans, notes, cues, pausesFrom, failedScenes: failed };
+    return { duration, scenes, plans, notes, cues, pausesFrom, pauseNote, failedScenes: failed };
   } finally {
     URL.revokeObjectURL(url);
   }

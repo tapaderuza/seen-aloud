@@ -48,8 +48,10 @@ export function readFirebaseEnv(env: EnvSource = import.meta.env): FirebaseEnv |
 export interface FirebaseServices {
   app: FirebaseApp;
   ai: AI;
-  auth: Auth;
-  db: Firestore;
+  /** Created on first use, so Private mode never starts an Auth session. */
+  auth(): Auth;
+  /** Created on first use, so Private mode never opens a Firestore channel. */
+  db(): Firestore;
   settings: AppSettings;
 }
 
@@ -75,8 +77,10 @@ export async function connectFirebase(env: FirebaseEnv): Promise<FirebaseService
   });
 
   const ai = getAI(app, { backend: new GoogleAIBackend() });
-  const auth = getAuth(app);
-  const db = initializeFirestore(app, { localCache: persistentLocalCache() });
+  // Auth and Firestore exist only for the cloud library. Creating them lazily
+  // keeps Private mode from signing in or opening a channel to Firestore.
+  let auth: Auth | null = null;
+  let db: Firestore | null = null;
 
   let settings: AppSettings = DEFAULT_SETTINGS;
   try {
@@ -90,7 +94,13 @@ export async function connectFirebase(env: FirebaseEnv): Promise<FirebaseService
     settings = DEFAULT_SETTINGS;
   }
 
-  return { app, ai, auth, db, settings };
+  return {
+    app,
+    ai,
+    settings,
+    auth: () => (auth ??= getAuth(app)),
+    db: () => (db ??= initializeFirestore(app, { localCache: persistentLocalCache() })),
+  };
 }
 
 /** Anonymous sign-in gives each browser its own private library in Firestore. */

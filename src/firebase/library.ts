@@ -74,7 +74,8 @@ export function docToTrack(id: string, data: Record<string, unknown>): SavedTrac
   }
   const ledger = (data.ledger ?? {}) as Record<string, unknown>;
   const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : 0);
-  const updated = data.updatedAt as { toMillis?: () => number } | undefined;
+  // A Firestore Timestamp in the cloud library, milliseconds in the local one.
+  const updated = data.updatedAt as { toMillis?: () => number } | number | undefined;
   return {
     id,
     title: data.title,
@@ -89,21 +90,27 @@ export function docToTrack(id: string, data: Record<string, unknown>): SavedTrac
       framesOnDevice: num(ledger.framesOnDevice),
       framesInCloud: num(ledger.framesInCloud),
     },
-    updatedAt: typeof updated?.toMillis === 'function' ? updated.toMillis() : 0,
+    updatedAt:
+      typeof updated === 'number'
+        ? num(updated)
+        : typeof updated?.toMillis === 'function'
+          ? updated.toMillis()
+          : 0,
   };
 }
 
+/** Saved tracks in Firestore, under the browser's anonymous account. Used in Hybrid and Cloud mode. */
 export class TrackLibrary {
   constructor(
-    private readonly db: Firestore,
+    private readonly db: () => Firestore,
     private readonly uid: () => Promise<string>,
   ) {}
 
   async save(track: SavedTrack): Promise<string> {
     const uid = await this.uid();
     const ref = track.id
-      ? doc(this.db, 'users', uid, 'tracks', track.id)
-      : doc(collection(this.db, 'users', uid, 'tracks'));
+      ? doc(this.db(), 'users', uid, 'tracks', track.id)
+      : doc(collection(this.db(), 'users', uid, 'tracks'));
     await setDoc(ref, { ...trackToDoc(track), updatedAt: serverTimestamp() });
     return ref.id;
   }
@@ -111,14 +118,14 @@ export class TrackLibrary {
   async list(): Promise<SavedTrack[]> {
     const uid = await this.uid();
     const snapshot = await getDocs(
-      query(collection(this.db, 'users', uid, 'tracks'), orderBy('updatedAt', 'desc'), limit(50)),
+      query(collection(this.db(), 'users', uid, 'tracks'), orderBy('updatedAt', 'desc'), limit(50)),
     );
     return snapshot.docs.map((d) => docToTrack(d.id, d.data())).filter((t): t is SavedTrack => t !== null);
   }
 
   async remove(id: string): Promise<void> {
     const uid = await this.uid();
-    await deleteDoc(doc(this.db, 'users', uid, 'tracks', id));
+    await deleteDoc(doc(this.db(), 'users', uid, 'tracks', id));
   }
 }
 

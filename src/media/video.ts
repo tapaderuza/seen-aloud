@@ -112,19 +112,26 @@ export async function captureFrame(video: HTMLVideoElement, time: number, maxWid
 const MAX_AUDIO_BYTES = 400 * 1024 * 1024;
 
 /**
- * Decodes the soundtrack to 16 kHz mono for pause detection. Returns null when
- * the file has no audio track or is too large to decode in memory.
+ * What pause detection got from the file. `unreadable` covers a file with no
+ * audio track and one whose audio this browser cannot decode: Web Audio
+ * reports both the same way, so the app cannot tell them apart.
  */
-export async function decodeSoundtrack(file: Blob): Promise<{ samples: Float32Array; sampleRate: number } | null> {
-  if (file.size > MAX_AUDIO_BYTES) return null;
+export type Soundtrack =
+  | { status: 'decoded'; samples: Float32Array; sampleRate: number }
+  | { status: 'too-large'; bytes: number }
+  | { status: 'unreadable' };
+
+/** Decodes the soundtrack to 16 kHz mono for pause detection. */
+export async function decodeSoundtrack(file: Blob): Promise<Soundtrack> {
+  if (file.size > MAX_AUDIO_BYTES) return { status: 'too-large', bytes: file.size };
   const sampleRate = 16000;
   try {
     const ctx = new OfflineAudioContext(1, sampleRate, sampleRate);
     const buffer = await ctx.decodeAudioData(await file.arrayBuffer());
     const channels: Float32Array[] = [];
     for (let c = 0; c < buffer.numberOfChannels; c++) channels.push(buffer.getChannelData(c));
-    return { samples: downmix(channels), sampleRate: buffer.sampleRate };
+    return { status: 'decoded', samples: downmix(channels), sampleRate: buffer.sampleRate };
   } catch {
-    return null;
+    return { status: 'unreadable' };
   }
 }

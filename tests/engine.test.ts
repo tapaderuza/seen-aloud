@@ -6,6 +6,7 @@ import {
   PrivacyGuardError,
   type AppMode,
   type DeviceAvailability,
+  type GenerateHooks,
   type GenerateResult,
   type InferenceModeValue,
   type ModelProvider,
@@ -14,7 +15,11 @@ import {
 } from '../src/ai/engine';
 import type { CuePlan, Scene, SceneNote } from '../src/core/types';
 
-type Handler = (mode: InferenceModeValue, parts: PromptPart[]) => GenerateResult | Promise<GenerateResult>;
+type Handler = (
+  mode: InferenceModeValue,
+  parts: PromptPart[],
+  hooks?: GenerateHooks,
+) => GenerateResult | Promise<GenerateResult>;
 
 /**
  * Behaves like Firebase AI Logic's routing: ONLY_* modes stay on their side,
@@ -33,10 +38,10 @@ class FakeProvider implements ModelProvider {
 
   model(task: Task, mode: InferenceModeValue) {
     return {
-      generate: async (parts: PromptPart[]) => {
+      generate: async (parts: PromptPart[], hooks?: GenerateHooks) => {
         this.calls.push({ task, mode, parts });
         const handler = this.handlers[task];
-        if (handler) return handler(mode, parts);
+        if (handler) return handler(mode, parts, hooks);
         return { text: defaultAnswer(task), source: this.route(mode) };
       },
     };
@@ -227,6 +232,53 @@ describe('describing frames', () => {
     expect(provider.calls[0].mode).toBe('only_in_cloud');
     expect(confirm).not.toHaveBeenCalled();
     expect(e.ledger.framesInCloud).toBe(1);
+  });
+
+  it('keeps frames on the device when there is no way to ask for consent', async () => {
+    const provider = new FakeProvider();
+    provider.availability = 'unsupported';
+    const e = engine(provider, 'hybrid'); // no confirmCloudFrames callback
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toBeInstanceOf(CloudConsentDeclinedError);
+    expect(provider.calls).toHaveLength(0);
+  });
+
+  it('in private mode only ever asks for ONLY_ON_DEVICE, for every task', async () => {
+    const provider = new FakeProvider();
+    const e = engine(provider, 'private');
+    await e.startVideo();
+    await e.describeFrame(SCENES[0], 2, IMAGE);
+    await e.writeTrack(PLANS, notes());
+    await e.fit('one two three four five six seven eight', 3);
+    expect(provider.calls.length).toBeGreaterThan(0);
+    expect(provider.calls.every((c) => c.mode === 'only_on_device')).toBe(true);
+    expect(provider.calls.some((c) => c.task === 'script')).toBe(false);
+    expect(e.ledger).toMatchObject({ inCloud: 0, framesInCloud: 0, framesMaybeInCloud: 0 });
+  });
+
+  it('counts cloud retries, since one inference can be several network requests', async () => {
+    const provider = new FakeProvider();
+    provider.availability = 'unsupported';
+    provider.handlers.frameNote = (_mode, _parts, hooks) => {
+      hooks?.onRetry?.('same-model', Object.assign(new Error('[503 ] busy'), { customErrorData: { status: 503 } }));
+      hooks?.onRetry?.('fallback-model', Object.assign(new Error('[503 ] busy'), { customErrorData: { status: 503 } }));
+      return { text: '{"visual":"A beach.","onScreenText":""}', source: 'in_cloud' };
+    };
+    const e = engine(provider, 'hybrid', async () => true);
+    await e.describeFrame(SCENES[0], 2, IMAGE);
+    expect(e.ledger).toMatchObject({ retries: 2, framesInCloud: 1, failures: 0 });
+    expect(e.ledger.events.filter((ev) => ev.note?.includes('sent again'))).toHaveLength(2);
+  });
+
+  it('counts an inference that fails for good', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.fit = () => {
+      throw new Error('quota');
+    };
+    const e = engine(provider, 'hybrid');
+    await e.startVideo();
+    const result = await e.fit('one two three four five six', 3);
+    expect(result.text).toBe('one two three.'); // trimmed locally after the failure
+    expect(e.ledger.failures).toBe(1);
   });
 
   it('starts a fresh ledger for each video', async () => {

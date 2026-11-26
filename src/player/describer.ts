@@ -24,12 +24,34 @@ export function needsPause(cue: Cue, wordsPerSecond: number): boolean {
   return cue.extended || speechSeconds(cue.text, wordsPerSecond) > cue.end - cue.start + 0.3;
 }
 
+/**
+ * `local-only`: speak only with a voice the browser marks `localService`, so
+ * the description text never goes to a network voice (Private mode).
+ * `prefer-local`: a local voice when there is one, otherwise any voice.
+ */
+export type VoicePolicy = 'local-only' | 'prefer-local';
+
 export interface DescriberOptions {
   voice: boolean;
   extendedPauses: boolean;
   rate: number;
   lang: string;
   wordsPerSecond: number;
+  voicePolicy?: VoicePolicy;
+  /** Called when a line is shown as text because no allowed voice exists for the language. */
+  onNoAllowedVoice?: (lang: string) => void;
+}
+
+/** The voice to speak `lang` with under `policy`, or null when none is allowed. */
+export function pickVoice<V extends Pick<SpeechSynthesisVoice, 'lang' | 'localService'>>(
+  voices: readonly V[],
+  lang: string,
+  policy: VoicePolicy,
+): V | null {
+  const matching = voices.filter((v) => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
+  const local = matching.find((v) => v.localService);
+  if (policy === 'local-only') return local ?? null;
+  return local ?? matching[0] ?? null;
 }
 
 /**
@@ -65,7 +87,8 @@ export class DescriptionPlayer {
 
   setOptions(options: Partial<DescriberOptions>): void {
     this.options = { ...this.options, ...options };
-    if (!this.options.voice) this.stopSpeech();
+    // A new voice policy (Private mode) must not let a line already playing on a network voice go on.
+    if (!this.options.voice || options.voicePolicy) this.stopSpeech();
   }
 
   /** Speaks one cue now (used by the "play from here" buttons). */
@@ -116,10 +139,20 @@ export class DescriptionPlayer {
   private say(cue: Cue): void {
     this.overlay.textContent = cue.text;
     this.overlay.hidden = false;
-    if (!this.options.voice || typeof speechSynthesis === 'undefined') {
+    const policy = this.options.voicePolicy ?? 'prefer-local';
+    const voice =
+      this.options.voice && typeof speechSynthesis !== 'undefined'
+        ? pickVoice(speechSynthesis.getVoices(), this.options.lang, policy)
+        : null;
+    const blocked = this.options.voice && typeof speechSynthesis !== 'undefined' && !voice && policy === 'local-only';
+    if (!this.options.voice || typeof speechSynthesis === 'undefined' || blocked) {
+      // Shown as text, and announced by screen readers since nothing is spoken.
+      this.overlay.setAttribute('aria-live', 'polite');
+      if (blocked) this.options.onNoAllowedVoice?.(this.options.lang);
       window.setTimeout(() => this.hideIf(cue.text), Math.max(1500, (cue.end - cue.start) * 1000));
       return;
     }
+    this.overlay.setAttribute('aria-live', 'off'); // the voice reads it; no double narration
     const id = ++this.utteranceId;
     clearTimeout(this.watchdog);
     this.inFlight.clear();
@@ -127,7 +160,6 @@ export class DescriptionPlayer {
     const utterance = new SpeechSynthesisUtterance(cue.text);
     utterance.lang = this.options.lang;
     utterance.rate = this.options.rate;
-    const voice = speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith(this.options.lang));
     if (voice) utterance.voice = voice;
 
     if (this.options.extendedPauses && needsPause(cue, this.options.wordsPerSecond * this.options.rate)) {

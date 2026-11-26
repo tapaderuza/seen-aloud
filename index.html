@@ -134,7 +134,7 @@
 
       <section class="card library" aria-labelledby="library-title">
         <h2 id="library-title">Saved tracks</h2>
-        <p class="hint">Kept in Firestore under an anonymous account: text and timings only, never video or frames.</p>
+        <p id="library-hint" class="hint">Private mode saves tracks only in this browser. Hybrid and Cloud mode save them in Firestore under an anonymous account: text, timings and the file name, never video or frames.</p>
         <ul id="library" class="library-list"></ul>
       </section>
     </main>
@@ -143,8 +143,9 @@
       <form method="dialog">
         <h2 id="consent-title">Send frames to the cloud?</h2>
         <p id="consent-body">
-          Gemini Nano is not ready on this computer, so the still frames would be described by Gemini in the cloud
-          through Firebase AI Logic. The video itself is never uploaded.
+          Gemini Nano cannot describe these frames on this computer, so one still image per scene would be sent to
+          Gemini in the cloud through Firebase AI Logic. The video file itself is never uploaded. If you say no, nothing
+          is sent and you can use Private mode once Gemini Nano is ready.
         </p>
         <div class="dialog-actions">
           <button value="no" class="button ghost">Keep frames here</button>

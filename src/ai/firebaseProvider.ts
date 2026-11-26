@@ -7,7 +7,7 @@ import {
 } from 'firebase/ai';
 import type { AppSettings } from '../config/settings';
 import type { DescriptionLanguage } from '../core/types';
-import type { DeviceAvailability, InferenceModeValue, ModelProvider, PromptPart, Task, TaskModel } from './engine';
+import type { DeviceAvailability, GenerateHooks, InferenceModeValue, ModelProvider, PromptPart, Task, TaskModel } from './engine';
 import { withCloudRetry } from './retry';
 import { FIT_SCHEMA, FRAME_NOTE_SCHEMA, SCRIPT_SCHEMA } from './schemas';
 
@@ -108,7 +108,7 @@ export class FirebaseModelProvider implements ModelProvider {
       };
     };
     return {
-      generate: (parts: PromptPart[]) => {
+      generate: (parts: PromptPart[], hooks?: GenerateHooks) => {
         const { cloudModel, cloudFallbackModel } = this.settings();
         const fallback =
           cloudFallbackModel && cloudFallbackModel !== cloudModel
@@ -116,6 +116,7 @@ export class FirebaseModelProvider implements ModelProvider {
             : null;
         return withCloudRetry(() => run(this.generativeModel(task, mode, language), parts), fallback, {
           delayMs: 1500,
+          onRetry: hooks?.onRetry,
         });
       },
     };

@@ -51,6 +51,19 @@ describe('describing scenes', () => {
     await expect(describeScenes(scenes(2), engine, grab, callbacks())).rejects.toThrow('model busy');
   });
 
+  it('drops the answer of a request that was in flight when Stop was pressed', async () => {
+    const controller = new AbortController();
+    const engine = {
+      describeFrame: vi.fn(async (scene: Scene): Promise<SceneNote> => {
+        controller.abort(); // Stop pressed while the model was working
+        return { sceneId: scene.id, visual: 'A late answer.', onScreenText: '', source: 'in_cloud' };
+      }),
+    };
+    const cb = callbacks();
+    await expect(describeScenes(scenes(3), engine, grab, cb, controller.signal)).rejects.toMatchObject({ name: 'AbortError' });
+    expect(cb.onNote).not.toHaveBeenCalled();
+  });
+
   it('stops between scenes when the person presses Stop', async () => {
     const controller = new AbortController();
     const engine = engineThat((s) => {
