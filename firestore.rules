@@ -2,18 +2,41 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each browser's anonymous account owns its own saved tracks. Text and timings only.
+    // Each browser's anonymous account owns its own saved tracks: text, timings
+    // and the file name, never video or frames. Private mode never writes here;
+    // its tracks stay in the browser (IndexedDB), and these rules refuse them too.
     match /users/{uid}/tracks/{trackId} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null
         && request.auth.uid == uid
-        && request.resource.data.title is string
-        && request.resource.data.title.size() <= 200
-        && request.resource.data.cues is list
-        && request.resource.data.cues.size() <= 600;
+        && validTrack(request.resource.data);
     }
     match /{document=**} {
       allow read, write: if false;
     }
+  }
+
+  // Only the fields the app writes, with their types and sizes. Firestore caps
+  // a document at 1 MiB; the app also cuts each line to 600 characters.
+  function validTrack(d) {
+    return d.keys().hasOnly(['title', 'fileName', 'durationSec', 'language', 'mode', 'cues', 'ledger', 'updatedAt'])
+      && d.keys().hasAll(['title', 'cues', 'updatedAt'])
+      && d.title is string && d.title.size() <= 200
+      && (!('fileName' in d) || (d.fileName is string && d.fileName.size() <= 260))
+      && (!('durationSec' in d) || (d.durationSec is number && d.durationSec >= 0 && d.durationSec <= 86400))
+      && (!('language' in d) || d.language in ['en', 'es'])
+      && (!('mode' in d) || d.mode in ['hybrid', 'cloud'])
+      && d.cues is list && d.cues.size() <= 600
+      && (!('ledger' in d) || validLedger(d.ledger))
+      && d.updatedAt == request.time;
+  }
+
+  function validLedger(l) {
+    return l is map
+      && l.keys().hasOnly(['onDevice', 'inCloud', 'framesOnDevice', 'framesInCloud'])
+      && (!('onDevice' in l) || l.onDevice is int)
+      && (!('inCloud' in l) || l.inCloud is int)
+      && (!('framesOnDevice' in l) || l.framesOnDevice is int)
+      && (!('framesInCloud' in l) || l.framesInCloud is int);
   }
 }
