@@ -1,0 +1,351 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 98319,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 6,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "5 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 14716 ms",
+      "Frame · On device · 14895 ms",
+      "Frame · On device · 11773 ms",
+      "Frame · On device · 21131 ms",
+      "Frame · On device · 20582 ms",
+      "Script · Cloud · 5732 ms",
+      "Fit · On device · 4012 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 7203,
+    "bytesReceived": 1462,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 5731,
+        "requestBytes": 7203,
+        "responseBytes": 1462
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "A teal bar graph extends across the screen. On screen: UNDER_BUDGET_NOT_VERIFIED"
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 16,
+      "budget": 18,
+      "text": "Teal bars display WEIGHTS: 4.0, CACHE: 4.0. 'TOTAL 6.18 GIB UNDER_BUDGET_NOT_VERIFIED' is visible. The model fits."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "Three rectangular boxes display memory segments for resident weights, conversation cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "Arrows connect the three memory boxes above statistics for a single memory pool."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cat493On.js",
+    "commit": "223c141",
+    "date": "2026-11-26T12:50:45.320Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 6,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 14716
+      },
+      {
+        "task": "Frame",
+        "ms": 14895
+      },
+      {
+        "task": "Frame",
+        "ms": 11773
+      },
+      {
+        "task": "Frame",
+        "ms": 21131
+      },
+      {
+        "task": "Frame",
+        "ms": 20582
+      },
+      {
+        "task": "Fit",
+        "ms": 4012
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 1879,
+      "output": 190
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2572,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 231,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 535,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/firestore": {
+        "requests": 2,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 1,
+        "bytesSent": 7203,
+        "bytesReceived": 787,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 5728,
+        "bytesSent": 7203,
+        "bytesReceived": 787,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 1879,
+          "candidatesTokenCount": 190,
+          "totalTokenCount": 2069,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1879
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(6655 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 0.67,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 1.69,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 2.7,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 3.7,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 4.71,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 5.72,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 6.74,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      },
+      {
+        "t": 7.74,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Teal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET"
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - sample-explainer-45s\n\nNOTE 5 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nTeal and blue horizontal graphs display memory allocations. On screen: OVER_BUDGET\n\n2\n00:00:08.500 --> 00:00:15.700\nA teal bar graph extends across the screen. On screen: UNDER_BUDGET_NOT_VERIFIED\n\n3\n00:00:17.000 --> 00:00:24.200\nTeal bars display WEIGHTS: 4.0, CACHE: 4.0. 'TOTAL 6.18 GIB UNDER_BUDGET_NOT_VERIFIED' is visible. The model fits.\n\n4\n00:00:25.500 --> 00:00:32.700\nThree rectangular boxes display memory segments for resident weights, conversation cache, and reserve.\n\n5\n00:00:35.270 --> 00:00:42.470\nArrows connect the three memory boxes above statistics for a single memory pool.\n"
+}

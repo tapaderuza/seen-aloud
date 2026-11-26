@@ -1,0 +1,75 @@
+[
+  {
+    "video": "/samples/sample-explainer-45s.mp4",
+    "label": "01 Educational presentation with charts and numbers (author's own explainer, 45 s)",
+    "mode": "hybrid",
+    "totalSeconds": 100.4,
+    "aiRequests": 1,
+    "failedRequests": 0,
+    "meanRequestMs": 2393,
+    "framesThatLeft": 0,
+    "requestsOnDevice": 6,
+    "kbSent": 5.3,
+    "kbReceived": 1.3,
+    "lines": 4,
+    "extendedLines": 4,
+    "overBudget": 0,
+    "coverage": "6/8",
+    "missed": [
+      "an eight GiB budget",
+      "the memory pool, RAM or VRAM"
+    ],
+    "unsupportedNumbers": null,
+    "overlapsWithSpeech": null,
+    "pausesThatInterruptSpeech": null
+  },
+  {
+    "video": "/benchmark/06-sensitive-fictional.mp4",
+    "label": "06 Fictional sensitive record (synthetic, silent soundtrack, 8 s)",
+    "mode": "private",
+    "totalSeconds": 27.8,
+    "aiRequests": 0,
+    "failedRequests": 0,
+    "meanRequestMs": null,
+    "framesThatLeft": 0,
+    "requestsOnDevice": 2,
+    "kbSent": 0,
+    "kbReceived": 0,
+    "lines": 1,
+    "extendedLines": 0,
+    "overBudget": 0,
+    "coverage": "1/4",
+    "missed": [
+      "a patient name",
+      "a date of birth",
+      "an account number"
+    ],
+    "unsupportedNumbers": [],
+    "overlapsWithSpeech": null,
+    "pausesThatInterruptSpeech": null
+  },
+  {
+    "video": "/samples/sample-explainer-45s.mp4",
+    "label": "01 Educational presentation with charts and numbers (author's own explainer, 45 s)",
+    "mode": "private",
+    "totalSeconds": 107.3,
+    "aiRequests": 0,
+    "failedRequests": 0,
+    "meanRequestMs": null,
+    "framesThatLeft": 0,
+    "requestsOnDevice": 10,
+    "kbSent": 0,
+    "kbReceived": 0,
+    "lines": 5,
+    "extendedLines": 5,
+    "overBudget": 0,
+    "coverage": "6/8",
+    "missed": [
+      "an eight GiB budget",
+      "the memory pool, RAM or VRAM"
+    ],
+    "unsupportedNumbers": null,
+    "overlapsWithSpeech": null,
+    "pausesThatInterruptSpeech": null
+  }
+]

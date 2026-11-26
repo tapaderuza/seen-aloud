@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-26: Gemini Nano validation
+
+- **Real runs with Gemini Nano.**
+  - **Setup:** Google Chrome 158, `nano_v3` on a 4 GB GTX 1050, on the live site.
+  - **Coverage:** Private, Hybrid and Cloud on all six benchmark clips, plus the reference video and the fictional record.
+  - **Network:** captured outside the page over the Chrome DevTools Protocol. The ledger matched it in all 30 recorded runs ([GEMINI_NANO_VALIDATION.md](GEMINI_NANO_VALIDATION.md)).
+- **Requests to Gemini Nano time out after 3 minutes.** One frame request never settled in a real run. Hybrid then asks before using the cloud for that frame; Private leaves the line empty.
+- **A download Chrome never starts is reported after 30 seconds.** This happens with too little disk on the Chrome profile's drive, and the message explains the 22 GB requirement.
+- **Current Chrome requirements.** Chrome 148+, no flags, in the app, README and quickstart.
+- **CDP tools in the repository.** The scripts behind these runs (`scripts/benchmark/cdp/`).
+- 123 → 132 tests.
+
 ## 2026-11-26: final audit
 
 - **Privacy.** Private mode saves tracks only in this browser (IndexedDB) and never starts Auth or Firestore; speaks only with voices installed on the computer, otherwise shows the line as text; mode and language lock during a run; no consent callback means no consent; Firestore rules accept only the app fields and refuse Private tracks; clearer text on what each mode sends.

@@ -1,0 +1,217 @@
+{
+  "video": "/benchmark/06-sensitive-fictional.mp4",
+  "mode": "private",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 71753,
+  "message": "Done: 1 scenes, 1 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 2,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "1 frame described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 66885 ms",
+      "Fit · On device · 2892 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 20,
+      "budget": 20,
+      "text": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' in dark red."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:05:48.496Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 2,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 66885
+      },
+      {
+        "task": "Fit",
+        "ms": 2892
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2571,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "private"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.28,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 1.29,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 2.31,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 3.31,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 4.32,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 5.34,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 6.36,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 7.35,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "A rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' i"
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 06-sensitive-fictional\n\n1\n00:00:00.000 --> 00:00:08.000\nA rectangular piece of paper displays 'FICTIONAL TEST RECORD', 'Patient: Jane Example', 'Date of birth', and 'Account' in dark red.\n"
+}

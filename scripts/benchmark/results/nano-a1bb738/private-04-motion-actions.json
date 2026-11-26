@@ -1,0 +1,258 @@
+{
+  "video": "/benchmark/04-motion-actions.mp4",
+  "mode": "private",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 13951,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 4,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "3 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 3875 ms",
+      "Frame · On device · 3263 ms",
+      "Frame · On device · 4201 ms",
+      "Fit · On device · 1215 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 10,
+      "budget": 16,
+      "text": "A solid red square is centered on a white background."
+    },
+    {
+      "time": "0:06",
+      "start": 6,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 10,
+      "budget": 16,
+      "text": "A solid blue rectangle is centered on a black background."
+    },
+    {
+      "time": "0:12",
+      "start": 12,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 7,
+      "budget": 10,
+      "text": "Text 'THE END' appears on dark teal."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:49:56.172Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 4,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 3875
+      },
+      {
+        "task": "Frame",
+        "ms": 3263
+      },
+      {
+        "task": "Frame",
+        "ms": 4201
+      },
+      {
+        "task": "Fit",
+        "ms": 1215
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 18941,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/remote-config": {
+        "requests": 2,
+        "bytesSent": 483,
+        "bytesReceived": 77,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "private"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.89,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 1.91,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 2.93,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 3.95,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 4.96,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 5.98,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid red square is centered on a white background."
+      },
+      {
+        "t": 7,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid blue rectangle is centered on a black background."
+      },
+      {
+        "t": 8.01,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid blue rectangle is centered on a black background."
+      },
+      {
+        "t": 9.03,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid blue rectangle is centered on a black background."
+      },
+      {
+        "t": 10.04,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid blue rectangle is centered on a black background."
+      },
+      {
+        "t": 11.04,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A solid blue rectangle is centered on a black background."
+      },
+      {
+        "t": 12.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Text 'THE END' appears on dark teal."
+      },
+      {
+        "t": 13.07,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Text 'THE END' appears on dark teal."
+      },
+      {
+        "t": 14.08,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Text 'THE END' appears on dark teal."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 04-motion-actions\n\n1\n00:00:00.000 --> 00:00:06.500\nA solid red square is centered on a white background.\n\n2\n00:00:06.000 --> 00:00:12.500\nA solid blue rectangle is centered on a black background.\n\n3\n00:00:12.000 --> 00:00:16.000\nText 'THE END' appears on dark teal.\n"
+}

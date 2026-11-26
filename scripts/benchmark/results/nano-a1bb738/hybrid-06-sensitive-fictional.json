@@ -1,0 +1,273 @@
+{
+  "video": "/benchmark/06-sensitive-fictional.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 17184,
+  "message": "Done: 1 scenes, 1 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 2,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "1 frame described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 8387 ms",
+      "Script · Cloud · 4612 ms",
+      "Fit · On device · 2730 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 2424,
+    "bytesReceived": 976,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4602,
+        "requestBytes": 2424,
+        "responseBytes": 976
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 20,
+      "budget": 20,
+      "text": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birthdate and account."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:06:59.503Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 2,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 8387
+      },
+      {
+        "task": "Fit",
+        "ms": 2730
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 521,
+      "output": 76
+    },
+    "requestsWithFictionalRecordText": [
+      "run ai-inference firebasevertexai.googleapis.com/v1beta/projects/seen-aloud/models/gemini-3.5-flash-lite:generateContent Jane Example,0000-1111,01/02/1980,FICTIONAL TEST RECORD"
+    ],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2568,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 1045,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 229,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 143,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 2,
+        "bytesSent": 2424,
+        "bytesReceived": 636,
+        "withImage": 0,
+        "withSensitive": 1
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 4435,
+        "bytesSent": 2424,
+        "bytesReceived": 636,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 521,
+          "candidatesTokenCount": 76,
+          "totalTokenCount": 597,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 521
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1948 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.93,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 1.93,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 2.94,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 3.96,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 4.95,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 5.97,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 6.99,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      },
+      {
+        "t": 8,
+        "paused": true,
+        "speaking": false,
+        "overlay": "Reddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birth"
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 06-sensitive-fictional\n\n1\n00:00:00.000 --> 00:00:08.000\nReddish-brown text reads 'FICTIONAL TEST RECORD' on a beige background just above 'Patient: Jane Example' with her birthdate and account.\n"
+}

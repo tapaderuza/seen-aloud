@@ -1,0 +1,310 @@
+{
+  "video": "/benchmark/03-conversation-pauses.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 19402,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 5,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "3 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 3475 ms",
+      "Frame · On device · 3508 ms",
+      "Frame · On device · 6026 ms",
+      "Script · Cloud · 1390 ms",
+      "Fit · On device · 1108 ms",
+      "Fit · On device · 1207 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 2733,
+    "bytesReceived": 1050,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1390,
+        "requestBytes": 2733,
+        "responseBytes": 1050
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:03",
+      "start": 3.35,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 6,
+      "text": "Blue background. ANA letters appear."
+    },
+    {
+      "time": "0:10",
+      "start": 10.4,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 6,
+      "text": "White 'LUIS' appears on orange."
+    },
+    {
+      "time": "0:22",
+      "start": 22.6,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 5,
+      "text": "A bar graph withVENTAS +42%"
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:48:25.697Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 5,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 3475
+      },
+      {
+        "task": "Frame",
+        "ms": 3508
+      },
+      {
+        "task": "Frame",
+        "ms": 6026
+      },
+      {
+        "task": "Fit",
+        "ms": 1108
+      },
+      {
+        "task": "Fit",
+        "ms": 1207
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 604,
+      "output": 97
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2570,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 231,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 143,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 1,
+        "bytesSent": 2733,
+        "bytesReceived": 615,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 1385,
+        "bytesSent": 2733,
+        "bytesReceived": 615,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 604,
+          "candidatesTokenCount": 97,
+          "totalTokenCount": 701,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 604
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(2221 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.89,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 1.91,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 2.93,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 3.92,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 4.95,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 5.94,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 6.96,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 7.98,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 8.98,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 10,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Blue background. ANA letters appear."
+      },
+      {
+        "t": 11.02,
+        "paused": false,
+        "speaking": true,
+        "overlay": "White 'LUIS' appears on orange."
+      },
+      {
+        "t": 12.03,
+        "paused": false,
+        "speaking": true,
+        "overlay": "White 'LUIS' appears on orange."
+      },
+      {
+        "t": 13.05,
+        "paused": false,
+        "speaking": false,
+        "overlay": "White 'LUIS' appears on orange."
+      },
+      {
+        "t": 14.07,
+        "paused": false,
+        "speaking": false,
+        "overlay": "White 'LUIS' appears on orange."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 03-conversation-pauses\n\n1\n00:00:03.350 --> 00:00:05.750\nBlue background. ANA letters appear.\n\n2\n00:00:10.400 --> 00:00:12.800\nWhite 'LUIS' appears on orange.\n\n3\n00:00:22.600 --> 00:00:25.000\nA bar graph withVENTAS +42%\n"
+}

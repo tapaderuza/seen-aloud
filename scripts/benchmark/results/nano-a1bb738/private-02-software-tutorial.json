@@ -1,0 +1,285 @@
+{
+  "video": "/benchmark/02-software-tutorial.mp4",
+  "mode": "private",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 148203,
+  "message": "Done: 4 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 8,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "4 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 79330 ms",
+      "Frame · On device · 21020 ms",
+      "Frame · On device · 12280 ms",
+      "Frame · On device · 19416 ms",
+      "Fit · On device · 3248 ms",
+      "Fit · On device · 3434 ms",
+      "Fit · On device · 1551 ms",
+      "Fit · On device · 3097 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 18,
+      "text": "A dark green screen shows"
+    },
+    {
+      "time": "0:12",
+      "start": 12.25,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 3,
+      "budget": 3,
+      "text": "Graph shows model."
+    },
+    {
+      "time": "0:27",
+      "start": 27.6,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Needs review"
+      ],
+      "words": 3,
+      "budget": 3,
+      "text": "Graph shows model."
+    },
+    {
+      "time": "0:31",
+      "start": 31,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 18,
+      "budget": 18,
+      "text": "A dark grey interface displays options: Describe video, open another, save tracks. AI activity, requests & saved data."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:44:10.467Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 8,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 79330
+      },
+      {
+        "task": "Frame",
+        "ms": 21020
+      },
+      {
+        "task": "Frame",
+        "ms": 12280
+      },
+      {
+        "task": "Frame",
+        "ms": 19416
+      },
+      {
+        "task": "Fit",
+        "ms": 3248
+      },
+      {
+        "task": "Fit",
+        "ms": 3434
+      },
+      {
+        "task": "Fit",
+        "ms": 1551
+      },
+      {
+        "task": "Fit",
+        "ms": 3097
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 413002,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "private"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.91,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 1.93,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 2.95,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 3.97,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 4.98,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 6,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 7.02,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 8.04,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 9.04,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 10.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 11.07,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 12.08,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A dark green screen shows"
+      },
+      {
+        "t": 13.1,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Graph shows model."
+      },
+      {
+        "t": 14.11,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Graph shows model."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 02-software-tutorial\n\nNOTE 2 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nA dark green screen shows\n\n2\n00:00:12.250 --> 00:00:13.600\nGraph shows model.\n\n3\n00:00:27.600 --> 00:00:28.900\nGraph shows model.\n\n4\n00:00:31.000 --> 00:00:38.200\nA dark grey interface displays options: Describe video, open another, save tracks. AI activity, requests &amp; saved data.\n"
+}

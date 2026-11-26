@@ -1,0 +1,31 @@
+{
+  "note": "Hybrid run that never finished: the 4th Gemini Nano frame prompt did not settle for 30 minutes (runner timeout). No cloud request, no error, no console message. Kept as evidence for the device timeout added in 223c141. A rerun of the same clip right after finished normally (../hybrid-sample-explainer-45s.json).",
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "hybrid",
+  "date": "2026-11-26T09:40:33.683Z",
+  "wallMs": 1800720,
+  "runError": "Error: Timed out waiting for the track",
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "appStateAtTimeout": {
+    "message": "Describing 5 scenes…",
+    "ledgerNote": "3 frames described on this computer. No pixels have left it.",
+    "framesThatLeft": "0",
+    "log": [
+      "Frame · On device · 21177 ms",
+      "Frame · On device · 18745 ms",
+      "Frame · On device · 15821 ms"
+    ]
+  },
+  "aiInferenceRequests": 0,
+  "consoleErrors": [],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  }
+}

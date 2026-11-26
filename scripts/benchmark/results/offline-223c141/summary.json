@@ -1,0 +1,51 @@
+[
+  {
+    "video": "/benchmark/04-motion-actions.mp4",
+    "label": "04 Motion and actions (synthetic, silent soundtrack, 16 s)",
+    "mode": "hybrid",
+    "totalSeconds": 46.2,
+    "aiRequests": 1,
+    "failedRequests": 1,
+    "meanRequestMs": 11,
+    "framesThatLeft": 0,
+    "requestsOnDevice": 5,
+    "kbSent": 2.5,
+    "kbReceived": 0,
+    "lines": 3,
+    "extendedLines": 0,
+    "overBudget": 0,
+    "coverage": "4/6",
+    "missed": [
+      "it moves across, left to right",
+      "it rises"
+    ],
+    "unsupportedNumbers": [],
+    "overlapsWithSpeech": null,
+    "pausesThatInterruptSpeech": null
+  },
+  {
+    "video": "/benchmark/04-motion-actions.mp4",
+    "label": "04 Motion and actions (synthetic, silent soundtrack, 16 s)",
+    "mode": "private",
+    "totalSeconds": 36.5,
+    "aiRequests": 0,
+    "failedRequests": 0,
+    "meanRequestMs": null,
+    "framesThatLeft": 0,
+    "requestsOnDevice": 4,
+    "kbSent": 0,
+    "kbReceived": 0,
+    "lines": 3,
+    "extendedLines": 0,
+    "overBudget": 0,
+    "coverage": "3/6",
+    "missed": [
+      "it moves across, left to right",
+      "it rises",
+      "the text THE END"
+    ],
+    "unsupportedNumbers": [],
+    "overlapsWithSpeech": null,
+    "pausesThatInterruptSpeech": null
+  }
+]

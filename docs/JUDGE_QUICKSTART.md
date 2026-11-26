@@ -4,8 +4,9 @@
 
 ## Requirements
 
-- Desktop Chrome 139 or later. Nothing to install, no login (an anonymous account is created only if you save a track in Hybrid or Cloud mode).
-- Optional, to see frames described **on your computer**: Gemini Nano 4. In `chrome://flags` enable **Gemma 4 for Built-in AI** and `#prompt-api-for-gemini-nano-multimodal-input`, restart Chrome, then press **Download Gemini Nano** in the app header (several GB, once). The header says what your Chrome can do.
+- Desktop Google Chrome 148 or later. Nothing to install, no login (an anonymous account is created only if you save a track in Hybrid or Cloud mode).
+- Optional, to see frames described **on your computer**: Gemini Nano. No flags are needed on Chrome 148+: press **Download Gemini Nano** in the app header (about 4 GB, once). The header says what your Chrome can do. Chrome needs **at least 22 GB free on the drive that holds your Chrome profile**, and a GPU with more than 4 GB of memory or 16 GB of RAM and 4 CPU cores ([Chrome requirements](https://developer.chrome.com/docs/ai/get-started)). If the download never starts, the app says so after 30 seconds; `chrome://on-device-internals` (turn on debugging pages in `chrome://chrome-urls` first) shows the reason under **Broker State**. The contest FAQ's `chrome://flags` entry **Gemma 4 for Built-in AI** (Gemini Nano 4) is optional; Seen Aloud was tested with it too (Chrome downloads a second model, 2.4 GB here).
+- What a real run looks like on a 4 GB GPU, with the network checked outside the page: [GEMINI_NANO_VALIDATION.md](GEMINI_NANO_VALIDATION.md).
 
 ## The 1-minute path (works with or without Gemini Nano)
 
@@ -43,5 +44,5 @@ Benchmark clips are served with the site under `/benchmark/` (software tutorial,
 
 - One key frame per scene: motion inside a scene is not described (benchmark clip 04).
 - Pauses are found by loudness; music or noise can hide them. Captions give exact timing.
-- On-device speed depends on the GPU; older ones take minutes per video.
+- On-device speed depends on the GPU: on a 4 GB GTX 1050, the first frame took about 65 s (the model loads), later frames 8 to 26 s. A Gemini Nano request that has not answered after 3 minutes counts as failed: Hybrid then asks before using the cloud for that frame, Private leaves the line empty.
 - Not yet tested with blind or low-vision users, nor in a full screen-reader session ([ACCESSIBILITY.md](ACCESSIBILITY.md)).

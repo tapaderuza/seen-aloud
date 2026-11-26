@@ -24,16 +24,34 @@ TypeScript and Vite on Firebase: AI Logic, App Check (reCAPTCHA Enterprise), Rem
 - The whole-track script (text only): `PREFER_IN_CLOUD`. It needs every scene at once, and the SDK falls back to Gemini Nano if the cloud cannot be reached.
 - Fitting a line to its pause: `PREFER_ON_DEVICE`. Private mode: `ONLY_ON_DEVICE` everywhere. Cloud mode: `ONLY_IN_CLOUD`.
 
-The same JSON Schema constrains the on-device answer (`responseConstraint`) and the cloud answer (`responseJsonSchema`). The ledger reads `response.inferenceSource`, counts retries (one inference can be up to three requests) and counts frames whose upload failed as having left. Scene cuts and pauses are plain signal processing, no AI. 123 automated tests cover the hybrid routing, the privacy guard, consent, the player, pause states, cancellation and exports. Built with Claude Code as a coding assistant.
+The same JSON Schema constrains the on-device answer (`responseConstraint`) and the cloud answer (`responseJsonSchema`). The ledger reads `response.inferenceSource`, counts retries (one inference can be up to three requests) and counts frames whose upload failed as having left. Scene cuts and pauses are plain signal processing, no AI. 132 automated tests cover the hybrid routing, the privacy guard, consent, timeouts, the player, pause states, cancellation and exports. Built with Claude Code as a coding assistant.
+
+We checked it with a real model, on the live site:
+
+- **Setup:** Google Chrome 158 with Gemini Nano on a 4 GB GTX 1050.
+- **Private mode:** 0 requests to the AI endpoint.
+- **Hybrid:** every frame was described on the device, and one text-only request per video went to the cloud.
+- **Ledger:** in all 30 recorded runs, it matched a network capture taken outside the page with the Chrome DevTools Protocol.
 
 ## Challenges
 
 The SDK falls back to the cloud silently when Chrome has no on-device model, even in `ONLY_ON_DEVICE`, and re-checks availability on every call, so a frame could reach the cloud without consent if Gemini Nano went away mid-video. We enforce the privacy rules in the app and pin frames to the device until the person agrees. Small models wrap JSON in prose and skip scenes, so the parser and the track writer fall back to the frame note when the picture would be lost. A benchmark on our own clips showed both problems; it also shows what we have not solved: one key frame per scene cannot describe motion.
 
+Running on a real Gemini Nano found two more problems that no mock showed:
+
+- **A frame request that never answered.** One on-device frame request never settled, and the job waited for 30 minutes. Requests to Nano now stop after 3 minutes: Hybrid asks before using the cloud for that frame, and Private leaves the line empty.
+- **A download that never started.** With too little disk on the drive of the Chrome profile, Chrome says the model is "downloading" but never downloads it. The app now says so after 30 seconds and explains the 22 GB requirement.
+
 ## Accomplishments
 
-- A privacy promise that is enforced in code and visible in a ledger, verified on the live site: Private mode loads without Authentication or Firestore traffic.
-- Real benchmark runs on six clips: coverage of annotated visual facts went from 20/29 to 26/29 after the fixes, with no line over its pause and no overlap with measured speech.
+- **A privacy promise that is enforced in code, visible in a ledger and checked against the network on the live site.**
+  - **Fictional medical record, Private mode:** nothing left the computer.
+  - **Hybrid:** no pixels left the computer; only text did, including the name Gemini Nano read off the screen. We say so in the app.
+- **All three modes on six clips, one run each, with Gemini Nano.**
+  - Hybrid sent no frame and 27 times fewer bytes than Cloud (24 KB against 668 KB), at about a quarter of the token cost.
+  - Private sent nothing.
+  - No line ran over its pause, no number was invented on the synthetic clips, and no line overlapped the measured speech.
+- **Better Cloud coverage after the fixes:** annotated visual facts went from 20/29 to 26/29.
 - axe-core reports no violations on the start screen, after a track is generated, with the consent dialog open, in dark mode and at 375 px.
 
 ## What we learned
@@ -50,4 +68,9 @@ Everything; the repository was created for #BuildHybridAI 2026. Third-party code
 
 ## Testing instructions
 
-Open https://seen-aloud.web.app in desktop Chrome 139+. Press **Try built-in sample video (45s)**, then **Describe this video**. Without Gemini Nano, the app asks before using the cloud for frames: choose **Use the cloud for this video**. Press play, then check **Where the AI ran** and export **WebVTT**. To see frames described on your computer, enable "Gemma 4 for Built-in AI" and `#prompt-api-for-gemini-nano-multimodal-input` in `chrome://flags`. Five-minute guide: https://github.com/tapaderuza/seen-aloud/blob/main/docs/JUDGE_QUICKSTART.md
+Open https://seen-aloud.web.app in desktop Google Chrome 148+. Press **Try built-in sample video (45s)**, then **Describe this video**. Without Gemini Nano, the app asks before using the cloud for frames: choose **Use the cloud for this video**. Press play, then check **Where the AI ran** and export **WebVTT**.
+
+To see frames described on your computer, press **Download Gemini Nano** in the header. No flags are needed, but Chrome needs about 22 GB free on the drive that holds your Chrome profile.
+
+- Five-minute guide: https://github.com/tapaderuza/seen-aloud/blob/main/docs/JUDGE_QUICKSTART.md
+- Real Gemini Nano runs, network capture and screenshots: https://github.com/tapaderuza/seen-aloud/blob/main/docs/GEMINI_NANO_VALIDATION.md

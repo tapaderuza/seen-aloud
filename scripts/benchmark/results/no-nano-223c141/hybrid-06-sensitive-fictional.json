@@ -1,0 +1,97 @@
+{
+  "video": "/benchmark/06-sensitive-fictional.mp4",
+  "mode": "hybrid",
+  "consentShown": true,
+  "acceptCloud": false,
+  "totalMs": 1233,
+  "message": "You chose to keep frames on this device. Switch to private mode once Gemini Nano is ready, or allow the cloud.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "0 frames described on this computer. No pixels have left it.",
+    "log": []
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [],
+      "words": null,
+      "text": ""
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cat493On.js",
+    "commit": "223c141",
+    "date": "2026-11-26T12:56:22.324Z",
+    "browser": "Google Chrome 158.0.8127.88, separate profile on drive C: (8 GB free): Chrome refused to download Gemini Nano (Enough disk space to install: false)"
+  },
+  "onDevice": {
+    "inferences": 0,
+    "ms": []
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2572,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 228,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2895,
+        "bytesReceived": 143,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: downloading…",
+    "availabilityImage": "downloading",
+    "mode": "hybrid"
+  },
+  "playback": null,
+  "vtt": null
+}

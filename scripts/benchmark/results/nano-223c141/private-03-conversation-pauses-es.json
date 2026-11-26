@@ -1,0 +1,261 @@
+{
+  "video": "/benchmark/03-conversation-pauses.mp4",
+  "mode": "private",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 24119,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 6,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "3 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 6129 ms",
+      "Frame · On device · 4946 ms",
+      "Frame · On device · 5537 ms",
+      "Fit · On device · 1118 ms",
+      "Fit · On device · 1662 ms",
+      "Fit · On device · 1948 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:03",
+      "start": 3.35,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 6,
+      "text": "ANA aparece en azul brillante."
+    },
+    {
+      "time": "0:10",
+      "start": 10.4,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 5,
+      "budget": 6,
+      "text": "Texto blanco 'LUIS' en naranja"
+    },
+    {
+      "time": "0:22",
+      "start": 22.6,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 4,
+      "budget": 5,
+      "text": "Barras gráficas: gris, azul."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cat493On.js",
+    "commit": "223c141",
+    "date": "2026-11-26T12:54:44.018Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 6,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 6129
+      },
+      {
+        "task": "Frame",
+        "ms": 4946
+      },
+      {
+        "task": "Frame",
+        "ms": 5537
+      },
+      {
+        "task": "Fit",
+        "ms": 1118
+      },
+      {
+        "task": "Fit",
+        "ms": 1662
+      },
+      {
+        "task": "Fit",
+        "ms": 1948
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2573,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 1045,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "private"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.28,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 1.29,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 2.32,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 3.35,
+        "paused": false,
+        "speaking": false,
+        "overlay": ""
+      },
+      {
+        "t": 4.34,
+        "paused": false,
+        "speaking": true,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 5.36,
+        "paused": false,
+        "speaking": true,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 6.38,
+        "paused": false,
+        "speaking": true,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 7.38,
+        "paused": false,
+        "speaking": false,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 8.4,
+        "paused": false,
+        "speaking": false,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 9.41,
+        "paused": false,
+        "speaking": false,
+        "overlay": "ANA aparece en azul brillante."
+      },
+      {
+        "t": 10.41,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Texto blanco 'LUIS' en naranja"
+      },
+      {
+        "t": 11.42,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Texto blanco 'LUIS' en naranja"
+      },
+      {
+        "t": 12.43,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Texto blanco 'LUIS' en naranja"
+      },
+      {
+        "t": 13.44,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Texto blanco 'LUIS' en naranja"
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 03-conversation-pauses\n\n1\n00:00:03.350 --> 00:00:05.750\nANA aparece en azul brillante.\n\n2\n00:00:10.400 --> 00:00:12.800\nTexto blanco 'LUIS' en naranja\n\n3\n00:00:22.600 --> 00:00:25.000\nBarras gráficas: gris, azul.\n"
+}

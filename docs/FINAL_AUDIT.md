@@ -50,7 +50,13 @@ Earlier the same week (`3cdf2e6` to `3a1bc04`): player at 0:00 and Play from, sp
 - **Firestore:** hardened rules deployed; saving a track from the live site still works.
 - **Accessibility:** axe-core 0 violations in five states ([ACCESSIBILITY.md](ACCESSIBILITY.md)).
 - **Benchmark:** six clips, Cloud mode; coverage 20/29 to 26/29 on the five clips valid in both rounds.
-- **NOT TESTED:** anything that needs Gemini Nano (Private and Hybrid on the device, model download), other browsers, offline. Procedures in [BENCHMARK.md](BENCHMARK.md).
+- **Gemini Nano (added the same day, [GEMINI_NANO_VALIDATION.md](GEMINI_NANO_VALIDATION.md)):**
+  - **Setup:** Private, Hybrid and Cloud ran on the live site in Google Chrome 158 with Gemini Nano on the GTX 1050.
+  - **Network:** recorded outside the page over CDP; the ledger matched it in all 30 recorded runs.
+  - **Why it was untested before:** the earlier audits ran in a browser without built-in AI. The owner's Chrome profile drive (C:) has 8 GB free, and Chrome needs 20 GB to install the model.
+  - **Defects found and fixed in `223c141`:** one hung Nano request, and a download Chrome never starts.
+  - **Tests:** 132 now.
+- **NOT TESTED:** other browsers, other GPUs and CPU-only machines, macOS, Linux.
 
 ## Naming proposal (for after judging)
 
@@ -78,3 +84,5 @@ Migration that keeps everything working: rename the product in the UI, README an
 ## Verdict: CONDITIONAL GO
 
 Conditions: paste the new Devpost text (the live page still has the old ADA date, and it carries the non-affiliation line), and if possible run the Gemini Nano checks on a computer that has it.
+
+**Update, same day: GO.** The Gemini Nano checks were run: real hybrid inference is verified end to end on the live site. The only condition left is pasting the Devpost text, which the owner does by hand.

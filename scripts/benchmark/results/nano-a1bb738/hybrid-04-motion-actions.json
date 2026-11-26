@@ -1,0 +1,305 @@
+{
+  "video": "/benchmark/04-motion-actions.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 16452,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 4,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "3 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 3653 ms",
+      "Frame · On device · 5394 ms",
+      "Frame · On device · 3623 ms",
+      "Script · Cloud · 1169 ms",
+      "Fit · On device · 1274 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 2717,
+    "bytesReceived": 1110,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1169,
+        "requestBytes": 2717,
+        "responseBytes": 1110
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "words": 8,
+      "budget": 16,
+      "text": "A large red square fills a white background."
+    },
+    {
+      "time": "0:06",
+      "start": 6,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "words": 9,
+      "budget": 16,
+      "text": "A blue rectangle sits centrally on a black background."
+    },
+    {
+      "time": "0:12",
+      "start": 12,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 8,
+      "budget": 10,
+      "text": "Text 'THE END' appears on a dark background."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:50:34.038Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 4,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 3653
+      },
+      {
+        "task": "Frame",
+        "ms": 5394
+      },
+      {
+        "task": "Frame",
+        "ms": 3623
+      },
+      {
+        "task": "Fit",
+        "ms": 1274
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 590,
+      "output": 102
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2568,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 243,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 143,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 1,
+        "bytesSent": 2717,
+        "bytesReceived": 658,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 1166,
+        "bytesSent": 2717,
+        "bytesReceived": 658,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 590,
+          "candidatesTokenCount": 102,
+          "totalTokenCount": 692,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 590
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(2205 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.91,
+        "paused": false,
+        "speaking": true,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 1.92,
+        "paused": false,
+        "speaking": true,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 2.94,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 3.96,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 4.97,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 5.99,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A large red square fills a white background."
+      },
+      {
+        "t": 7.01,
+        "paused": false,
+        "speaking": true,
+        "overlay": "A blue rectangle sits centrally on a black background."
+      },
+      {
+        "t": 8.02,
+        "paused": false,
+        "speaking": true,
+        "overlay": "A blue rectangle sits centrally on a black background."
+      },
+      {
+        "t": 9.04,
+        "paused": false,
+        "speaking": true,
+        "overlay": "A blue rectangle sits centrally on a black background."
+      },
+      {
+        "t": 10.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A blue rectangle sits centrally on a black background."
+      },
+      {
+        "t": 11.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A blue rectangle sits centrally on a black background."
+      },
+      {
+        "t": 12.09,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Text 'THE END' appears on a dark background."
+      },
+      {
+        "t": 13.11,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Text 'THE END' appears on a dark background."
+      },
+      {
+        "t": 14.13,
+        "paused": false,
+        "speaking": true,
+        "overlay": "Text 'THE END' appears on a dark background."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 04-motion-actions\n\n1\n00:00:00.000 --> 00:00:06.500\nA large red square fills a white background.\n\n2\n00:00:06.000 --> 00:00:12.500\nA blue rectangle sits centrally on a black background.\n\n3\n00:00:12.000 --> 00:00:16.000\nText 'THE END' appears on a dark background.\n"
+}

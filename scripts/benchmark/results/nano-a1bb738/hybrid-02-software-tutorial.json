@@ -1,0 +1,343 @@
+{
+  "video": "/benchmark/02-software-tutorial.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 94803,
+  "message": "Done: 4 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 6,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "4 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 18929 ms",
+      "Frame · On device · 17113 ms",
+      "Frame · On device · 21657 ms",
+      "Frame · On device · 18054 ms",
+      "Script · Cloud · 10260 ms",
+      "Fit · On device · 2188 ms",
+      "Fit · On device · 1735 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 6749,
+    "bytesReceived": 1301,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 10260,
+        "requestBytes": 6749,
+        "responseBytes": 1301
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 15,
+      "budget": 18,
+      "text": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+    },
+    {
+      "time": "0:12",
+      "start": 12.25,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "words": 3,
+      "budget": 3,
+      "text": "Over budget warning"
+    },
+    {
+      "time": "0:27",
+      "start": 27.6,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 3,
+      "budget": 3,
+      "text": "Budget over budget."
+    },
+    {
+      "time": "0:31",
+      "start": 31,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 15,
+      "budget": 18,
+      "text": "The interface shows completed scenes and playback controls. On screen: Done: 4 scenes, 4 descriptions."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:46:07.404Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 6,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 18929
+      },
+      {
+        "task": "Frame",
+        "ms": 17113
+      },
+      {
+        "task": "Frame",
+        "ms": 21657
+      },
+      {
+        "task": "Frame",
+        "ms": 18054
+      },
+      {
+        "task": "Fit",
+        "ms": 2188
+      },
+      {
+        "task": "Fit",
+        "ms": 1735
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 1737,
+      "output": 148
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2567,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 3,
+        "bytesSent": 1070,
+        "bytesReceived": 1200,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/other:csp.withgoogle.com": {
+        "requests": 1,
+        "bytesSent": 384,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 491,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/firestore": {
+        "requests": 2,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 1,
+        "bytesSent": 6749,
+        "bytesReceived": 726,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 10259,
+        "bytesSent": 6749,
+        "bytesReceived": 726,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 1737,
+          "candidatesTokenCount": 148,
+          "totalTokenCount": 1885,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1737
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(6219 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 0.14,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 1.16,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 2.18,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 3.2,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 4.2,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 5.22,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 6.24,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 7.26,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      },
+      {
+        "t": 8.27,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Code glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - 02-software-tutorial\n\nNOTE 2 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nCode glows green. A warning flashes: \"The model fits, the workload?\" It appears on screen.\n\n2\n00:00:12.250 --> 00:00:13.600\nOver budget warning\n\n3\n00:00:27.600 --> 00:00:28.900\nBudget over budget.\n\n4\n00:00:31.000 --> 00:00:38.200\nThe interface shows completed scenes and playback controls. On screen: Done: 4 scenes, 4 descriptions.\n"
+}

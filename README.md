@@ -10,7 +10,7 @@ Roughly 2.2 billion people live with a vision impairment, and almost no everyday
 
 Built for the #BuildHybridAI 2026 hackathon on **Firebase AI Logic hybrid inference** (platform: Web / Chrome).
 
-**Live demo:** https://seen-aloud.web.app (desktop Chrome 139+; Gemini Nano is optional, the app asks before using the cloud for frames).
+**Live demo:** https://seen-aloud.web.app (desktop Google Chrome 148+; Gemini Nano is optional, the app asks before using the cloud for frames). Real Private and Hybrid runs on Gemini Nano, with the network checked outside the page: [docs/GEMINI_NANO_VALIDATION.md](docs/GEMINI_NANO_VALIDATION.md).
 
 **For judges:** [5-minute quickstart](docs/JUDGE_QUICKSTART.md) · [Benchmark](docs/BENCHMARK.md) · [Privacy](docs/PRIVACY.md) · [Security](docs/SECURITY.md) · [Accessibility](docs/ACCESSIBILITY.md) · [Final audit](docs/FINAL_AUDIT.md)
 
@@ -55,7 +55,7 @@ Other Firebase products:
 
 ## Run it
 
-Requirements: Node 20+, Chrome 139+ on desktop. Gemini Nano is optional (the cloud path works without it).
+Requirements: Node 20+, Google Chrome 148+ on desktop. Gemini Nano is optional (the cloud path works without it).
 
 ```bash
 npm install
@@ -74,7 +74,7 @@ npm run dev                  # http://localhost:5173
 
 ### Enable Gemini Nano in Chrome
 
-Use desktop Chrome 139 or later. In `chrome://flags`, search for **Gemma 4 for Built-in AI** (Gemini Nano 4, as the contest FAQ says) and enable it, enable `#prompt-api-for-gemini-nano-multimodal-input` (image input, from the Firebase hybrid guide), restart Chrome, then press **Download Gemini Nano** in the app header. The model is several GB. Without it, Hybrid mode asks before using the cloud.
+The Prompt API is on by default in desktop Google Chrome 148 and later ([Chrome docs](https://developer.chrome.com/docs/ai/prompt-api)). On Chrome 158 a fresh profile with no flags reported text and image input as `downloadable`, in English and Spanish. Press **Download Gemini Nano** in the app header (about 4 GB here, once). Chrome's requirements ([get started](https://developer.chrome.com/docs/ai/get-started)): Windows 10/11, macOS 13+, Linux or a Chromebook Plus; **at least 22 GB free on the drive that holds the Chrome profile**; a GPU with more than 4 GB of memory, or 16 GB of RAM and 4 CPU cores; an unmetered connection for the download. If the download never starts, open `chrome://on-device-internals` (turn on debugging pages in `chrome://chrome-urls` first): under **Broker State** Chrome says which criterion failed. The contest FAQ also mentions the `chrome://flags` entry **Gemma 4 for Built-in AI** (Gemini Nano 4): it is optional, and Seen Aloud was tested with it too (Chrome downloads a second model, 2.4 GB here). Without Gemini Nano, Hybrid mode asks before using the cloud.
 
 ### Try it
 
@@ -83,7 +83,7 @@ Use desktop Chrome 139 or later. In `chrome://flags`, search for **Gemma 4 for B
 ## Tests
 
 ```bash
-npm test         # 123 tests: hybrid routing, privacy guard, consent, ledger, player, pause states, cancellation, local review, scene and pause detection, WebVTT
+npm test         # 132 tests: hybrid routing, privacy guard, consent, Gemini Nano timeouts and download watch, ledger, player, pause states, cancellation, local review, scene and pause detection, WebVTT
 npm run typecheck
 ```
 

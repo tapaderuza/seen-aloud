@@ -1,0 +1,350 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 100384,
+  "message": "Done: 5 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 6,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "5 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 18490 ms",
+      "Frame · On device · 20893 ms",
+      "Frame · On device · 14229 ms",
+      "Frame · On device · 19863 ms",
+      "Frame · On device · 15070 ms",
+      "Script · Cloud · 2398 ms",
+      "Fit · On device · 3879 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 5465,
+    "bytesReceived": 1353,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2393,
+        "requestBytes": 5465,
+        "responseBytes": 1353
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "Dark screen shows model fitting budget details, nine GiB over budget."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "A bar chart compares weights and cache, showing a total of 6.18 GiB."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "The bar chart updates to show a total of 9.00 GiB."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "Three labeled boxes break down the memory bill into weights, cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Pauses video",
+        "Needs review"
+      ],
+      "words": 0,
+      "budget": 18,
+      "text": ""
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cat493On.js",
+    "commit": "223c141",
+    "date": "2026-11-26T13:10:37.546Z",
+    "browser": "Google Chrome 158.0.8127.88, profile on D:, chrome://flags gemma4-for-built-in-ai Enabled (gemma4_gpu_low_tier_model, 2,361 MiB; nano_v3 also installed)"
+  },
+  "onDevice": {
+    "inferences": 6,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 18490
+      },
+      {
+        "task": "Frame",
+        "ms": 20893
+      },
+      {
+        "task": "Frame",
+        "ms": 14229
+      },
+      {
+        "task": "Frame",
+        "ms": 19863
+      },
+      {
+        "task": "Frame",
+        "ms": 15070
+      },
+      {
+        "task": "Fit",
+        "ms": 3879
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 1485,
+      "output": 186
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2571,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 2,
+        "bytesSent": 848,
+        "bytesReceived": 231,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2895,
+        "bytesReceived": 527,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/firestore": {
+        "requests": 2,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 2,
+        "bytesSent": 5465,
+        "bytesReceived": 726,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 2379,
+        "bytesSent": 5465,
+        "bytesReceived": 726,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 1485,
+          "candidatesTokenCount": 186,
+          "totalTokenCount": 1671,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1485
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(4917 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 0.93,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 1.94,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 2.95,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 3.96,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 4.97,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 5.98,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 6.99,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 8,
+        "paused": false,
+        "speaking": false,
+        "overlay": "Dark screen shows model fitting budget details, nine GiB over budget."
+      },
+      {
+        "t": 8.51,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A bar chart compares weights and cache, showing a total of 6.18 GiB."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - sample-explainer-45s\n\nNOTE 4 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nDark screen shows model fitting budget details, nine GiB over budget.\n\n2\n00:00:08.500 --> 00:00:15.700\nA bar chart compares weights and cache, showing a total of 6.18 GiB.\n\n3\n00:00:17.000 --> 00:00:24.200\nThe bar chart updates to show a total of 9.00 GiB.\n\n4\n00:00:25.500 --> 00:00:32.700\nThree labeled boxes break down the memory bill into weights, cache, and reserve.\n"
+}

@@ -26,6 +26,10 @@ It counts, per video: requests on the device, requests in the cloud, frames desc
 ## Limits we state plainly
 
 - Private mode still loads Firebase App Check (reCAPTCHA Enterprise) and may fetch Remote Config, so the page can switch to Hybrid or Cloud later. Neither carries video, frames or text from the video.
-- On-device inference was not run on the test machine (no Gemini Nano there). Private and Hybrid-with-Nano behaviour is covered by unit tests against the SDK routing rules and by code review, not by a captured on-device run. The procedure to verify it is in [BENCHMARK.md](BENCHMARK.md).
+- **Verified with a real Gemini Nano** on 2026-11-26 (Chrome 158, network captured outside the page; [GEMINI_NANO_VALIDATION.md](GEMINI_NANO_VALIDATION.md)):
+  - **Private:** no request to the AI endpoint and no Auth or Firestore request.
+  - **Hybrid:** no frame left; one text request per video went to the cloud.
+- **Hybrid sends on-screen text.** It keeps pixels on the device but not what is written in them: on the fictional record, the name, date of birth and account number that Gemini Nano read went to the cloud as text in the script request. There is no masking yet. Use Private for footage like that.
+- **Free-tier data use.** The live site uses the Gemini Developer API free tier, whose content Google's pricing page says is used to improve its products. That applies to what Hybrid and Cloud send.
 - A network voice in Hybrid or Cloud mode sends the description text to the speech service of the browser.
 - Saving in Hybrid or Cloud mode stores the file name and the descriptions in Firestore.

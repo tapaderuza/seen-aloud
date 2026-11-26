@@ -1,0 +1,310 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "private",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 134403,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 10,
+    "requestsInCloud": 0,
+    "framesThatLeft": 0,
+    "note": "5 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 16507 ms",
+      "Frame · On device · 21154 ms",
+      "Frame · On device · 24342 ms",
+      "Frame · On device · 25344 ms",
+      "Frame · On device · 22604 ms",
+      "Fit · On device · 2527 ms",
+      "Fit · On device · 3630 ms",
+      "Fit · On device · 2933 ms",
+      "Fit · On device · 5447 ms",
+      "Fit · On device · 3488 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 0,
+    "bytesSent": 0,
+    "bytesReceived": 0,
+    "calls": []
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 10,
+      "budget": 18,
+      "text": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 18,
+      "budget": 18,
+      "text": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Needs review"
+      ],
+      "words": 17,
+      "budget": 18,
+      "text": "Bars show budget allocation: weights, cache, and reserve. Text explains a total of 9 GiB, over budget."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 16,
+      "budget": 18,
+      "text": "Dark background shows three bars: Resident Weights (4 GiB), Conversation Cache (1 GiB), Reserve (1 GiB)."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "On device",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 18,
+      "budget": 18,
+      "text": "Dark screen shows three memory bars: Resident, Conversation Cache, and Reserve. 'ONE MEMORY POOL: 8 GIB' reads below."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T09:10:27.801Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 10,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 16507
+      },
+      {
+        "task": "Frame",
+        "ms": 21154
+      },
+      {
+        "task": "Frame",
+        "ms": 24342
+      },
+      {
+        "task": "Frame",
+        "ms": 25344
+      },
+      {
+        "task": "Frame",
+        "ms": 22604
+      },
+      {
+        "task": "Fit",
+        "ms": 2527
+      },
+      {
+        "task": "Fit",
+        "ms": 3630
+      },
+      {
+        "task": "Fit",
+        "ms": 2933
+      },
+      {
+        "task": "Fit",
+        "ms": 5447
+      },
+      {
+        "task": "Fit",
+        "ms": 3488
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 0,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 0,
+      "output": 0
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2570,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": []
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "private"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0.25,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 1.27,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 2.28,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 3.28,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 4.28,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 5.3,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 6.31,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 7.33,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 8.34,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET."
+      },
+      {
+        "t": 9.35,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+      },
+      {
+        "t": 10.35,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+      },
+      {
+        "t": 11.37,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+      },
+      {
+        "t": 12.38,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+      },
+      {
+        "t": 13.4,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - sample-explainer-45s\n\nNOTE 5 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nA horizontal bar chart displays text: \"OUTLIER ENGINEERING... OVER BUDGET.\n\n2\n00:00:08.500 --> 00:00:15.700\nA horizontal bar chart shows WEIGHTS STAY FIXED 8 GIB BUDGET; 6.18 GiB total weight consumed. Text explains.\n\n3\n00:00:17.000 --> 00:00:24.200\nBars show budget allocation: weights, cache, and reserve. Text explains a total of 9 GiB, over budget.\n\n4\n00:00:25.500 --> 00:00:32.700\nDark background shows three bars: Resident Weights (4 GiB), Conversation Cache (1 GiB), Reserve (1 GiB).\n\n5\n00:00:35.270 --> 00:00:42.470\nDark screen shows three memory bars: Resident, Conversation Cache, and Reserve. 'ONE MEMORY POOL: 8 GIB' reads below.\n"
+}

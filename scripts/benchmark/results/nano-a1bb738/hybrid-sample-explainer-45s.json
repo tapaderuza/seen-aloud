@@ -1,0 +1,353 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 160371,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 5,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "5 frames described on this computer. No pixels have left it.",
+    "log": [
+      "Frame · On device · 64577 ms",
+      "Frame · On device · 16494 ms",
+      "Frame · On device · 17518 ms",
+      "Frame · On device · 22414 ms",
+      "Frame · On device · 26323 ms",
+      "Script · Cloud · 6834 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 7045,
+    "bytesReceived": 1337,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 6833,
+        "requestBytes": 7045,
+        "responseBytes": 1337
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 12,
+      "budget": 18,
+      "text": "A segmented resource bar on a dark teal background details memory usage."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "The resource bar shifts, indicating total memory usage under the budget."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "The bar shifts again, indicating memory usage is now over budget."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "Three horizontal blocks display memory allocations for weights, cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "An arrow connects the conversation cache block to the reserve block."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "a1bb738",
+    "date": "2026-11-26T12:44:28.105Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 5,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 64577
+      },
+      {
+        "task": "Frame",
+        "ms": 16494
+      },
+      {
+        "task": "Frame",
+        "ms": 17518
+      },
+      {
+        "task": "Frame",
+        "ms": 22414
+      },
+      {
+        "task": "Frame",
+        "ms": 26323
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 1776,
+      "output": 125
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 3322,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 1045,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/remote-config": {
+        "requests": 2,
+        "bytesSent": 483,
+        "bytesReceived": 70,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 2,
+        "bytesSent": 848,
+        "bytesReceived": 231,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 524,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/firestore": {
+        "requests": 2,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 2,
+        "bytesSent": 7045,
+        "bytesReceived": 751,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 252,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 6831,
+        "bytesSent": 7045,
+        "bytesReceived": 751,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 1776,
+          "candidatesTokenCount": 125,
+          "totalTokenCount": 1901,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1776
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(6497 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 0.78,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 1.79,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 2.81,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 3.82,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 4.84,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 5.86,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 6.87,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 7.88,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A segmented resource bar on a dark teal background details memory usage."
+      },
+      {
+        "t": 8.51,
+        "paused": true,
+        "speaking": true,
+        "overlay": "The resource bar shifts, indicating total memory usage under the budget."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - sample-explainer-45s\n\nNOTE 5 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nA segmented resource bar on a dark teal background details memory usage.\n\n2\n00:00:08.500 --> 00:00:15.700\nThe resource bar shifts, indicating total memory usage under the budget.\n\n3\n00:00:17.000 --> 00:00:24.200\nThe bar shifts again, indicating memory usage is now over budget.\n\n4\n00:00:25.500 --> 00:00:32.700\nThree horizontal blocks display memory allocations for weights, cache, and reserve.\n\n5\n00:00:35.270 --> 00:00:42.470\nAn arrow connects the conversation cache block to the reserve block.\n"
+}

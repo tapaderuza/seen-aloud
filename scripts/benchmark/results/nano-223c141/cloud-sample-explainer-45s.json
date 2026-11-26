@@ -1,0 +1,488 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 36920,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 6,
+    "framesThatLeft": 5,
+    "note": "5 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 1982 ms",
+      "Frame · Cloud · 6101 ms",
+      "Frame · Cloud · 5637 ms",
+      "Frame · Cloud · 4374 ms",
+      "Frame · Cloud · 4719 ms",
+      "Script · Cloud · 8702 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 6,
+    "bytesSent": 243373,
+    "bytesReceived": 8431,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1980,
+        "requestBytes": 47691,
+        "responseBytes": 1417
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 6100,
+        "requestBytes": 50177,
+        "responseBytes": 1350
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 5636,
+        "requestBytes": 51574,
+        "responseBytes": 1385
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4374,
+        "requestBytes": 46668,
+        "responseBytes": 1394
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4719,
+        "requestBytes": 42428,
+        "responseBytes": 1325
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 8701,
+        "requestBytes": 4835,
+        "responseBytes": 1560
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 16,
+      "budget": 18,
+      "text": "The progress bar updates to show six point one eight gigabytes, falling under the budget line."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 11,
+      "budget": 18,
+      "text": "The progress bar returns to nine gigabytes, exceeding the budget line."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "The slide lists three memory categories for resident weights, conversation cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "words": 16,
+      "budget": 18,
+      "text": "A new section displays an eight gigabyte memory pool split into six calculated and two headroom."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cat493On.js",
+    "commit": "223c141",
+    "date": "2026-11-26T12:51:44.132Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 0,
+    "ms": []
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 6,
+    "aiWithImage": 5,
+    "aiTokens": {
+      "prompt": 8342,
+      "output": 960
+    },
+    "requestsWithFictionalRecordText": [],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 4,
+        "bytesSent": 0,
+        "bytesReceived": 2571,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 231,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 143,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 6,
+        "bytesSent": 243373,
+        "bytesReceived": 5102,
+        "withImage": 5,
+        "withSensitive": 0
+      },
+      "playback/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 1975,
+        "bytesSent": 47691,
+        "bytesReceived": 895,
+        "carriesImage": true,
+        "usage": {
+          "promptTokenCount": 1362,
+          "candidatesTokenCount": 167,
+          "totalTokenCount": 1529,
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 262
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(970 chars): You are a professional audio describer writing for blind and low-vision viewers. Look at this still frame from scene 1 of 5 of a video (00:00:00.000 to 00:00:08 | image image/jpeg (46188 base64 chars)"
+      },
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 6095,
+        "bytesSent": 50177,
+        "bytesReceived": 843,
+        "carriesImage": true,
+        "usage": {
+          "promptTokenCount": 1432,
+          "candidatesTokenCount": 144,
+          "totalTokenCount": 1576,
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 332
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1290 chars): You are a professional audio describer writing for blind and low-vision viewers. Look at this still frame from scene 2 of 5 of a video (00:00:08.500 to 00:00:17 | image image/jpeg (48348 base64 chars)"
+      },
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 5634,
+        "bytesSent": 51574,
+        "bytesReceived": 881,
+        "carriesImage": true,
+        "usage": {
+          "promptTokenCount": 1426,
+          "candidatesTokenCount": 170,
+          "totalTokenCount": 1596,
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 326
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1227 chars): You are a professional audio describer writing for blind and low-vision viewers. Look at this still frame from scene 3 of 5 of a video (00:00:17.000 to 00:00:25 | image image/jpeg (49808 base64 chars)"
+      },
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 4369,
+        "bytesSent": 46668,
+        "bytesReceived": 847,
+        "carriesImage": true,
+        "usage": {
+          "promptTokenCount": 1424,
+          "candidatesTokenCount": 144,
+          "totalTokenCount": 1568,
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 324
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1221 chars): You are a professional audio describer writing for blind and low-vision viewers. Look at this still frame from scene 4 of 5 of a video (00:00:25.500 to 00:00:35 | image image/jpeg (44908 base64 chars)"
+      },
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 4716,
+        "bytesSent": 42428,
+        "bytesReceived": 821,
+        "carriesImage": true,
+        "usage": {
+          "promptTokenCount": 1424,
+          "candidatesTokenCount": 133,
+          "totalTokenCount": 1557,
+          "promptTokensDetails": [
+            {
+              "modality": "IMAGE",
+              "tokenCount": 1100
+            },
+            {
+              "modality": "TEXT",
+              "tokenCount": 324
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1253 chars): You are a professional audio describer writing for blind and low-vision viewers. Look at this still frame from scene 5 of 5 of a video (00:00:35.267 to 00:00:45 | image image/jpeg (40636 base64 chars)"
+      },
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 8696,
+        "bytesSent": 4835,
+        "bytesReceived": 815,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 1274,
+          "candidatesTokenCount": 202,
+          "totalTokenCount": 1476,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1274
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(4287 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "cloud"
+  },
+  "playback": {
+    "samples": [
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 0,
+        "paused": true,
+        "speaking": true,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 0.02,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 1.01,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 2.02,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 3.02,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 4.04,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 5.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 6.06,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 7.07,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      },
+      {
+        "t": 8.09,
+        "paused": false,
+        "speaking": false,
+        "overlay": "A horizontal progress bar shows green, blue, and red sections indicating nine gigabytes."
+      }
+    ],
+    "voices": [
+      "Microsoft Helena - Spanish (Spain) (local)",
+      "Microsoft Laura - Spanish (Spain) (local)",
+      "Microsoft Pablo - Spanish (Spain) (local)",
+      "Google Deutsch (network)",
+      "Google US English (network)",
+      "Google UK English Female (network)",
+      "Google UK English Male (network)",
+      "Google español (network)",
+      "Google español de Estados Unidos (network)",
+      "Google français (network)",
+      "Google हिन्दी (network)",
+      "Google Bahasa Indonesia (network)",
+      "Google italiano (network)",
+      "Google 日本語 (network)",
+      "Google 한국의 (network)",
+      "Google Nederlands (network)",
+      "Google polski (network)",
+      "Google português do Brasil (network)",
+      "Google русский (network)",
+      "Google 普通话（中国大陆） (network)",
+      "Google 粤語（香港） (network)",
+      "Google 國語（臺灣） (network)"
+    ]
+  },
+  "vtt": "WEBVTT - sample-explainer-45s\n\nNOTE 5 description(s) are longer than the pause they sit in. Seen Aloud's player pauses the video for them (extended audio description).\n\n1\n00:00:00.000 --> 00:00:07.200\nA horizontal progress bar shows green, blue, and red sections indicating nine gigabytes.\n\n2\n00:00:08.500 --> 00:00:15.700\nThe progress bar updates to show six point one eight gigabytes, falling under the budget line.\n\n3\n00:00:17.000 --> 00:00:24.200\nThe progress bar returns to nine gigabytes, exceeding the budget line.\n\n4\n00:00:25.500 --> 00:00:32.700\nThe slide lists three memory categories for resident weights, conversation cache, and reserve.\n\n5\n00:00:35.270 --> 00:00:42.470\nA new section displays an eight gigabyte memory pool split into six calculated and two headroom.\n"
+}
