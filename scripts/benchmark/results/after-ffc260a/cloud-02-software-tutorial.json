@@ -1,0 +1,141 @@
+{
+  "video": "/benchmark/02-software-tutorial.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 19349,
+  "message": "Done: 4 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 7,
+    "framesThatLeft": 4,
+    "note": "4 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 1466 ms",
+      "Frame · Cloud · 1643 ms",
+      "Frame · Cloud · 3036 ms",
+      "Frame · Cloud · 1434 ms",
+      "Script · Cloud · 1955 ms",
+      "Fit · Cloud · 3908 ms",
+      "Fit · Cloud · 1194 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 7,
+    "bytesSent": 265294,
+    "bytesReceived": 8860,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1466,
+        "requestBytes": 64747,
+        "responseBytes": 1084
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1642,
+        "requestBytes": 72075,
+        "responseBytes": 2257
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3035,
+        "requestBytes": 77801,
+        "responseBytes": 1074
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1434,
+        "requestBytes": 42925,
+        "responseBytes": 1515
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1954,
+        "requestBytes": 4696,
+        "responseBytes": 1270
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3908,
+        "requestBytes": 2158,
+        "responseBytes": 828
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1194,
+        "requestBytes": 892,
+        "responseBytes": 832
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 17,
+      "budget": 18,
+      "text": "A desktop application interface displays a video player and a description track editor. On screen: Seen Aloud"
+    },
+    {
+      "time": "0:12",
+      "start": 12.25,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 3,
+      "budget": 3,
+      "text": "App highlights section"
+    },
+    {
+      "time": "0:27",
+      "start": 27.6,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 3,
+      "budget": 3,
+      "text": "Displays text right"
+    },
+    {
+      "time": "0:31",
+      "start": 31,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 16,
+      "budget": 18,
+      "text": "The application interface displays a summary section with statistics on device requests and a log below."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}

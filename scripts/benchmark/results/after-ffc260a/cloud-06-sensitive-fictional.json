@@ -1,0 +1,60 @@
+{
+  "video": "/benchmark/06-sensitive-fictional.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 6196,
+  "message": "Done: 1 scenes, 1 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 2,
+    "framesThatLeft": 1,
+    "note": "1 frame were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 1028 ms",
+      "Script · Cloud · 4145 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 2,
+    "bytesSent": 36123,
+    "bytesReceived": 2112,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1027,
+        "requestBytes": 33843,
+        "responseBytes": 1086
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4145,
+        "requestBytes": 2280,
+        "responseBytes": 1026
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 20,
+      "budget": 20,
+      "text": "A cream-colored document displays patient information. On screen: FICTIONAL TEST RECORD Patient: Jane Example Date of birth: 01/02/1980 Account 0000-1111"
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}

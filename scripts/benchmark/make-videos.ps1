@@ -53,11 +53,15 @@ for ($k = 0; $k -lt $lines.Count; $k++) {
   Write-Output ("03 line {0}: {1:N2} s of speech, then 2.5 s pause" -f $k, $len)
 }
 
-# 04: motion and actions, with a silent soundtrack.
+# 04: motion and actions, with a silent soundtrack. The shapes are overlays, because
+# drawbox does not evaluate time expressions in every ffmpeg build (the first version of
+# this clip rendered blank screens; see docs/BENCHMARK.md).
 ffmpeg -y -loglevel error `
-  -f lavfi -i "color=c=white:s=960x540:d=6" -f lavfi -i "color=c=black:s=960x540:d=6" -f lavfi -i "color=c=0x37474f:s=960x540:d=4" -f lavfi -i "anullsrc=r=16000:cl=mono" `
-  -filter_complex "[0:v]drawbox=x='40+t*140':y=220:w=100:h=100:color=red:t=fill[a];[1:v]drawbox=x=430:y='440-t*60':w=100:h=100:color=0x2962ff:t=fill[b];[2:v]drawtext=fontfile='$font':text='THE END':fontcolor=0x69f0ae:fontsize=96:x=(w-text_w)/2:y=(h-text_h)/2[c];[a][b][c]concat=n=3:v=1:a=0[v]" `
-  -map "[v]" -map 3:a -t 16 -c:v libx264 -crf 28 -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 32k "$out/04-motion-actions.mp4"
+  -f lavfi -i "color=c=white:s=960x540:d=6" -f lavfi -i "color=c=red:s=100x100:d=6" `
+  -f lavfi -i "color=c=black:s=960x540:d=6" -f lavfi -i "color=c=0x2962ff:s=100x100:d=6" `
+  -f lavfi -i "color=c=0x37474f:s=960x540:d=4" -f lavfi -i "anullsrc=r=16000:cl=mono" `
+  -filter_complex "[0:v][1:v]overlay=x='40+t*140':y=220[a];[2:v][3:v]overlay=x=430:y='440-t*60'[b];[4:v]drawtext=fontfile='$font':text='THE END':fontcolor=0x69f0ae:fontsize=96:x=(w-text_w)/2:y=(h-text_h)/2[c];[a][b][c]concat=n=3:v=1:a=0[v]" `
+  -map "[v]" -map 5:a -t 16 -c:v libx264 -crf 28 -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 32k "$out/04-motion-actions.mp4"
 
 # 05: continuous narration (the author's own explainer), 45 s.
 ffmpeg -y -loglevel error -t 45 -i $Talk -vf "scale=960:-2" -c:v libx264 -crf 30 -preset veryfast -c:a aac -b:a 64k "$out/05-continuous-dialogue.mp4"

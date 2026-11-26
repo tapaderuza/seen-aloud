@@ -1,0 +1,134 @@
+{
+  "video": "/benchmark/03-conversation-pauses.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 28343,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 7,
+    "framesThatLeft": 3,
+    "note": "3 frames were described in the cloud. 1 cloud request was sent again after a busy answer.",
+    "log": [
+      "Frame · Cloud · 4356 ms",
+      "Frame · Cloud · 4073 ms",
+      "Frame · Cloud · 4201 ms",
+      "Script · Note · cloud busy (fetch-error), sent again to the same model",
+      "Script · Cloud · 4796 ms",
+      "Fit · Cloud · 2746 ms",
+      "Fit · Cloud · 1041 ms",
+      "Fit · Cloud · 3678 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 8,
+    "bytesSent": 40810,
+    "bytesReceived": 8035,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4355,
+        "requestBytes": 9963,
+        "responseBytes": 957
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4073,
+        "requestBytes": 9388,
+        "responseBytes": 961
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4201,
+        "requestBytes": 14126,
+        "responseBytes": 1012
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 429,
+        "ms": 311,
+        "requestBytes": 2510,
+        "responseBytes": 1642
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2972,
+        "requestBytes": 2510,
+        "responseBytes": 956
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2746,
+        "requestBytes": 698,
+        "responseBytes": 838
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1041,
+        "requestBytes": 784,
+        "responseBytes": 830
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3677,
+        "requestBytes": 831,
+        "responseBytes": 839
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:03",
+      "start": 3.35,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 5,
+      "budget": 6,
+      "text": "Ana appears on blue screen."
+    },
+    {
+      "time": "0:10",
+      "start": 10.4,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 4,
+      "budget": 6,
+      "text": "Luis appears on orange."
+    },
+    {
+      "time": "0:22",
+      "start": 22.6,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 5,
+      "budget": 5,
+      "text": "Rising blue columns chart, sales"
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "video": "/benchmark/04-motion-actions.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 14286,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 5,
+    "framesThatLeft": 3,
+    "note": "3 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 2980 ms",
+      "Frame · Cloud · 2597 ms",
+      "Frame · Cloud · 4507 ms",
+      "Script · Cloud · 2141 ms",
+      "Fit · Cloud · 772 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 5,
+    "bytesSent": 26796,
+    "bytesReceived": 4967,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2980,
+        "requestBytes": 5659,
+        "responseBytes": 993
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2596,
+        "requestBytes": 5850,
+        "responseBytes": 984
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4507,
+        "requestBytes": 11878,
+        "responseBytes": 994
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2140,
+        "requestBytes": 2554,
+        "responseBytes": 1135
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 772,
+        "requestBytes": 855,
+        "responseBytes": 861
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 12,
+      "budget": 16,
+      "text": "A solid red square sits on the left of a white background."
+    },
+    {
+      "time": "0:06",
+      "start": 6,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 12,
+      "budget": 16,
+      "text": "A solid blue square centers at the bottom of a black background."
+    },
+    {
+      "time": "0:12",
+      "start": 12,
+      "extended": false,
+      "badges": [
+        "Cloud",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 8,
+      "budget": 10,
+      "text": "Displays centered light green text on dark gray."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 23368,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 6,
+    "framesThatLeft": 5,
+    "note": "5 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 4252 ms",
+      "Frame · Cloud · 4294 ms",
+      "Frame · Cloud · 3266 ms",
+      "Frame · Cloud · 1522 ms",
+      "Frame · Cloud · 1174 ms",
+      "Script · Cloud · 2941 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 6,
+    "bytesSent": 243443,
+    "bytesReceived": 8387,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4250,
+        "requestBytes": 47691,
+        "responseBytes": 1414
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4294,
+        "requestBytes": 50173,
+        "responseBytes": 1379
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3265,
+        "requestBytes": 51568,
+        "responseBytes": 1369
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1522,
+        "requestBytes": 46660,
+        "responseBytes": 1442
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1173,
+        "requestBytes": 42477,
+        "responseBytes": 1309
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2941,
+        "requestBytes": 4874,
+        "responseBytes": 1474
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 15,
+      "budget": 18,
+      "text": "A horizontal bar chart shows memory usage exceeding an eight gigabyte budget at nine gigabytes."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 16,
+      "budget": 18,
+      "text": "The bar chart updates to show a total of six point one eight gigabytes, under budget."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 11,
+      "budget": 18,
+      "text": "The bar chart returns to nine gigabytes, exceeding the budget again."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 10,
+      "budget": 18,
+      "text": "Three boxes appear for resident weights, conversation cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 6,
+      "budget": 18,
+      "text": "Values fill the three memory boxes."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "video": "/benchmark/05-continuous-dialogue.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 21603,
+  "message": "Done: 4 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 5,
+    "framesThatLeft": 4,
+    "note": "4 frames were described in the cloud. 1 cloud request was sent again after a busy answer.",
+    "log": [
+      "Frame · Cloud · 951 ms",
+      "Frame · Cloud · 2744 ms",
+      "Frame · Cloud · 4944 ms",
+      "Frame · Cloud · 3033 ms",
+      "Script · Note · cloud busy (fetch-error), sent again to the same model",
+      "Script · Cloud · 4290 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 6,
+    "bytesSent": 80897,
+    "bytesReceived": 7447,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 951,
+        "requestBytes": 16095,
+        "responseBytes": 1127
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2744,
+        "requestBytes": 13652,
+        "responseBytes": 969
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 4943,
+        "requestBytes": 30669,
+        "responseBytes": 1363
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3033,
+        "requestBytes": 14033,
+        "responseBytes": 1003
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 429,
+        "ms": 204,
+        "requestBytes": 3224,
+        "responseBytes": 1642
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2572,
+        "requestBytes": 3224,
+        "responseBytes": 1343
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 17,
+      "budget": 18,
+      "text": "A dark interface displays zero subscribers, videos, views, and watch hours. On screen: YouTube Studio Channel analytics"
+    },
+    {
+      "time": "0:11",
+      "start": 11.26,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 11,
+      "budget": 18,
+      "text": "Bright green text appears on a dark background. On screen: 12.7x"
+    },
+    {
+      "time": "0:22",
+      "start": 22.52,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 16,
+      "budget": 18,
+      "text": "A dark terminal lists video metrics with scores, views, titles, channels, and subscribers. On screen: Facelessyt"
+    },
+    {
+      "time": "0:33",
+      "start": 33.78,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video",
+        "Checks passed"
+      ],
+      "review": null,
+      "words": 15,
+      "budget": 18,
+      "text": "A dark screen displays white text centered horizontally. On screen: Editing is the second decision"
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-Cvkl-krS.js",
+    "commit": "ffc260a",
+    "date": "2026-11-26"
+  }
+}
