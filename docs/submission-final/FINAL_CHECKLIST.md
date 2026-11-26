@@ -2,7 +2,7 @@
 
 Deadline: **Monday 2026-11-30, 14:00 PT = 23:00 in Spain.**
 
-- [ ] **Upload the video to YouTube.** File: `docs/submission-final/seen-aloud-demo-gemini-nano-4.mp4`. Public, with the title from VIDEO_SCRIPT_FINAL.md. Copy the link.
+- [ ] **Upload the video to YouTube.** File: `docs/submission-final/seen-aloud-demo-FINAL.mp4`, with the captions file `seen-aloud-demo-FINAL.srt`. Title, description and visibility (Public) are in YOUTUBE_DESCRIPTION.md. Copy the link.
 - [ ] **Open the existing project.** Devpost → https://devpost.com/software/seen-aloud → Edit (the existing project; do not create a new one).
 - [ ] **Paste the text.** Each field of DEVPOST_FINAL.md: tagline, the story sections, Built with, Try it out links, Testing instructions.
 - [ ] **Replace the video.** Paste the new YouTube link in the Video field.

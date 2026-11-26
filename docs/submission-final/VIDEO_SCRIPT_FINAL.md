@@ -1,28 +1,31 @@
 # Demo video: final
 
-`seen-aloud-demo-gemini-nano-4.mp4` (this folder): 1:47, 1920×1080, English on-screen text, no voice-over.
+**Files:**
 
-Every product shot is a real capture of https://seen-aloud.web.app, recorded on 2026-11-26 in Google Chrome 158 with **Gemini Nano 4** (`chrome://flags` "Gemma 4 for Built-in AI"; the Chrome profile at `D:\chrome-nano-profile`). The frames were taken from the page over the Chrome DevTools Protocol. Nothing is simulated. Speed-ups are labelled on screen.
+- `seen-aloud-demo-FINAL.mp4`: 2:17, 1920x1080, H.264 with AAC stereo audio at 48 kHz, -16.5 LUFS integrated, 2.9 LU loudness range.
+- `seen-aloud-demo-FINAL.srt`: English captions, with the narrator and the audio description marked apart.
 
-| Time | Shot | On-screen text |
+| Time | Picture | Sound |
 | --- | --- | --- |
-| 0:00 | Card | The problem: "as you can see", blind and low-vision viewers lose the numbers |
-| 0:06 | Card | Seen Aloud: Gemini Nano 4 on the computer, Gemini in the cloud from text only, Firebase AI Logic |
-| 0:12 | `chrome://on-device-internals` | The test machine: Gemma 4 (Gemini Nano 4) installed and used |
-| 0:18 | Real Hybrid run, from the click to the finished track | A run of about 1 min 45 s, sped up |
-| 0:44 | Ledger | 5 frames on this computer, 1 text-only cloud request, 0 frames left |
-| 0:50 | Playback | Lines in the pauses; long lines pause the video (the browser voice is not captured) |
-| 1:13 | Private mode, the fictional medical record | Every step on Gemini Nano 4, 0 requests to the AI service, 2× speed |
-| 1:26 | Evidence card | Frames sent 0 / 0 / 20, data 0 / 24.4 / 668.1 KB, cloud requests 0 / 6 / 31. The 18-run benchmark used Chrome's default Nano (v3); 30 runs in all, 132 tests |
-| 1:35 | Limits card | Hybrid sends on-screen text; use Private for sensitive footage; a draft for a person to review |
-| 1:41 | Try it | URL, repository, works without Nano |
+| 0:00 | The sample lecture clip, first frame | Narrator: as a blind viewer hears it |
+| 0:03 | ORIGINAL CLIP, 0:00 to 0:08.5 | The clip own audio, no description |
+| 0:12 | The same clip, still frame | Narrator: now with Seen Aloud |
+| 0:17 | WITH SEEN ALOUD: page captures of the live app playing its track (Gemini Nano 4, Hybrid) | **Real system audio recorded over WASAPI loopback.** The app pauses the video, lowers its volume to 0.35 and the browser voice reads the line; this happens for two lines, and after each one the clip resumes |
+| 0:45 | chrome://on-device-internals: Gemma 4 (Gemini Nano 4) installed | Narrator |
+| 0:58 | Real Hybrid run, sped up (labelled) | Narrator |
+| 1:17 | Ledger: 5 on the device, 1 in the cloud, 0 frames sent | Narrator |
+| 1:28 | Private mode, fictional record, 2x speed, last frame held | Narrator |
+| 1:43 | Evidence card (six clips, three modes) | Narrator |
+| 2:01 | Limits card | Narrator |
+| 2:12 | Try it | Narrator |
 
-**Upload (owner):** YouTube → Create → Upload `seen-aloud-demo-gemini-nano-4.mp4`.
+**How it was made, on 2026-11-26:**
 
-- **Title:** "Seen Aloud: audio description with Gemini Nano 4 and Firebase AI Logic hybrid inference".
-- **Visibility:** Public.
-- **Devpost:** paste the new link in the Video field.
+- **Footage:** Google Chrome 158 with Gemini Nano 4, on the live site. Page captures came over the Chrome DevTools Protocol, on the same clock as the system audio (pyaudiowpatch, WASAPI loopback).
+- **Playback log:** `av/play-log.json` in the working folder records video time, pause state, volume and speaking state every 120 ms.
+- **Narrator:** Piper TTS (MIT), voice en_US-libritts_r-medium, speaker 300, LibriTTS-R dataset under CC BY 4.0 (credited in the YouTube description).
+- **Edit:** FFmpeg, with loudness normalised per segment (loudnorm, -16 LUFS).
 
-**Optional and not done:** an English voice-over. The rules accept English text, and this machine has no English system voice. To add one, record it over the 1:47 timeline above; do not exceed 3:00.
+**Not shown:** volume ducking under dialogue without a pause. In this clip every line is extended, so the video is paused while the voice speaks. The log shows the volume set to 0.35 during each line, but that is not audible while the video is paused.
 
-The previous video (youtu.be/eTrglnJpdMs, recorded 2026-11-19) shows the earlier interface, including the tagline "for any video", and no Gemini Nano 4 evidence. Replace it.
+**Not checked by a person:** the sound. Sync was checked against the playback log and the frames; nobody listened to it.
