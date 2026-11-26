@@ -716,7 +716,7 @@ function renderLedger(ledger: Ledger): void {
       ? `${ledger.framesOnDevice} frame${ledger.framesOnDevice === 1 ? '' : 's'} described on this computer. No pixels have left it.`
       : ledger.framesMaybeInCloud > 0
         ? `${left} frame${left === 1 ? '' : 's'} may have left this computer: ${ledger.framesInCloud} described in the cloud, ${ledger.framesMaybeInCloud} in cloud requests that failed.`
-        : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? '' : 's'} were described in the cloud.`;
+        : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? ' was' : 's were'} described in the cloud.`;
   if (ledger.retries > 0) {
     // One inference can be several network requests; say so rather than hide it.
     ui.ledgerNote.textContent += ` ${ledger.retries} cloud request${ledger.retries === 1 ? ' was' : 's were'} sent again after a busy answer.`;
