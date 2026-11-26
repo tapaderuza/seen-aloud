@@ -2,7 +2,7 @@
 
 **Project name:** Seen Aloud
 
-**Tagline:** Audio description for any video, written on your own PC
+**Tagline:** Audio description for your videos, written on your own computer
 
 **Platform:** Web (Chrome)
 
@@ -12,7 +12,7 @@ Millions of blind and low-vision people can't follow most everyday video: lectur
 
 ## What it does
 
-Seen Aloud turns any video file into an audio description track. It finds scene changes and the pauses in the dialogue locally, describes one key frame per scene with Gemini Nano, then writes a coherent finished script that fits the pauses. The built-in player speaks the descriptions, lowers the soundtrack, and pauses the video when a description is longer than the pause (extended audio description). You can edit every line and export a WebVTT description track or a plain script.
+Seen Aloud turns a video file your browser can play into an audio description track. It finds scene changes and the pauses in the dialogue locally, describes one key frame per scene with Gemini Nano, then writes a coherent finished script that fits the pauses. The built-in player speaks the descriptions, lowers the soundtrack, and pauses the video when a description is longer than the pause (extended audio description). You can edit every line and export a WebVTT description track or a plain script.
 
 ## How we use Firebase AI Logic
 

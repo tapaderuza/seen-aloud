@@ -2,7 +2,7 @@
   "name": "seen-aloud",
   "version": "1.0.0",
   "private": true,
-  "description": "Audio description tracks for any video, written by Gemini Nano on your own computer, with the cloud as a backup. Built on Firebase AI Logic hybrid inference.",
+  "description": "Audio description tracks for your videos, written by Gemini Nano on your own computer, with the cloud as a backup. Built on Firebase AI Logic hybrid inference.",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
