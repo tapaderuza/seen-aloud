@@ -36,7 +36,7 @@ Earlier the same week (`3cdf2e6` to `3a1bc04`): player at 0:00 and Play from, sp
 
 ## Found during this audit, not fixed
 
-- **Name conflict (P0, needs your decision).** seenaloud.com is a paid AI audio-description service (Hong Kong; terms effective 2026-10-24; online by 2026-10-14, before this repository was created), same name, same market, English and Spanish, WebVTT exports. No trademark symbol on its pages. Judges who search the name will find it. See the proposal below.
+- **Name conflict (decided 2026-11-26: keep Seen Aloud).** seenaloud.com is a paid AI audio-description service (Hong Kong; terms effective 2026-10-24; online by 2026-10-14, before this repository was created), same name, same market, English and Spanish, WebVTT exports. No trademark symbol on its pages. Judges who search the name will find it. Decision: the name stays Seen Aloud everywhere (app, repository, demo video, Devpost), so nothing carries two names during judging. The app footer, the README and the Devpost text say that this project is not affiliated with seenaloud.com. A new name (proposal below) is left for after judging.
 - **Motion within a scene is not described** (benchmark clip 04). Several frames per moving scene were not added: it could not be validated on Gemini Nano before the deadline.
 - **No masking of names or numbers** in the text sent to the cloud in Hybrid mode.
 - **No offline mode** (no service worker).
@@ -52,7 +52,7 @@ Earlier the same week (`3cdf2e6` to `3a1bc04`): player at 0:00 and Play from, sp
 - **Benchmark:** six clips, Cloud mode; coverage 20/29 to 26/29 on the five clips valid in both rounds.
 - **NOT TESTED:** anything that needs Gemini Nano (Private and Hybrid on the device, model download), other browsers, offline. Procedures in [BENCHMARK.md](BENCHMARK.md).
 
-## Naming proposal
+## Naming proposal (for after judging)
 
 | Name | Checks (2026-11-26) |
 | --- | --- |
@@ -64,7 +64,7 @@ Earlier the same week (`3cdf2e6` to `3a1bc04`): player at 0:00 and Play from, sp
 
 No formal trademark search was done; run one before any commercial use.
 
-Migration that keeps everything working: rename the product in the UI, README and docs to "HearFrame (formerly Seen Aloud)"; keep the URL `seen-aloud.web.app`, the Firebase project and the IndexedDB name; optionally rename the GitHub repository (GitHub redirects the old URL). The demo video says "Seen Aloud", so the Devpost title should read "HearFrame (formerly Seen Aloud)". Nothing external was renamed: this waits for your decision. The alternative, keeping the name until judging ends, is covered by a non-affiliation line in the Devpost text.
+Migration that keeps everything working: rename the product in the UI, README and docs to "HearFrame (formerly Seen Aloud)"; keep the URL `seen-aloud.web.app`, the Firebase project and the IndexedDB name; optionally rename the GitHub repository (GitHub redirects the old URL). The demo video says "Seen Aloud", so the Devpost title should read "HearFrame (formerly Seen Aloud)". Not done: on 2026-11-26 the owner chose to keep Seen Aloud until judging ends, with the non-affiliation notice.
 
 ## Scores against the official criteria (our estimate, 1 to 5)
 
@@ -77,4 +77,4 @@ Migration that keeps everything working: rename the product in the UI, README an
 
 ## Verdict: CONDITIONAL GO
 
-Conditions: paste the new Devpost text (the live page still has the old ADA date), decide on the name, and if possible run the Gemini Nano checks on a computer that has it.
+Conditions: paste the new Devpost text (the live page still has the old ADA date, and it carries the non-affiliation line), and if possible run the Gemini Nano checks on a computer that has it.
