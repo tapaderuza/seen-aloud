@@ -63,6 +63,22 @@ export class PrivacyGuardError extends Error {
   }
 }
 
+/**
+ * Gemini Nano accepted a request and did not answer in time. Seen on Chrome 158:
+ * one frame prompt in a run never settled, which left the whole job waiting.
+ * The SDK passes no abort signal to the on-device prompt, so the app stops waiting.
+ */
+export class DeviceTimeoutError extends Error {
+  readonly code = 'device-timeout';
+  constructor(readonly ms: number) {
+    super(`Gemini Nano did not answer within ${Math.round(ms / 1000)} seconds.`);
+    this.name = 'DeviceTimeoutError';
+  }
+}
+
+/** Generous: the first frame on a 4 GB GPU took 67 s, including loading the model. */
+export const DEFAULT_DEVICE_TIMEOUT_MS = 180_000;
+
 export class CloudConsentDeclinedError extends Error {
   constructor() {
     super('You chose to keep frames on this device. Switch to private mode once Gemini Nano is ready, or allow the cloud.');
@@ -125,6 +141,8 @@ export interface EngineOptions {
   confirmCloudFrames?: () => Promise<boolean>;
   onLedgerChange?: (ledger: Ledger) => void;
   now?: () => number;
+  /** How long a request that may run on Gemini Nano can take before it counts as failed. */
+  deviceTimeoutMs?: number;
 }
 
 export interface FrameImage {
@@ -343,7 +361,12 @@ export class DescriptionEngine {
       },
     };
     try {
-      const result = await this.provider.model(task, mode, this.options.language).generate(parts, hooks);
+      const request = this.provider.model(task, mode, this.options.language).generate(parts, hooks);
+      // Only cloud-pinned requests are left to the SDK's own network timeout.
+      const result =
+        mode === 'only_in_cloud'
+          ? await request
+          : await withTimeout(request, this.options.deviceTimeoutMs ?? DEFAULT_DEVICE_TIMEOUT_MS);
       this.record(task, result.source, now() - started, context.carriesImage);
       return result;
     } catch (error) {
@@ -411,6 +434,15 @@ export class DescriptionEngine {
     if (this.ledger.events.length > 200) this.ledger.events.shift();
     this.options.onLedgerChange?.(this.ledger);
   }
+}
+
+/** Rejects with DeviceTimeoutError when `request` has not settled after `ms`. */
+function withTimeout<T>(request: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new DeviceTimeoutError(ms)), ms);
+  });
+  return Promise.race([request, timeout]).finally(() => clearTimeout(timer));
 }
 
 /** Two frame notes that say mostly the same words describe the same picture. */

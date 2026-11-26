@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   CloudConsentDeclinedError,
+  DeviceTimeoutError,
   DescriptionEngine,
   inferenceModeFor,
   PrivacyGuardError,
@@ -401,5 +402,66 @@ describe('writing the track', () => {
     const e = new DescriptionEngine(provider, { mode: 'hybrid', language: 'en', frameMaxWords: 30, onLedgerChange, now: () => 0 });
     await e.describeFrame(SCENES[0], 2, IMAGE);
     expect(onLedgerChange).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('a Gemini Nano request that never answers', () => {
+  // Seen on Chrome 158: one on-device frame prompt never settled and the job waited for 30 minutes.
+  const hangOnDevice: Handler = (mode) =>
+    mode === 'only_in_cloud' ? { text: defaultAnswer('frameNote'), source: 'in_cloud' } : new Promise<GenerateResult>(() => {});
+  const withTimeout = (provider: FakeProvider, mode: AppMode, confirm?: () => Promise<boolean>) =>
+    new DescriptionEngine(provider, { mode, language: 'en', frameMaxWords: 30, confirmCloudFrames: confirm, now: () => 0, deviceTimeoutMs: 20 });
+
+  it('in hybrid mode, stops waiting and asks before sending that frame to the cloud', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.frameNote = hangOnDevice;
+    const confirm = vi.fn(async () => true);
+    const e = withTimeout(provider, 'hybrid', confirm);
+    await e.startVideo();
+    const note = await e.describeFrame(SCENES[0], 2, IMAGE);
+    expect(note.source).toBe('in_cloud');
+    expect(confirm).toHaveBeenCalledTimes(1);
+    expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device', 'only_in_cloud']);
+    expect(e.ledger).toMatchObject({ fallbacks: 1, framesInCloud: 1, framesOnDevice: 0 });
+    expect(e.ledger.events.at(-1)?.note).toContain('device-timeout');
+  });
+
+  it('in hybrid mode, sends nothing when the person keeps frames on the device', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.frameNote = hangOnDevice;
+    const e = withTimeout(provider, 'hybrid', async () => false);
+    await e.startVideo();
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toBeInstanceOf(CloudConsentDeclinedError);
+    expect(provider.calls.map((c) => c.mode)).toEqual(['only_on_device']);
+    expect(e.ledger.framesInCloud).toBe(0);
+  });
+
+  it('in private mode, fails that frame without any cloud request', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.frameNote = hangOnDevice;
+    const e = withTimeout(provider, 'private');
+    await e.startVideo();
+    await expect(e.describeFrame(SCENES[0], 2, IMAGE)).rejects.toBeInstanceOf(DeviceTimeoutError);
+    expect(provider.calls.every((c) => c.mode === 'only_on_device')).toBe(true);
+    expect(e.ledger).toMatchObject({ failures: 1, framesInCloud: 0, framesMaybeInCloud: 0 });
+  });
+
+  it('in private mode, a rewrite that never answers falls back to trimming', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.fit = () => new Promise<GenerateResult>(() => {});
+    const e = withTimeout(provider, 'private');
+    await e.startVideo();
+    const result = await e.fit('a b c d e f g h', 4);
+    expect(result.text).toBe('a b c d.');
+  });
+
+  it('leaves cloud-only requests to the SDK timeout', async () => {
+    const provider = new FakeProvider();
+    provider.handlers.frameNote = () =>
+      new Promise<GenerateResult>((resolve) => setTimeout(() => resolve({ text: defaultAnswer('frameNote'), source: 'in_cloud' }), 60));
+    const e = withTimeout(provider, 'cloud');
+    await e.startVideo();
+    const note = await e.describeFrame(SCENES[0], 2, IMAGE);
+    expect(note.source).toBe('in_cloud');
   });
 });

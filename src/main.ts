@@ -7,6 +7,7 @@ import {
   type DeviceAvailability,
   type Ledger,
 } from './ai/engine';
+import { watchDownload } from './ai/downloadWatch';
 import { FirebaseModelProvider, readDeviceAvailability } from './ai/firebaseProvider';
 import { analyzeVideo, type PausesFrom, type Stage } from './app/pipeline';
 import { DEFAULT_SETTINGS, type AppSettings } from './config/settings';
@@ -84,15 +85,23 @@ const DEVICE_TEXT: Record<DeviceAvailability, string> = {
   available: 'Gemini Nano: ready on this device',
 };
 
+/** Chrome's own reasons for not downloading are on this page (turn on debugging pages in chrome://chrome-urls first). */
+const WHY_NO_DOWNLOAD =
+  'Chrome needs about 22 GB free on the drive that holds your Chrome profile and an unmetered connection. chrome://on-device-internals shows its reason under Broker State (turn on debugging pages in chrome://chrome-urls first). Until then, Hybrid asks before any frame goes to the cloud.';
+
 /** What happens next on this machine, for anyone (judges included) whose Chrome has no Gemini Nano yet. */
 const DEVICE_HINT: Partial<Record<DeviceAvailability, string>> = {
   unsupported:
-    'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use desktop Chrome 139+: in chrome://flags enable "Gemma 4 for Built-in AI" (Gemini Nano 4) and #prompt-api-for-gemini-nano-multimodal-input, then restart Chrome.',
+    'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use Google Chrome 148 or later on a desktop (Windows 10 or 11, macOS 13+, Linux or a Chromebook Plus).',
   unavailable:
-    'Gemini Nano cannot describe images here, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way. If this computer should support it, check chrome://flags: "Gemma 4 for Built-in AI" and #prompt-api-for-gemini-nano-multimodal-input.',
+    'Gemini Nano cannot describe images here, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way. Chrome needs a GPU with more than 4 GB of memory, or 16 GB of RAM and 4 CPU cores; chrome://on-device-internals shows its reason.',
   downloadable:
-    'Press Download Gemini Nano (several GB, once) to describe frames on this computer. Until then, Hybrid asks before any frame goes to the cloud.',
+    'Press Download Gemini Nano (about 4 GB, once) to describe frames on this computer. Until then, Hybrid asks before any frame goes to the cloud.',
+  downloading: `Chrome says Gemini Nano is downloading. If it never finishes: ${WHY_NO_DOWNLOAD}`,
 };
+
+/** No download progress this long after the click means Chrome did not start it. */
+const DOWNLOAD_STALL_MS = 30_000;
 
 const SOURCE_LABEL: Record<TextSource, string> = {
   on_device: 'On device',
@@ -230,15 +239,25 @@ function bindEvents(): void {
   ui.getNano.addEventListener('click', async () => {
     if (!engine) return;
     ui.getNano.disabled = true;
+    ui.deviceStatus.dataset.state = 'downloading';
+    ui.deviceStatus.textContent = 'Gemini Nano: starting the download…';
+    // Chrome may accept the request and never download (too little disk): say so instead of waiting in silence.
+    const watch = watchDownload(DOWNLOAD_STALL_MS, () => {
+      ui.deviceStatus.textContent = 'Gemini Nano: Chrome has not started the download';
+      ui.deviceHint.textContent = `No download progress after ${DOWNLOAD_STALL_MS / 1000} seconds. ${WHY_NO_DOWNLOAD}`;
+      ui.deviceHint.hidden = false;
+    });
     try {
       // Must start from this click: Chrome only downloads on a user gesture.
       state.availability = await engine.prepareDevice((fraction) => {
+        watch.progress(fraction);
         ui.deviceStatus.dataset.state = 'downloading';
         ui.deviceStatus.textContent = `Downloading Gemini Nano… ${Math.round(fraction * 100)}%`;
       });
     } catch (error) {
       ui.deviceStatus.textContent = `Gemini Nano: ${messageOf(error)}`;
     } finally {
+      watch.stop();
       ui.getNano.disabled = false;
       await refreshDevice();
     }
