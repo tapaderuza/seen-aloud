@@ -10,6 +10,8 @@ Built for the #BuildHybridAI 2026 hackathon on **Firebase AI Logic hybrid infere
 
 **Live demo:** https://seen-aloud.web.app (desktop Chrome 139+; Gemini Nano is optional, the app asks before using the cloud for frames).
 
+**For judges:** [5-minute quickstart](docs/JUDGE_QUICKSTART.md) · [Benchmark](docs/BENCHMARK.md) · [Privacy](docs/PRIVACY.md) · [Security](docs/SECURITY.md) · [Accessibility](docs/ACCESSIBILITY.md) · [Final audit](docs/FINAL_AUDIT.md)
+
 ![The ledger after describing a video: 4 requests on the device, 1 in the cloud, 0 frames left the computer](docs/screenshot.jpg)
 
 *After describing a 45-second explainer: Gemini Nano described every frame on the computer, Gemini in the cloud wrote the final script from text only, and no frame left the machine.*
@@ -79,7 +81,7 @@ Use desktop Chrome 139 or later. In `chrome://flags`, search for **Gemma 4 for B
 ## Tests
 
 ```bash
-npm test         # 98 tests: scene detection, pause detection, word budgets, WebVTT, parsers, the hybrid policy, cloud retry, the description player
+npm test         # 123 tests: hybrid routing, privacy guard, consent, ledger, player, pause states, cancellation, local review, scene and pause detection, WebVTT
 npm run typecheck
 ```
 
