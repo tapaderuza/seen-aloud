@@ -1,0 +1,96 @@
+{
+  "video": "/benchmark/03-conversation-pauses.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 10081,
+  "message": "Done: 3 scenes, 3 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 4,
+    "framesThatLeft": 3,
+    "note": "3 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 2369 ms",
+      "Frame · Cloud · 1352 ms",
+      "Frame · Cloud · 2116 ms",
+      "Script · Cloud · 1598 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 4,
+    "bytesSent": 36082,
+    "bytesReceived": 4042,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2368,
+        "requestBytes": 9963,
+        "responseBytes": 971
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1352,
+        "requestBytes": 9402,
+        "responseBytes": 975
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2116,
+        "requestBytes": 14140,
+        "responseBytes": 1051
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1598,
+        "requestBytes": 2577,
+        "responseBytes": 1045
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:03",
+      "start": 3.35,
+      "extended": false,
+      "badges": [
+        "Cloud"
+      ],
+      "words": 3,
+      "budget": 6,
+      "text": "On screen: ANA"
+    },
+    {
+      "time": "0:10",
+      "start": 10.4,
+      "extended": false,
+      "badges": [
+        "Cloud"
+      ],
+      "words": 3,
+      "budget": 6,
+      "text": "On screen: LUIS"
+    },
+    {
+      "time": "0:22",
+      "start": 22.6,
+      "extended": false,
+      "badges": [
+        "Cloud"
+      ],
+      "words": 4,
+      "budget": 5,
+      "text": "On screen: VENTAS +42%"
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-78QDShRs.js",
+    "commit": "70e9270",
+    "date": "2026-11-26"
+  }
+}

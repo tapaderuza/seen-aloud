@@ -1,0 +1,139 @@
+{
+  "video": "/samples/sample-explainer-45s.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 27168,
+  "message": "Done: 5 scenes, 5 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 6,
+    "framesThatLeft": 5,
+    "note": "5 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 2243 ms",
+      "Frame · Cloud · 3277 ms",
+      "Frame · Cloud · 2458 ms",
+      "Frame · Cloud · 7548 ms",
+      "Frame · Cloud · 3455 ms",
+      "Script · Cloud · 2365 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 6,
+    "bytesSent": 243334,
+    "bytesReceived": 8378,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2241,
+        "requestBytes": 47691,
+        "responseBytes": 1348
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3276,
+        "requestBytes": 50107,
+        "responseBytes": 1414
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2457,
+        "requestBytes": 51602,
+        "responseBytes": 1417
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 7548,
+        "requestBytes": 46700,
+        "responseBytes": 1378
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3455,
+        "requestBytes": 42412,
+        "responseBytes": 1306
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2365,
+        "requestBytes": 4822,
+        "responseBytes": 1515
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "A horizontal bar graph shows a total of nine gibibytes, exceeding the budget."
+    },
+    {
+      "time": "0:08",
+      "start": 8.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "The bar graph shortens to a total of 6.18 gibibytes, falling under budget."
+    },
+    {
+      "time": "0:17",
+      "start": 17,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "The bar graph extends past the budget line in red, totaling nine gibibytes."
+    },
+    {
+      "time": "0:25",
+      "start": 25.5,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 13,
+      "budget": 18,
+      "text": "Three distinct memory category boxes appear, detailing resident weights, conversation cache, and reserve."
+    },
+    {
+      "time": "0:35",
+      "start": 35.27,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 10,
+      "budget": 18,
+      "text": "Calculated and headroom values appear below the memory pool boxes."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-78QDShRs.js",
+    "commit": "70e9270",
+    "date": "2026-11-26"
+  }
+}

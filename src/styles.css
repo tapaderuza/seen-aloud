@@ -679,3 +679,23 @@ dialog::backdrop {
     transition: none !important;
   }
 }
+
+.badge.review {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.badge.checked {
+  background: var(--device-bg);
+  color: var(--device);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

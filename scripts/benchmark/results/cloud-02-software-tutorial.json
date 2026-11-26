@@ -1,0 +1,117 @@
+{
+  "video": "/benchmark/02-software-tutorial.mp4",
+  "mode": "cloud",
+  "consentShown": false,
+  "acceptCloud": true,
+  "totalMs": 17733,
+  "message": "Done: 4 scenes, 4 descriptions. Pauses came from the soundtrack. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 0,
+    "requestsInCloud": 5,
+    "framesThatLeft": 4,
+    "note": "4 frames were described in the cloud.",
+    "log": [
+      "Frame · Cloud · 2057 ms",
+      "Frame · Cloud · 1856 ms",
+      "Frame · Cloud · 3795 ms",
+      "Frame · Cloud · 1954 ms",
+      "Script · Cloud · 3491 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 5,
+    "bytesSent": 263500,
+    "bytesReceived": 8438,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 2056,
+        "requestBytes": 64747,
+        "responseBytes": 1072
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1855,
+        "requestBytes": 72063,
+        "responseBytes": 2183
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3794,
+        "requestBytes": 77799,
+        "responseBytes": 2386
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1953,
+        "requestBytes": 42952,
+        "responseBytes": 1542
+      },
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 3490,
+        "requestBytes": 5939,
+        "responseBytes": 1255
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 14,
+      "budget": 18,
+      "text": "A software interface displays a video player and description track. On screen: Seen Aloud"
+    },
+    {
+      "time": "0:12",
+      "start": 12.25,
+      "extended": false,
+      "badges": [
+        "Cloud"
+      ],
+      "words": 3,
+      "budget": 3,
+      "text": "New items populate."
+    },
+    {
+      "time": "0:27",
+      "start": 27.6,
+      "extended": false,
+      "badges": [
+        "Cloud"
+      ],
+      "words": 2,
+      "budget": 3,
+      "text": "Settings appear."
+    },
+    {
+      "time": "0:31",
+      "start": 31,
+      "extended": true,
+      "badges": [
+        "Cloud",
+        "Pauses video"
+      ],
+      "words": 12,
+      "budget": 18,
+      "text": "A summary lists AI request locations, counts, and a detailed request log."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/5.11492.5 Chrome/156.0.8078.75 Safari/537.36 MSIX",
+    "bundle": "https://seen-aloud.web.app/assets/index-78QDShRs.js",
+    "commit": "70e9270",
+    "date": "2026-11-26"
+  }
+}

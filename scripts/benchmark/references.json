@@ -1,0 +1,123 @@
+{
+  "_about": "Annotated references for the benchmark clips, written by looking at the frames (contact sheets) and, for synthetic clips, at the script that drew them. Each fact matches when any of its patterns (case-insensitive regular expressions) appears in the finished track. allowedNumbers is given only where every number on screen is known (synthetic clips); speechWindows only where speech was measured independently of the app (clip 03, ffmpeg silencedetect).",
+  "/samples/sample-explainer-45s.mp4": {
+    "label": "01 Educational presentation with charts and numbers (author's own explainer, 45 s)",
+    "speech": "near-continuous narration, no exact timeline",
+    "facts": {
+      "memory bar or chart": "bar|chart|graph",
+      "a total of nine GiB": "\\b9(\\.0+)?\\b|nine",
+      "over the budget": "over (the |its )?budget|exceed|beyond",
+      "an eight GiB budget": "\\b8\\b|\\beight\\b",
+      "the weights": "weight",
+      "the cache": "cache",
+      "the reserve or headroom": "reserve|headroom",
+      "the memory pool, RAM or VRAM": "pool|\\bram\\b|vram|gpu|system memory"
+    }
+  },
+  "/benchmark/02-software-tutorial.mp4": {
+    "label": "02 Software tutorial (screen recording of this app, 40 s)",
+    "speech": "narration, no exact timeline",
+    "facts": {
+      "an app or web interface": "\\bapp\\b|application|interface|dashboard|web ?page|website|browser",
+      "a video player": "video|player",
+      "a memory chart slide in the player": "chart|bar|graph|slide|gib|gigabyte",
+      "a list of scene descriptions": "description|track|list|card|scene",
+      "where the AI ran (ledger counts)": "on.device|cloud|request|ledger|counter|frames"
+    }
+  },
+  "/benchmark/03-conversation-pauses.mp4": {
+    "label": "03 Conversation with pauses (synthetic: two Spanish synthesized voices, three cards, 25 s)",
+    "speech": "measured independently of the app: ffmpeg silencedetect, noise=-45dB, d=0.3",
+    "speechWindows": [
+      [
+        0,
+        0.62
+      ],
+      [
+        1.56,
+        3.16
+      ],
+      [
+        6.02,
+        6.55
+      ],
+      [
+        7.44,
+        10.16
+      ],
+      [
+        12.88,
+        13.51
+      ],
+      [
+        14.4,
+        16.68
+      ],
+      [
+        19.39,
+        20.33
+      ],
+      [
+        21.22,
+        21.71
+      ],
+      [
+        22.15,
+        22.4
+      ]
+    ],
+    "allowedNumbers": [
+      "42"
+    ],
+    "facts": {
+      "a blue card": "blue|azul",
+      "the name ANA": "\\bana\\b",
+      "an orange card": "orange|naranja",
+      "the name LUIS": "\\bluis\\b",
+      "a bar chart": "bar|chart|graph|column|gráfic",
+      "the label VENTAS (sales)": "ventas|sales",
+      "plus 42 percent": "42"
+    }
+  },
+  "/benchmark/04-motion-actions.mp4": {
+    "label": "04 Motion and actions (synthetic, silent soundtrack, 16 s)",
+    "speech": "none (silent soundtrack)",
+    "allowedNumbers": [],
+    "facts": {
+      "a red shape": "\\bred\\b",
+      "it moves across, left to right": "mov|slid|travel|across|left to right|from (the )?left|to(ward)? the right",
+      "a blue shape": "blue",
+      "it rises": "\\bris|\\bup\\b|upward|ascend|climb",
+      "the text THE END": "the end",
+      "green text": "green"
+    }
+  },
+  "/benchmark/05-continuous-dialogue.mp4": {
+    "label": "05 Continuous narration over terminal screens (author's own explainer, 45 s)",
+    "speech": "continuous narration, no exact timeline",
+    "facts": {
+      "YouTube Studio channel analytics": "youtube|analytics|studio|channel",
+      "zero subscribers and views": "\\b0\\b|zero|subscriber",
+      "the 12.7x figure": "12\\.7",
+      "a table of scores": "table|list|ranking|rows|scores|columns",
+      "a burned-in caption": "editing is the second decision|demand"
+    }
+  },
+  "/benchmark/06-sensitive-fictional.mp4": {
+    "label": "06 Fictional sensitive record (synthetic, silent soundtrack, 8 s)",
+    "speech": "none (silent soundtrack)",
+    "allowedNumbers": [
+      "01",
+      "02",
+      "1980",
+      "0000",
+      "1111"
+    ],
+    "facts": {
+      "marked as a fictional test record": "fictional|test record",
+      "a patient name": "jane|patient",
+      "a date of birth": "birth|1980|01/02",
+      "an account number": "account|0000"
+    }
+  }
+}

@@ -267,17 +267,27 @@ export class DescriptionEngine {
 
     const cues: Cue[] = [];
     let previous: string | undefined;
+    let previousNote: SceneNote | undefined;
     for (const plan of usable) {
       const note = notes.get(plan.sceneId)!;
       let text: string;
       let source: TextSource;
-      if (scripted?.has(plan.sceneId)) {
-        text = scripted.get(plan.sceneId)!;
+      const line = scripted?.get(plan.sceneId);
+      // The script writer may skip a scene ("adds nothing new") or read only its on-screen
+      // text. When the frame shows something the previous one did not, that drops real
+      // picture information, so the scene's own frame note is used instead.
+      const dropsPicture =
+        line !== undefined &&
+        note.visual.trim() !== '' &&
+        ((line.trim() === '' && !sameScene(note, previousNote)) || /^on screen:/iu.test(line.trim()));
+      if (line !== undefined && !dropsPicture) {
+        text = line;
         source = scriptSource;
       } else {
         text = withScreenText(note);
         source = note.source;
       }
+      previousNote = note;
       if (text && countWords(text) > plan.budgetWords) {
         const fitted = await this.fit(text, plan.budgetWords, previous);
         text = fitted.text;
@@ -401,6 +411,23 @@ export class DescriptionEngine {
     if (this.ledger.events.length > 200) this.ledger.events.shift();
     this.options.onLedgerChange?.(this.ledger);
   }
+}
+
+/** Two frame notes that say mostly the same words describe the same picture. */
+function sameScene(note: SceneNote, previous: SceneNote | undefined): boolean {
+  if (!previous) return false;
+  return wordOverlap(`${note.visual} ${note.onScreenText}`, `${previous.visual} ${previous.onScreenText}`) >= 0.6;
+}
+
+/** Jaccard overlap of the lowercase word sets of two texts, from 0 to 1. */
+export function wordOverlap(a: string, b: string): number {
+  const words = (s: string) => new Set(s.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? []);
+  const x = words(a);
+  const y = words(b);
+  if (x.size === 0 && y.size === 0) return 1;
+  let shared = 0;
+  for (const w of x) if (y.has(w)) shared++;
+  return shared / (x.size + y.size - shared);
 }
 
 function withScreenText(note: SceneNote): string {

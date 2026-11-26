@@ -17,6 +17,7 @@ import { captureFrame, loadVideo } from './media/video';
 import { DescriptionPlayer, type VoicePolicy } from './player/describer';
 import { LocalTrackLibrary } from './storage/localLibrary';
 import { countWords } from './track/budget';
+import { reviewCue, reviewSummary } from './track/review';
 import { formatTimestamp, parseCaptions, serializeDescriptionsVtt, serializeScript } from './track/vtt';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -553,6 +554,15 @@ function renderRow(row: Row, index: number): HTMLLIElement {
   // An empty line (a scene that could not be described) has no source to show.
   if (row.source && row.text.trim()) meta.append(badge(SOURCE_LABEL[row.source], row.source));
   if (row.extended) meta.append(badge('Pauses video', 'extended'));
+  if (!row.draft) {
+    // Local checks only: no model is asked. "Checks passed" is not a guarantee the line is right.
+    const cue = state.cues[index];
+    const flags = cue ? reviewCue(cue, state.notes.get(row.sceneId), state.cues[index - 1]?.text) : [];
+    const review = flags.length ? badge('Needs review', 'review') : badge('Checks passed', 'checked');
+    review.title = flags.length ? reviewSummary(flags) : 'Passed the local checks: not empty, fits its pause, no new numbers, no repeat.';
+    review.setAttribute('aria-label', flags.length ? `Needs review: ${reviewSummary(flags)}` : 'Local checks passed');
+    meta.append(review);
+  }
   const words = document.createElement('span');
   const count = countWords(row.text);
   words.className = `words${row.budget && count > row.budget ? ' over' : ''}`;
