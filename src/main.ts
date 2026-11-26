@@ -92,11 +92,11 @@ const WHY_NO_DOWNLOAD =
 /** What happens next on this machine, for anyone (judges included) whose Chrome has no Gemini Nano yet. */
 const DEVICE_HINT: Partial<Record<DeviceAvailability, string>> = {
   unsupported:
-    'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use Google Chrome 148 or later on a desktop (Windows 10 or 11, macOS 13+, Linux or a Chromebook Plus).',
+    'No Gemini Nano in this browser, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. To keep frames on this computer, use Google Chrome 148 or later on a desktop (Windows 10 or 11, macOS 13+, Linux or a Chromebook Plus); for Gemini Nano 4, turn on "Gemma 4 for Built-in AI" in chrome://flags.',
   unavailable:
     'Gemini Nano cannot describe images here, so frames would be described in the cloud: Hybrid asks you first, Cloud just runs. The finished track works the same either way. Chrome needs a GPU with more than 4 GB of memory, or 16 GB of RAM and 4 CPU cores; chrome://on-device-internals shows its reason.',
   downloadable:
-    'Press Download Gemini Nano (about 4 GB, once) to describe frames on this computer. Until then, Hybrid asks before any frame goes to the cloud.',
+    'Press Download Gemini Nano (2 to 4 GB, once) to describe frames on this computer. For Gemini Nano 4, turn on "Gemma 4 for Built-in AI" in chrome://flags and restart Chrome first. Until then, Hybrid asks before any frame goes to the cloud.',
   downloading: `Chrome says Gemini Nano is downloading. If it never finishes: ${WHY_NO_DOWNLOAD}`,
 };
 

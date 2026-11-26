@@ -7,6 +7,7 @@ Real runs of the live site (https://seen-aloud.web.app) with Gemini Nano in Goog
 - **Private mode:** every inference ran on the device, with 0 requests to the AI endpoint.
 - **Hybrid mode:** every frame was described on the device, and Gemini in the cloud wrote the script from text only (1 request per video, no image).
 - **Ledger:** in all 30 recorded runs, the app's ledger matches the network capture.
+- **Which model:** the 18-run benchmark used Chrome's default model (`nano_v3`). **Gemini Nano 4**, which the contest names for Web (`chrome://flags` "Gemma 4 for Built-in AI", model `gemma4_gpu_low_tier_model`), was validated in 5 recorded runs (section 8): 3 online and 2 offline. It was also used to record the demo video.
 
 Two defects showed up only with a real model. Both are fixed in `223c141` and deployed:
 
