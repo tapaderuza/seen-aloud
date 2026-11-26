@@ -9,7 +9,7 @@ Seen Aloud
 Editable audio description for your videos: Gemini Nano 4 describes the frames on your computer, and the cloud writes the track from text only.
 
 ## Video
-https://www.youtube.com/watch?v=REPLACE_WITH_NEW_VIDEO_ID (upload `seen-aloud-demo-FINAL.mp4` from this folder; see VIDEO_SCRIPT_FINAL.md)
+https://youtu.be/g2szbkyeOKI (`seen-aloud-demo-FINAL.mp4`, published as Public on 2026-11-26)
 
 ## Try it out (links)
 - https://seen-aloud.web.app
