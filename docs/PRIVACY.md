@@ -29,7 +29,7 @@ It counts, per video: requests on the device, requests in the cloud, frames desc
 - **Verified with a real Gemini Nano** on 2026-11-26 (Chrome 158, network captured outside the page; [GEMINI_NANO_VALIDATION.md](GEMINI_NANO_VALIDATION.md)):
   - **Private:** no request to the AI endpoint and no Auth or Firestore request.
   - **Hybrid:** no frame left; one text request per video went to the cloud.
-- **Hybrid sends on-screen text.** It keeps pixels on the device but not what is written in them: on the fictional record, the name, date of birth and account number that Gemini Nano read went to the cloud as text in the script request. There is no masking yet. Use Private for footage like that.
+- **Hybrid masks personal-looking text before it leaves (since 2026-11-28).** Names after a label, dates, numbers of 7 or more digits and e-mails are replaced by tokens on the device, then put back locally in the finished line. In a real run on the fictional record (Gemini Nano 4, captured over CDP), no name, date of birth or account number reached any request; on 26 Nov all three did. The masking works by patterns, so names without a label and other details may still be sent. Use Private for sensitive footage.
 - **Free-tier data use.** The live site uses the Gemini Developer API free tier, whose content Google's pricing page says is used to improve its products. That applies to what Hybrid and Cloud send.
 - A network voice in Hybrid or Cloud mode sends the description text to the speech service of the browser.
 - Saving in Hybrid or Cloud mode stores the file name and the descriptions in Firestore.

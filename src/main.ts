@@ -64,7 +64,7 @@ const ui = {
 /** What each mode sends where, stated plainly: text is user content too. */
 const MODE_HELP: Record<AppMode, string> = {
   hybrid:
-    'Hybrid: Gemini Nano describes each frame on this computer. Then the scene notes, any on-screen text and any caption text near each scene go to Gemini in the cloud as text, to write the finished track. If Nano is missing, you are asked before any frame leaves this computer.',
+    'Hybrid: Gemini Nano describes each frame on this computer. Then the scene notes, any on-screen text and any caption text near each scene go to Gemini in the cloud as text, to write the finished track. Names after a label, dates, long numbers and e-mails in that text are masked first and restored on this computer; other personal details may still be sent, so use Private for sensitive footage. If Nano is missing, you are asked before any frame leaves this computer.',
   private:
     'Private: every AI step runs on Gemini Nano. No frames, descriptions, captions or file names are sent anywhere, saved tracks stay in this browser, and only voices installed on this computer read the track. Needs desktop Chrome with Gemini Nano downloaded.',
   cloud:
@@ -717,6 +717,10 @@ function renderLedger(ledger: Ledger): void {
       : ledger.framesMaybeInCloud > 0
         ? `${left} frame${left === 1 ? '' : 's'} may have left this computer: ${ledger.framesInCloud} described in the cloud, ${ledger.framesMaybeInCloud} in cloud requests that failed.`
         : `${ledger.framesInCloud} frame${ledger.framesInCloud === 1 ? ' was' : 's were'} described in the cloud.`;
+  if (ledger.masked > 0) {
+    // State what masking covers and what it does not: it is pattern-based, not perfect.
+    ui.ledgerNote.textContent += ` ${ledger.masked} personal-looking value${ledger.masked === 1 ? ' was' : 's were'} masked before text left this computer (names after a label, dates, long numbers, e-mails) and restored here; names without a label are not detected.`;
+  }
   if (ledger.retries > 0) {
     // One inference can be several network requests; say so rather than hide it.
     ui.ledgerNote.textContent += ` ${ledger.retries} cloud request${ledger.retries === 1 ? ' was' : 's were'} sent again after a busy answer.`;

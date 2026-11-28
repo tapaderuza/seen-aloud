@@ -56,7 +56,7 @@ TypeScript and Vite on Firebase: AI Logic, App Check (reCAPTCHA Enterprise), Rem
 - **Fitting a line to its pause:** `PREFER_ON_DEVICE`.
 - **Private mode:** `ONLY_ON_DEVICE` everywhere. **Cloud mode:** `ONLY_IN_CLOUD`.
 
-The same JSON Schema constrains the on-device answer (`responseConstraint`) and the cloud answer (`responseJsonSchema`). The ledger reads `response.inferenceSource`. Scene cuts and pauses are plain signal processing, no AI. 132 automated tests pass. Built with Claude Code as a coding assistant.
+The same JSON Schema constrains the on-device answer (`responseConstraint`) and the cloud answer (`responseJsonSchema`). The ledger reads `response.inferenceSource`. Scene cuts and pauses are plain signal processing, no AI. 138 automated tests pass. Built with Claude Code as a coding assistant.
 
 **How we checked it.** We drove the live site in Google Chrome 158 over the Chrome DevTools Protocol, which records every network request outside the page. There are 30 recorded runs:
 
@@ -80,6 +80,7 @@ Measured, one run per clip and mode, on one machine (4 GB GTX 1050):
 
 - **Hybrid with Gemini Nano sent 0 frames.** It made one text-only cloud request per video.
 - **Hybrid sent 96.4% less data to the inference service than Cloud** (24,945 against 684,150 bytes over six clips), at an estimated 76.0% lower inference cost (paid-tier prices; the runs used the free tier).
+- **Masking checked on the real request.** On the fictional record, Hybrid with Gemini Nano 4 sent no name, date of birth or account number (captured with the Chrome DevTools Protocol). It masked 6 values and restored them on the device.
 - **Private made no request to the cloud inference service**, including on a fictional medical record.
 - **Offline:** with the page and the model already loaded, Private and Hybrid finished a video with the network disconnected.
 - **Quality:** no line ran over its pause, and no number was invented on the synthetic clips. On the clip where speech was measured independently, no line overlapped it.
@@ -99,7 +100,7 @@ Hybrid inference works best when each feature picks its own mode, and when the a
 
 ## Limits we state plainly
 
-- **Hybrid sends text, not pixels.** Text Gemini Nano reads off the screen (a name, a date of birth) goes to the cloud as part of the script request. Use Private for sensitive footage.
+- **Hybrid sends text, not pixels.** Names after a label, dates, long numbers and e-mails are masked on the device first and restored locally. Other personal details in that text, such as a name without a label, may still reach the cloud. Use Private for sensitive footage.
 - **Hybrid is slower.** On the tested hardware it was 2.6 times slower than Cloud.
 - **One key frame per scene**, so motion inside a scene is not described.
 - **A small benchmark:** one machine and one run per clip and mode. Coverage is scored with regular expressions.

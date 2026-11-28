@@ -225,3 +225,21 @@ Without a terminal, the same runner works from the DevTools console ([BENCHMARK.
 - **Voices:** in Hybrid and Cloud the browser may use Google's network voices. Chrome sends that text itself, outside the page, so the CDP page capture does not see it. Private mode only uses voices installed on the computer.
 - **Free tier:** the runs used the Gemini Developer API free tier, so nothing was billed. Google's pricing page says free-tier content is used to improve its products. That covers Hybrid's text and Cloud's frames; a paid tier changes it.
 - **Tested in Chrome only.** No other browser was tested, and there are no sessions with blind or low-vision viewers yet.
+
+## 11. Hybrid masking (2026-11-28)
+
+Before a text request that may reach the cloud (the script, and fitting a line), Hybrid and Cloud now replace personal-looking values with tokens () and restore them locally in the answer:
+
+- names after a label such as "Patient:";
+- dates;
+- numbers of 7 or more digits;
+- e-mails.
+
+Private sends no request, so it masks nothing.
+
+**Real run on the fictional record** (Gemini Nano 4, build , ):
+
+- **Hybrid:** 1 text request, no image. None of "Jane Example", "01/02/1980" or "0000-1111" was in any request; on 26 Nov (Gemini Nano v3, before masking) all three were in the script request. 6 values were masked.
+- **Private:** no request.
+
+**Cost in detail:** the cloud did not keep the tokens in its line ("Screen shows FICTIONAL TEST RECORD with patient details"), so the finished line no longer reads the name. Names without a label are not detected. 6 new tests (138 in all).

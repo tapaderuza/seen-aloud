@@ -1,0 +1,164 @@
+{
+  "video": "/benchmark/06-sensitive-fictional.mp4",
+  "mode": "hybrid",
+  "consentShown": false,
+  "acceptCloud": false,
+  "totalMs": 99703,
+  "message": "Done: 1 scenes, 1 descriptions. Pauses came from the soundtrack, which is silent. Press play to hear them.",
+  "ledger": {
+    "requestsOnDevice": 2,
+    "requestsInCloud": 1,
+    "framesThatLeft": 0,
+    "note": "1 frame described on this computer. No pixels have left it. 6 personal-looking values were masked before text left this computer (names after a label, dates, long numbers, e-mails) and restored here; names without a label are not detected.",
+    "log": [
+      "Frame · On device · 87799 ms",
+      "Script · Note · 3 personal-looking values masked before the request",
+      "Script · Cloud · 1217 ms",
+      "Fit · Note · 3 personal-looking values masked before the request",
+      "Fit · On device · 8988 ms"
+    ]
+  },
+  "network": {
+    "aiRequests": 1,
+    "bytesSent": 2477,
+    "bytesReceived": 968,
+    "calls": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "ms": 1213,
+        "requestBytes": 2477,
+        "responseBytes": 968
+      }
+    ]
+  },
+  "cues": [
+    {
+      "time": "0:00",
+      "start": 0,
+      "extended": false,
+      "badges": [
+        "On device",
+        "Checks passed"
+      ],
+      "words": 8,
+      "budget": 20,
+      "text": "Screen shows 'FICTIONAL TEST RECORD' with patient details."
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36",
+    "bundle": "https://seen-aloud.web.app/assets/index-DprL0wz8.js",
+    "commit": "masking-wip",
+    "date": "2026-11-28T18:44:57.243Z",
+    "browser": "Google Chrome 158.0.8127.88 (separate profile on D:, driven over CDP)"
+  },
+  "onDevice": {
+    "inferences": 2,
+    "ms": [
+      {
+        "task": "Frame",
+        "ms": 87799
+      },
+      {
+        "task": "Fit",
+        "ms": 8988
+      }
+    ]
+  },
+  "cdpNetwork": {
+    "note": "Recorded by the Chrome DevTools Protocol, outside the page. Host and path only; no headers, tokens or image bytes.",
+    "aiRequests": 1,
+    "aiWithImage": 0,
+    "aiTokens": {
+      "prompt": 503,
+      "output": 64
+    },
+    "requestsWithFictionalRecordText": [
+      "run ai-inference firebasevertexai.googleapis.com/v1beta/projects/seen-aloud/models/gemini-3.5-flash-lite:generateContent FICTIONAL TEST RECORD"
+    ],
+    "byCategory": {
+      "load/site-static": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 2570,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/app-check": {
+        "requests": 3,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/auth": {
+        "requests": 1,
+        "bytesSent": 848,
+        "bytesReceived": 232,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "load/firestore": {
+        "requests": 3,
+        "bytesSent": 2893,
+        "bytesReceived": 488,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/site-static": {
+        "requests": 1,
+        "bytesSent": 0,
+        "bytesReceived": 256,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/firestore": {
+        "requests": 2,
+        "bytesSent": 0,
+        "bytesReceived": 0,
+        "withImage": 0,
+        "withSensitive": 0
+      },
+      "run/ai-inference": {
+        "requests": 2,
+        "bytesSent": 2477,
+        "bytesReceived": 627,
+        "withImage": 0,
+        "withSensitive": 1
+      }
+    },
+    "aiCalls": [
+      {
+        "phase": "run",
+        "model": "gemini-3.5-flash-lite",
+        "status": 200,
+        "failed": null,
+        "ms": 1200,
+        "bytesSent": 2477,
+        "bytesReceived": 627,
+        "carriesImage": false,
+        "usage": {
+          "promptTokenCount": 503,
+          "candidatesTokenCount": 64,
+          "totalTokenCount": 567,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 503
+            }
+          ],
+          "serviceTier": "standard"
+        },
+        "promptPreview": "text(1999 chars): You are a professional audio describer finishing the audio description track of a video. Each scene below has notes from a frame-by-frame describer, the on-scre"
+      }
+    ]
+  },
+  "deviceAtStart": {
+    "status": "Gemini Nano: ready on this device",
+    "availabilityImage": "available",
+    "mode": "hybrid"
+  },
+  "playback": null,
+  "vtt": null
+}

@@ -2,6 +2,7 @@ import type { Cue, CuePlan, DescriptionLanguage, Scene, SceneNote, TextSource } 
 import { countWords, trimToBudget } from '../track/budget';
 import { parseFit, parseFrameNote, parseScript } from './parse';
 import { fitPrompt, frameNotePrompt, scriptPrompt, type ScriptSceneInput } from './prompts';
+import { MASK_NOTE, SensitiveMasker } from './sensitive';
 
 /** What the person chooses in the header. */
 export type AppMode = 'hybrid' | 'private' | 'cloud';
@@ -112,6 +113,8 @@ export interface Ledger {
   retries: number;
   /** Inferences that ended in an error after every retry and fallback. */
   failures: number;
+  /** Values that looked like personal data, masked before a text request that may reach the cloud. */
+  masked: number;
   events: LedgerEvent[];
 }
 
@@ -125,6 +128,7 @@ export function emptyLedger(): Ledger {
     fallbacks: 0,
     retries: 0,
     failures: 0,
+    masked: 0,
     events: [],
   };
 }
@@ -253,29 +257,36 @@ export class DescriptionEngine {
     let scriptSource: InferenceSourceValue = 'in_cloud';
 
     if (this.options.mode !== 'private' && scriptable.length > 0) {
+      // Text read off the frames or the captions may hold personal data. It is masked before this
+      // request (which may reach the cloud) and put back on this computer in each finished line.
+      const masker = new SensitiveMasker();
       const inputs: ScriptSceneInput[] = scriptable.map((p) => {
         const note = notes.get(p.sceneId)!;
+        const lines = dialogue.get(p.sceneId);
         return {
           id: p.sceneId,
           start: p.start,
           end: p.end,
           budgetWords: p.budgetWords,
           extended: p.extended,
-          visual: note.visual,
-          onScreenText: note.onScreenText,
-          dialogue: dialogue.get(p.sceneId),
+          visual: masker.mask(note.visual),
+          onScreenText: masker.mask(note.onScreenText),
+          dialogue: lines === undefined ? undefined : masker.mask(lines),
         };
       });
+      this.countMasked('script', masker.count);
       try {
+        const prompt = scriptPrompt(inputs, this.options.language, this.options.styleNotes);
         const result = await this.run(
           'script',
-          [{ type: 'text', text: scriptPrompt(inputs, this.options.language, this.options.styleNotes) }],
+          [{ type: 'text', text: masker.count ? `${prompt}\n\n${MASK_NOTE}` : prompt }],
           { carriesImage: false, deviceReady: this.availability === 'available' },
         );
         scripted = parseScript(
           result.text,
           scriptable.map((p) => p.sceneId),
         );
+        for (const [id, line] of scripted ?? []) scripted!.set(id, masker.restore(line));
         scriptSource = result.source;
       } catch (error) {
         this.note('script', `script pass failed (${errorName(error)}), finishing scene by scene`);
@@ -326,13 +337,18 @@ export class DescriptionEngine {
     if (countWords(text) <= budgetWords) return { text };
     const deviceReady = this.availability === 'available';
     if (this.options.mode === 'private' && !deviceReady) return { text: trimToBudget(text, budgetWords) };
+    // A rewrite may reach the cloud outside Private mode: mask personal-looking data first.
+    const masker = new SensitiveMasker();
+    const mask = (s: string | undefined) => (this.options.mode === 'private' || s === undefined ? s : masker.mask(s));
+    const prompt = fitPrompt({ text: mask(text)!, budgetWords, language: this.options.language, previousText: mask(previousText) });
+    this.countMasked('fit', masker.count);
     try {
       const result = await this.run(
         'fit',
-        [{ type: 'text', text: fitPrompt({ text, budgetWords, language: this.options.language, previousText }) }],
+        [{ type: 'text', text: masker.count ? `${prompt}\n\n${MASK_NOTE}` : prompt }],
         { carriesImage: false, deviceReady },
       );
-      const rewritten = parseFit(result.text);
+      const rewritten = masker.restore(parseFit(result.text));
       return { text: trimToBudget(rewritten, budgetWords), source: result.source };
     } catch {
       return { text: trimToBudget(text, budgetWords) };
@@ -422,6 +438,12 @@ export class DescriptionEngine {
       else this.ledger.framesInCloud++;
     }
     this.pushEvent({ task, source, ms: Math.round(ms), note });
+  }
+
+  private countMasked(task: Task, n: number): void {
+    if (n === 0) return;
+    this.ledger.masked += n;
+    this.pushEvent({ task, source: null, ms: 0, note: `${n} personal-looking value${n === 1 ? '' : 's'} masked before the request` });
   }
 
   private note(task: Task, note: string): void {
